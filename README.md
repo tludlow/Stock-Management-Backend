@@ -1,11 +1,29 @@
-
 # Group23-Backend
+This is the code for the Django web server of the software engineering project. 
 
-The backend of the software engineering project code, to run the backend you need to have the libraries installed in the following section and then navigate to the root of the git repository on your local machine and run the command: `pip install -r requirements.txt` and then just run `python app.py`
+## Deployment
+The code has been already deployed and may be accessed via the following URL:
+https://g23-backend.azurewebsites.net/ (see documentation for usage).
 
+### Local Deployment
+If you'd like to deploy the backend locally, clone the repository, 
+install the dependencies:  
+&nbsp;&nbsp;&nbsp;&nbsp; `pip3 install -r requirements.txt`  
+and start then server:  
+&nbsp;&nbsp;&nbsp;&nbsp; `python3 manage.py runserver`
 
-### How to contribute
+## Documentation
+API documentation may be accessed via: https://g23-backend.azurewebsites.net/docs/. It utilises [slate](https://github.com/slatedocs/slate) and the source directory is located `backend/docs/api`.
 
-[Read this guide, it will tell you how to contribute to the repository.](https://github.com/firstcontributions/first-contributions/blob/master/README.md)
+The database schema is located in the root of this repository titled: `schema.md`.
 
-Contributions to the code must be approved by **two** people before pushing to master, ask in slack if I forget to push the code
+## Interaction
+Two scripts have been provided for convenience to interact with the API . 
+
+You'll need to install the dependencies first:  
+&nbsp;&nbsp;&nbsp;&nbsp; `pip3 install -r access/requirements.txt`  
+
+The following scripts are available:
+* `access/query.py` - Provides access to the API via Python (see API
+  documentation for usage).
+* `access/importer.py` - Allows for the importing of data to the database.
