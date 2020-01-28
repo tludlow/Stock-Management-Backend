@@ -4,7 +4,6 @@ import json
 class API:
     def __request(self, method):
         try:
-            print(self.__prefix+method)
             r = requests.get(url=self.__prefix+method)
             return r.json()
         except json.decoder.JSONDecodeError:
@@ -64,7 +63,7 @@ class API:
         return self.__request(f'trade/{url_args}')
     
     def __init__(self):
-        self.__prefix = 'http://localhost:8000/api/'
+        self.__prefix = 'https://g23-backend.azurewebsites.net/api/'
     
 if __name__ == '__main__':
     x = API()
