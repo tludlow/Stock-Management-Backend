@@ -1,34 +1,52 @@
 import os, csv, datetime
-from pymongo import MongoClient
-from pymongo.errors import BulkWriteError
+from functools import partial
+import mysql.connector as mariadb
+import mysql.connector.errors
 import re
+
 class Importer:
     
-    def __start(self, path, ids, funcs, auto_pk=False, counter=1):
+    def __start(self, path, stmt):
         with open(path) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             next(csv_reader)
-            data, seen = [], []
             for row in csv_reader:
-                new = {}
-                for id, item, func in zip(ids, row, funcs):
-                    val = func(item)
-                    if val != 'null':
-                        new[id] = val
-                if new not in seen and len(new) > 0:
-                    if auto_pk:
-                        new['id'] = counter
-                        counter += 1
-                    data.append(new)
-        if auto_pk:
-            return data, counter
+                new_stmt = stmt
+                for item in row:
+                    new_stmt = partial(new_stmt, item)
+                try:
+                    self.__cursor.execute(new_stmt())
+                except mysql.connector.errors.IntegrityError:
+                    pass
+        self.__connection.commit()
+        
+    def __start_and_save(self, path, stmt, ids):
+        data = []
+        with open(path) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            next(csv_reader)
+            auto_id = 1
+            for row in csv_reader:
+                new_stmt = stmt
+                new_stmt = partial(new_stmt, auto_id)
+                new = {'id': auto_id}
+                for item, id in zip(row, ids):
+                    new_stmt = partial(new_stmt, item)
+                    new[id] = item
+                auto_id += 1
+                data.append(new)
+                try:
+                    self.__cursor.execute(new_stmt())
+                except mysql.connector.errors.IntegrityError:
+                    pass
+        # self.__connection.commit()
         return data
         
     def __find(self, json, field, target, val):
         return [obj for obj in json if obj[field]==val][0][target]
     
     def __productID(self, name):
-        return self.__find(self.__productJSON, 'name', 'id', name)
+        return self.__find(self.__products, 'name', 'id', name)
         
     def __date(self, date):
         lst = [int(x) for x in re.split("[' ','/', ':']", date)]
@@ -39,140 +57,133 @@ class Importer:
             
     def __traverse(self, directory, func):
         base = '../data/'+directory
-        ignore = ['.DS_Store', '2010', '2011', '2012', '2013', '2014', '2015', 
-                    '2016', '2017', '2018']
+        ignore = ['.DS_Store']
         lst = lambda path : [x for x in os.listdir(path) if x not in ignore]
         
-        counter = 1
         for year in lst(base):
             for month in lst(base+year):
                 for day in lst(base+year+'/'+month):
                     print(base+year+'/'+month+'/'+day)
-                    counter = func(base+year+'/'+month+'/'+day, counter)
-    
-    def __noOp(self, val):
-        return val
-
-    def __insert(self, coll, data):
-        try:
-            coll.insert_many(data)
-        except BulkWriteError as bwe:
-            print(bwe.details)
-            exit()
-
-    def __product(self):
-        ids = ['name']
-        funcs = [self.__noOp]
-        data, _ = self.__start('../data/productSellers.csv', ids, funcs, 
-                                auto_pk=True)
-        return data
+                    counter = func(base+year+'/'+month+'/'+day)
 
     def product(self):
-        coll = self.__db["data"]["product"]
-        self.__insert(coll, self.__productJSON)
+        stmt = lambda x, y : (
+            f"""
+            INSERT INTO group23db.product 
+                (id, name) 
+            VALUES 
+                ("{x}", "{y}");
+            """)
+        self.__products = self.__start_and_save('../data/product.csv', stmt, 
+                                                ['name'])
     
     def seller(self):
-        coll = self.__db["data"]["product_seller"]
-        ids = ['product_id', 'company_id']
-
-        funcs = [self.__productID, self.__noOp]
-
-        data, _ = self.__start('../data/productSellers.csv', ids, funcs, 
-                                auto_pk=True)
-        self.__insert(coll, data)
+        stmt = lambda x, y : (
+            f"""
+            INSERT INTO group23db.product_seller 
+                (product_id, company_id) 
+            VALUES 
+                ("{self.__productID(x)}", "{y}");
+            """)
+        self.__start('../data/productSellers.csv', stmt)
     
     def company(self):
-        coll = self.__db["data"]["company"]
-        ids = ['name', 'id']
-        
-        funcs = [self.__noOp, self.__noOp]
-        
-        data = self.__start('../data/companyCodes.csv', ids, funcs)
-        self.__insert(coll, data)
+        stmt = lambda x, y : (
+            f"""
+            INSERT INTO group23db.company 
+                (name, id) 
+            VALUES 
+                ("{x}", "{y}");
+            """)
+        self.__start('../data/companyCodes.csv', stmt)
     
     def currency(self):
-        coll = self.__db["data"]["currency"]
-        ids = ['currency']
-        
-        funcs = [self.__noOp]
-        
-        data = self.__start('../data/currencies.csv', ids, funcs)
-        self.__insert(coll, data)
+        stmt = lambda x : (
+            f"""
+            INSERT INTO group23db.currency 
+                (currency) 
+            VALUES 
+                ("{x}");
+            """)
+        self.__start('../data/currencies.csv', stmt)
 
-    def __currency(self, dir, counter):
-        coll = self.__db["data"]["currency_price"]
-        ids = ['date', 'currency_id', 'value']
-        
-        funcs = [self.__date, self.__noOp, self.__noOp]
-        
-        data, counter = self.__start(dir, ids, funcs, counter=counter, 
-                                    auto_pk=True)
-        self.__insert(coll, data)
+    def __currency(self, dir):
+        stmt = lambda x, y, z : (
+            f"""
+            INSERT INTO group23db.currency_price 
+                (date, currency_id, value) 
+            VALUES 
+                ("{self.__date(x)}", "{y}", "{z}");
+            """)
+        self.__start(dir, stmt)
 
-        return counter
-        
     def currency_value(self):
         self.__traverse('currencyValues/', self.__currency)
     
-    def __trade(self, dir, funcs):
-        coll = self.__db["data"]["trade"]
-        ids = ['date', 'id', 'product_id', 'buying_party_id', 
-                'selling_party_id', 'notional_amount', 'notional_currency_id', 
-                'quantity', 'maturity_date', 'underlying_price', 
-                'underlying_currency_id', 'strike_price']
-        
-        funcs = [self.__date, self.__noOp, self.__productID, self.__noOp, 
-                self.__noOp, self.__noOp, self.__noOp, self.__noOp, 
-                self.__date, self.__noOp, self.__noOp, self.__noOp]
-        
-        data = self.__start(dir, ids, funcs)
-        self.__insert(coll, data)
+    def __trade(self, dir):
+        stmt = lambda x, y, z, a, b, c, d, e, f, g, h, i : (
+            f"""
+            INSERT INTO group23db.trade 
+                (date, id, product_id, buying_party_id, selling_party_id, 
+                notional_amount, notional_currency_id, quantity, 
+                maturity_date, underlying_price, underlying_currency_id, 
+                strike_price) 
+            VALUES 
+                ("{self.__date(x)}", "{y}", "{self.__productID(z)}", "{a}", 
+                "{b}", "{c}", "{d}", "{e}", "{self.__date(f)}", "{g}", 
+                "{h}", "{i}");
+            """)
+        self.__start(dir, stmt)
         
     def trade(self):
         self.__traverse('derivativeTrades/', self.__trade)
 
-    def __stock_price(self, dir, counter):
-        coll = self.__db["data"]["stock_price"]
-        ids = ['date', 'company_id', 'value']
-        
-        funcs = [self.__date, self.__noOp, self.__noOp]
-        
-        data, counter = self.__start(dir, ids, funcs, counter=counter, 
-                                    auto_pk=True)
-        self.__insert(coll, data)
-
-        return counter
+    def __stock_price(self, dir):
+        stmt = lambda x, y, z : (
+            f"""
+            INSERT INTO group23db.stock_price 
+                (date, company_id, value) 
+            VALUES 
+                ("{self.__date(x)}", "{y}", "{z}");
+            """)
+        self.__start(dir, stmt)
 
     def stock_price(self):
         self.__traverse('stockPrices/', self.__stock_price)
     
-    def __product_price(self, dir, counter):
-        coll = self.__db["data"]["product_price"]
-        ids = ['date', 'product_id', 'value']
-        
-        funcs = [self.__date, self.__productID, self.__noOp]
-        
-        data, counter = self.__start(dir, ids, funcs, counter=counter, 
-                                    auto_pk=True)
-        self.__insert(coll, data)
-
-        return counter
+    def __product_price(self, dir):
+        stmt = lambda x, y, z : (
+            f"""
+            INSERT INTO group23db.product_price 
+                (date, product_id, value) 
+            VALUES 
+                ("{self.__date(x)}", "{self.__productID(y)}", "{z}");
+            """)
+        self.__start(dir, stmt)
 
     def product_price(self):
         self.__traverse('productPrices/', self.__product_price)
     
+    def close(self):
+        self.__cursor.close()
+        self.__connection.close()
+        
     def __init__(self):
-        self.__db = MongoClient("mongodb+srv://root:root" +
-                                "@cs261-qeru3.azure.mongodb.net/data")
-        self.__productJSON = self.__product()
+        self.__connection = mariadb.connect(user='group23', 
+                                            password='djsR4g3m2z3b',
+                                            database='group23db', 
+                                            host='mysql',
+                                            auth_plugin='mysql_native_password')
+        self.__cursor = self.__connection.cursor()
         
 if __name__ == '__main__':
     im = Importer()
     im.product()
-    im.company()
+    # im.company()
     im.seller()
     im.currency()
     im.currency_value()
     im.trade()
     im.stock_price()
     im.product_price()
+    im.close()

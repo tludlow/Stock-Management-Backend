@@ -36,7 +36,7 @@ api.getCurrencyList()
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/currency/list/"
+curl "https://group23.dcs.warwick.ac.uk/api/currency/list/"
 ```
 
 > The above command returns JSON structured like this:
@@ -57,7 +57,7 @@ This endpoint to return all supported currencies.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/currency/list/`
+`GET https://group23.dcs.warwick.ac.uk/api/currency/list/`
 
 <aside class="warning">For the moment, queries made must be exact - both case and format (ensure backslash at end of request)</aside>
 
@@ -71,7 +71,7 @@ api.getCurrency()
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/currency/"
+curl "https://group23.dcs.warwick.ac.uk/api/currency/"
 ```
 
 > The above command returns JSON structured like this:
@@ -96,7 +96,7 @@ This endpoint retrieves all recorded prices for all currencies (in relation to U
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/currency/`
+`GET https://group23.dcs.warwick.ac.uk/api/currency/`
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 
@@ -110,7 +110,7 @@ api.getCurrency(currency='GBP')
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/currency/currency=GBP/"
+curl "https://group23.dcs.warwick.ac.uk/api/currency/currency=GBP/"
 ```
 
 > The above command returns JSON structured like this:
@@ -135,7 +135,7 @@ This endpoint retrieves all recorded prices for the given currency (in relation 
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/currency/currency=<CURRENCY>/`
+`GET https://group23.dcs.warwick.ac.uk/api/currency/currency=<CURRENCY>/`
 
 ### URL Parameters
 
@@ -153,7 +153,7 @@ api.getCurrency(currency='GBP', year='2019')
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/currency/currency=GBP&year=2019/"
+curl "https://group23.dcs.warwick.ac.uk/api/currency/currency=GBP&year=2019/"
 ```
 
 > The above command returns JSON structured like this:
@@ -178,7 +178,7 @@ This endpoint retrieves all recorded prices for the given currency for the given
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/currency/currency=<CURRENCY>&year=<YEAR>/`
+`GET https://group23.dcs.warwick.ac.uk/api/currency/currency=<CURRENCY>&year=<YEAR>/`
 
 ### URL Parameters
 
@@ -197,7 +197,7 @@ api.getCurrency(currency='GBP', year='2019', month='01')
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/currency/currency=GBP&year=2019&month=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/currency/currency=GBP&year=2019&month=01/"
 ```
 
 > The above command returns JSON structured like this:
@@ -222,7 +222,7 @@ This endpoint retrieves all recorded prices for the given currency for the given
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/currency/currency=<CURRENCY>&year=<YEAR>&month=<MONTH>/`
+`GET https://group23.dcs.warwick.ac.uk/api/currency/currency=<CURRENCY>&year=<YEAR>&month=<MONTH>/`
 
 ### URL Parameters
 
@@ -242,7 +242,7 @@ api.getCurrencyPrices(currency='GBP', year='2019', month='01', day='01')
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/currency/currency=GBP&year=2010&month=01&day=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/currency/currency=GBP&year=2019&month=01&day=01/"
 ```
 
 > The above command returns JSON structured like this:
@@ -261,7 +261,7 @@ This endpoint retrieves all recorded prices for the given currency for the given
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/currency/currency=<CURRENCY>&year=<YEAR>&month=<MONTH>&day=<DAY>/`
+`GET https://group23.dcs.warwick.ac.uk/api/currency/currency=<CURRENCY>&year=<YEAR>&month=<MONTH>&day=<DAY>/`
 
 ### URL Parameters
 
@@ -285,7 +285,7 @@ api.getCompanyList()
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/company/list/"
+curl "https://group23.dcs.warwick.ac.uk/api/company/list/"
 ```
 
 > The above command returns JSON structured like this:
@@ -308,7 +308,7 @@ This endpoint retrieves all companies.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/company/list/`
+`GET https://group23.dcs.warwick.ac.uk/api/company/list/`
 
 ## By ID
 
@@ -320,7 +320,7 @@ api.getCompany(id="AGBH66")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/company/id=AGBH66/"
+curl "https://group23.dcs.warwick.ac.uk/api/company/id=AGBH66/"
 ```
 
 > The above command returns JSON structured like this:
@@ -338,7 +338,7 @@ This endpoint retrieves the company with the given id.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/company/id=<ID>`
+`GET https://group23.dcs.warwick.ac.uk/api/company/id=<ID>`
 
 ### URL Parameters
 
@@ -356,7 +356,7 @@ api.getCompany(name="Cyberbiotics")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/company/name=Cyberbiotics/"
+curl "https://group23.dcs.warwick.ac.uk/api/company/name=Cyberbiotics/"
 ```
 
 > The above command returns JSON structured like this:
@@ -374,7 +374,7 @@ This endpoint retrieves the company with the given name.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/company/name=<NAME>/`
+`GET https://group23.dcs.warwick.ac.uk/api/company/name=<NAME>/`
 
 ### URL Parameters
 
@@ -398,7 +398,7 @@ api.getProductList()
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/product/list/"
+curl "https://group23.dcs.warwick.ac.uk/api/product/list/"
 ```
 
 > The above command returns JSON structured like this:
@@ -421,7 +421,7 @@ This endpoint retrieves all products.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/product/list/`
+`GET https://group23.dcs.warwick.ac.uk/api/product/list/`
 
 ## By ID
 
@@ -433,7 +433,7 @@ api.getProduct(id="1")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/product/id=1/"
+curl "https://group23.dcs.warwick.ac.uk/api/product/id=1/"
 ```
 
 > The above command returns JSON structured like this:
@@ -451,7 +451,7 @@ This endpoint retrieves a product by it's ID.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/product/id=<ID>/`
+`GET https://group23.dcs.warwick.ac.uk/api/product/id=<ID>/`
 
 Parameter | Description
 --------- | -----------
@@ -467,7 +467,7 @@ api.getProduct(name="Stocks")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/product/name=Stocks/"
+curl "https://group23.dcs.warwick.ac.uk/api/product/name=Stocks/"
 ```
 
 > The above command returns JSON structured like this:
@@ -485,7 +485,7 @@ This endpoint retrieves a product by it's namee.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/product/name=<NAME>/`
+`GET https://group23.dcs.warwick.ac.uk/api/product/name=<NAME>/`
 
 Parameter | Description
 --------- | -----------
@@ -503,7 +503,7 @@ api.getSellerList()
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/seller/list/"
+curl "https://group23.dcs.warwick.ac.uk/api/seller/list/"
 ```
 
 > The above command returns JSON structured like this:
@@ -526,7 +526,7 @@ This endpoint retrieves a list of all product seller pairs.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/seller/list/`
+`GET https://group23.dcs.warwick.ac.uk/api/seller/list/`
 
 ## By Company
 
@@ -538,7 +538,7 @@ api.getSeller(seller="QETH27")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/seller/company=QETH27/"
+curl "https://group23.dcs.warwick.ac.uk/api/seller/company=QETH27/"
 ```
 
 > The above command returns JSON structured like this:
@@ -561,7 +561,7 @@ This endpoint retrieves all products the company sells.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/seller/company=<COMPANY>/`
+`GET https://group23.dcs.warwick.ac.uk/api/seller/company=<COMPANY>/`
 
 Parameter | Description
 --------- | -----------
@@ -577,7 +577,7 @@ api.getSeller(product="2")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/seller/product=1/"
+curl "https://group23.dcs.warwick.ac.uk/api/seller/product=1/"
 ```
 
 > The above command returns JSON structured like this:
@@ -595,7 +595,7 @@ This endpoint retrieves all companies which the product is sold by.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/seller/product=<PRODUCT>/`
+`GET https://group23.dcs.warwick.ac.uk/api/seller/product=<PRODUCT>/`
 
 Parameter | Description
 --------- | -----------
@@ -613,7 +613,7 @@ api.getStock()
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/stock/"
+curl "https://group23.dcs.warwick.ac.uk/api/stock/"
 ```
 
 > The above command returns JSON structured like this:
@@ -638,7 +638,7 @@ This endpoint retrieves a list of all stock prices.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/stock/`
+`GET https://group23.dcs.warwick.ac.uk/api/stock/`
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 
@@ -652,7 +652,7 @@ api.getStock(company="NCCX02")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/stock/company=NCCX02/"
+curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02/"
 ```
 
 > The above command returns JSON structured like this:
@@ -677,7 +677,7 @@ This endpoint retrieves all stock prices for the given company.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/stock/company=<COMPANY>/`
+`GET https://group23.dcs.warwick.ac.uk/api/stock/company=<COMPANY>/`
 
 Parameter | Description
 --------- | -----------
@@ -693,7 +693,7 @@ api.getStock(company="NCCX02", year="2019")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/stock/company=NCCX02&year=2019/"
+curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019/"
 ```
 
 > The above command returns JSON structured like this:
@@ -718,7 +718,7 @@ This endpoint retrieves all stock prices for the given company and year.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/stock/company=<COMPANY>&year=<YEAR>/`
+`GET https://group23.dcs.warwick.ac.uk/api/stock/company=<COMPANY>&year=<YEAR>/`
 
 Parameter | Description
 --------- | -----------
@@ -735,7 +735,7 @@ api.getStock(company="NCCX02", year="2019", month="01")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/stock/company=NCCX02&year=2019&month=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019&month=01/"
 ```
 
 > The above command returns JSON structured like this:
@@ -760,7 +760,7 @@ This endpoint retrieves all stock prices for the given company, year and month.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/stock/company=<COMPANY>&year=<YEAR>&month=<MONTH>/`
+`GET https://group23.dcs.warwick.ac.uk/api/stock/company=<COMPANY>&year=<YEAR>&month=<MONTH>/`
 
 Parameter | Description
 --------- | -----------
@@ -778,7 +778,7 @@ api.getStock(company="NCCX02", year="2019", month="01", day="01")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/stock/company=NCCX02&year=2019&month=01&day=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019&month=01&day=01/"
 ```
 
 > The above command returns JSON structured like this:
@@ -797,7 +797,7 @@ This endpoint retrieves all stock prices for the given company, year, month and 
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/stock/company=<COMPANY>&year=<YEAR>&month=<MONTH>&day=<DAY>/`
+`GET https://group23.dcs.warwick.ac.uk/api/stock/company=<COMPANY>&year=<YEAR>&month=<MONTH>&day=<DAY>/`
 
 Parameter | Description
 --------- | -----------
@@ -818,7 +818,7 @@ api.getTrade()
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/trade/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/"
 ```
 
 > The above command returns JSON structured like this:
@@ -861,7 +861,7 @@ This endpoint retrieves a list of all trades.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/trade/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/`
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 
@@ -875,7 +875,7 @@ api.getTrade(id="PASYTZVI53631072")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/trade/id=PASYTZVI53631072/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/id=PASYTZVI53631072/"
 ```
 
 > The above command returns JSON structured like this:
@@ -903,7 +903,7 @@ This endpoint retrieves a list of the trade with the given ID.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/trade/id=<ID>/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/id=<ID>/`
 
 Parameter | Description
 --------- | -----------
@@ -919,7 +919,7 @@ api.getStock(buyer="FORM54")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/trade/buyer=FORM54/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=FORM54/"
 ```
 
 > The above command returns JSON structured like this:
@@ -962,7 +962,7 @@ This endpoint retrieves all trades for the given buyer .
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/trade/buyer=<BUYER>/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/buyer=<BUYER>/`
 
 Parameter | Description
 --------- | -----------
@@ -978,7 +978,7 @@ api.getStock(seller="WIZJ73")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/trade/seller=WIZJ73/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=WIZJ73/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1021,7 +1021,7 @@ This endpoint retrieves all trades for the given seller .
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/trade/seller=<SELLER>/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/seller=<SELLER>/`
 
 Parameter | Description
 --------- | -----------
@@ -1037,7 +1037,7 @@ api.getTrade(year="2019")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/trade/year=2019/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1080,7 +1080,7 @@ This endpoint retrieves a list of all trades in a given year.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/trade/year=<YEAR>/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/year=<YEAR>/`
 
 Parameter | Description
 --------- | -----------
@@ -1096,7 +1096,7 @@ api.getTrade(year="2019", month="01")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/trade/year=2019&month=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1139,7 +1139,7 @@ This endpoint retrieves all trades for the given year and month.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/trade/year=<YEAR>&month=<MONTH>/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/year=<YEAR>&month=<MONTH>/`
 
 Parameter | Description
 --------- | -----------
@@ -1156,7 +1156,7 @@ api.getStock(year="2019", month="01", day="01")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/trade/year=2019&month=01&day=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01&day=01/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1199,7 +1199,7 @@ This endpoint retrieves all trades for the given year, month and day.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/trade/year=<YEAR>&month=<MONTH>&day=<DAY>/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/year=<YEAR>&month=<MONTH>&day=<DAY>/`
 
 Parameter | Description
 --------- | -----------
@@ -1217,7 +1217,7 @@ api.getTrade(maturity_year="2024")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/trade/maturity_year=2024/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1260,7 +1260,7 @@ This endpoint retrieves a list of all trades with the given maturity year.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/trade/maturity_year=<MATURITY_YEAR>/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=<MATURITY_YEAR>/`
 
 Parameter | Description
 --------- | -----------
@@ -1276,7 +1276,7 @@ api.getTrade(maturity_year="2024", maturity_month="01")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/trade/maturity_year=2024&maturity_month=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_month=01/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1319,7 +1319,7 @@ This endpoint retrieves a list of all trades with the given maturity month.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/trade/maturity_year=<MATURITY_YEAR>&maturity_month=<MATURITY_MONTH>/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=<MATURITY_YEAR>&maturity_month=<MATURITY_MONTH>/`
 
 Parameter | Description
 --------- | -----------
@@ -1336,7 +1336,7 @@ api.getTrade(maturity_year="2024", maturity_month="01", maturity_day="01")
 ```
 
 ```shell
-curl "https://g23-backend.azurewebsites.net/api/trade/maturity_year=2024&maturity_month=01&maturity_day=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_month=01&maturity_day=01/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1379,7 +1379,7 @@ This endpoint retrieves a list of all trades with the given maturity day.
 
 ### HTTP Request
 
-`GET https://g23-backend.azurewebsites.net/api/trade/maturity_year=<MATURITY_YEAR>&maturity_month=<MATURITY_MONTH>&maturity_day=<MATURITY_DAY>/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=<MATURITY_YEAR>&maturity_month=<MATURITY_MONTH>&maturity_day=<MATURITY_DAY>/`
 
 Parameter | Description
 --------- | -----------

@@ -1,2 +1,2 @@
-pymongo
-requests
+ mysql-connector-python
+ requests
