@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'group23db',
         'USER': 'group23',
         'PASSWORD': 'djsR4g3m2z3b',
-        'HOST': 'localhost',
+        'HOST': 'mysql',
     }, 
 }
 
