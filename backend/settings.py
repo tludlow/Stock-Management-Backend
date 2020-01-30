@@ -25,7 +25,7 @@ SECRET_KEY = '3geb!2z(vt!75l@=%apc$d5xli7nc6dhh08sjws6q@gt3@myjq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'g23-backend.azurewebsites.net']
+ALLOWED_HOSTS = ['localhost', 'group23.dcs.warwick.ac.uk']
 
 
 # Application definition
@@ -74,19 +74,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DATABASE_ROUTERS = ['backend.Router.AppRouter']
+# DATABASE_ROUTERS = ['backend.Router.AppRouter']
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'HOST': 'mongodb+srv://root:root@cs261-qeru3.azure.mongodb.net/test?retryWrites=true&w=majority',
-        'NAME': 'django'
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'group23db',
+        'USER': 'group23',
+        'PASSWORD': 'djsR4g3m2z3b',
+        'HOST': 'localhost',
     }, 
-    'api_db': {
-        'ENGINE': 'djongo',
-        'HOST': 'mongodb+srv://root:root@cs261-qeru3.azure.mongodb.net/test?retryWrites=true&w=majority',
-        'NAME': 'data'
-    }
 }
 
 # Password validation
