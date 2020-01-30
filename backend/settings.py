@@ -25,7 +25,7 @@ SECRET_KEY = '3geb!2z(vt!75l@=%apc$d5xli7nc6dhh08sjws6q@gt3@myjq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'group23.dcs.warwick.ac.uk']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'group23.dcs.warwick.ac.uk']
 
 
 # Application definition
@@ -78,13 +78,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 # DATABASE_ROUTERS = ['backend.Router.AppRouter']
 
+
+# Localhost database settings:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'group23db',
+#         'USER': 'root',
+#         'PASSWORD': 'password',
+#         'HOST': '127.0.0.1',
+#     }, 
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'group23db',
-        'USER': 'group23',
-        'PASSWORD': 'djsR4g3m2z3b',
-        'HOST': 'mysql',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
     }, 
 }
 
