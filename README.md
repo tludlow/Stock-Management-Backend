@@ -3,7 +3,7 @@ This is the code for the Django web server of the software engineering project.
 
 ## Deployment
 The code has been already deployed and may be accessed via the following URL:
-https://g23-backend.azurewebsites.net/ (see documentation for usage).
+https://group23.dcs.warwick.ac.uk/ (see documentation for usage).
 
 ### Local Deployment
 If you'd like to deploy the backend locally, clone the repository, 
@@ -13,7 +13,7 @@ and start then server:
 &nbsp;&nbsp;&nbsp;&nbsp; `python3 manage.py runserver`
 
 ## Documentation
-API documentation may be accessed via: https://g23-backend.azurewebsites.net/docs/. It utilises [slate](https://github.com/slatedocs/slate) and the source directory is located `backend/docs/api`.
+API documentation may be accessed via: https://group23.dcs.warwick.ac.uk/docs/. It utilises [slate](https://github.com/slatedocs/slate) and the source directory is located `backend/docs/api`.
 
 The database schema is located in the root of this repository titled: `schema.md`.
 
