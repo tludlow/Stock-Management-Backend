@@ -63,7 +63,7 @@ class API:
         return self.__request(f'trade/{url_args}')
     
     def __init__(self):
-        self.__prefix = 'https://g23-backend.azurewebsites.net/api/'
+        self.__prefix = 'https://group23.dcs.warwick.ac.uk/api/'
     
 if __name__ == '__main__':
     x = API()
