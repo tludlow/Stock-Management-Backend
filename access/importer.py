@@ -39,7 +39,7 @@ class Importer:
                     self.__cursor.execute(new_stmt())
                 except mysql.connector.errors.IntegrityError:
                     pass
-        # self.__connection.commit()
+        self.__connection.commit()
         return data
         
     def __find(self, json, field, target, val):
@@ -179,7 +179,7 @@ class Importer:
 if __name__ == '__main__':
     im = Importer()
     im.product()
-    # im.company()
+    im.company()
     im.seller()
     im.currency()
     im.currency_value()
