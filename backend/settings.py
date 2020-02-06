@@ -54,6 +54,15 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+]
+CORS_ORIGIN_REGEX_WHITELIST = [
+    'http://localhost:3000',
+]
+
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
@@ -86,7 +95,7 @@ DATABASES = {
         'USER': 'group23',
         'PASSWORD': 'djsR4g3m2z3b',
         'HOST': 'mysql',
-    }, 
+    },
 }
 
 # Password validation
@@ -122,7 +131,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)      
+# Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
