@@ -114,6 +114,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+GITHUB_WEBHOOK_KEY = 'wvjEJnvaTRvS4ZxWKaP8lfKRyW0NOmtr9beXtxildL5ceduTbk'
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 LANGUAGE_CODE = 'en-us'
