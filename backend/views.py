@@ -14,10 +14,6 @@ import os
 @csrf_exempt
 def deploy(request):
     header_signature = request.META.get('HTTP_X_HUB_SIGNATURE')
-    if header_signature is None:
-        return HttpResponseForbidden('Permission denied.')
-
-
     if header_signature != settings.GITHUB_WEBHOOK_KEY:
         return HttpResponseForbidden((header_signature, " OTHER ", settings.GITHUB_WEBHOOK_KEY))
 
