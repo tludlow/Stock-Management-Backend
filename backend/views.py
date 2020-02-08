@@ -17,12 +17,8 @@ def deploy(request):
     if header_signature is None:
         return HttpResponseForbidden('Permission denied.')
 
-    sha_name, signature = header_signature.split('=')
-    if sha_name != 'sha1':
-        return HttpResponseServerError('Operation not supported.', status=501)
 
-    mac = hmac.new(force_bytes(settings.GITHUB_WEBHOOK_KEY), msg=force_bytes(request.body), digestmod=sha1)
-    if not hmac.compare_digest(force_bytes(mac.hexdigest()), force_bytes(signature)):
+    if header_signature != settings.GITHUB_WEBHOOK_KEY:
         return HttpResponseForbidden('Permission denied.')
 
     os.system("cd ~/apache/htdocs/backend/ && git pull")
