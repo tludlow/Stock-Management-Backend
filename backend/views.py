@@ -19,7 +19,7 @@ def deploy(request):
 
 
     if header_signature != settings.GITHUB_WEBHOOK_KEY:
-        return HttpResponseForbidden((header_signature, " OTHER ", settings.GITHUB_WEBHOOK_KEY)
+        return HttpResponseForbidden((header_signature, " OTHER ", settings.GITHUB_WEBHOOK_KEY))
 
     os.system("cd ~/apache/htdocs/backend/ && git pull")
     os.system("/usr/sbin/httpd -d $HOME/apache -k restart")
