@@ -338,7 +338,7 @@ This endpoint retrieves the company with the given id.
 
 ### HTTP Request
 
-`GET https://group23.dcs.warwick.ac.uk/api/company/id=<ID>`
+`GET https://group23.dcs.warwick.ac.uk/api/company/id=<ID>/`
 
 ### URL Parameters
 
