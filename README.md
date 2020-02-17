@@ -8,10 +8,6 @@ As well as this you can [join Monday](https://group651.monday.com/users/sign_up?
 
 Once you've completed coding a section, you should then make a pull request (basics of this are mentioned in the guide, however, please ask if you're struggling!).
 
-## Deployment
-The code has been already deployed and may be accessed via the following URL:
-https://group23.dcs.warwick.ac.uk/ (see documentation for usage).
-
 ## Local Deployment
 There are a couple or prerequisites that are required for the following guide:
 1. Python >=3.6
@@ -118,7 +114,6 @@ Data can be added to the database in two ways.
 this directory and it's zipped counterpart. You can then import the data set via executing:  
 &nbsp;&nbsp;&nbsp;&nbsp; `python3 access/importer.py`  
 Note: This will take a long time. You may quit the importer at any time using [ctrl][c] and whilst the derivative trades table won't be complete, it should prove a sufficent basis for development.
-
 
 ## Documentation
 API documentation may be accessed via: https://group23.dcs.warwick.ac.uk/docs/. It utilises [slate](https://github.com/slatedocs/slate) and the source directory is located `backend/docs/api`.
