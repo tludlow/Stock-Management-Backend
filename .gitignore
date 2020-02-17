@@ -4,4 +4,4 @@
 *.zip
 **/.vscode
 *.env
-access/importer.py
+*.pyc
