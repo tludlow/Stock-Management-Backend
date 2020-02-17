@@ -39,7 +39,7 @@ class Importer:
                     self.__cursor.execute(new_stmt())
                 except mysql.connector.errors.IntegrityError:
                     pass
-        # self.__connection.commit()
+        self.__connection.commit()
         return data
         
     def __find(self, json, field, target, val):
@@ -169,17 +169,18 @@ class Importer:
         self.__connection.close()
         
     def __init__(self):
-        self.__connection = mariadb.connect(user='group23', 
-                                            password='djsR4g3m2z3b',
+        self.__connection = mariadb.connect(user='root', 
+                                            password='root',
                                             database='group23db', 
-                                            host='mysql',
+                                            host='127.0.0.1',
+                                            port='3307',
                                             auth_plugin='mysql_native_password')
         self.__cursor = self.__connection.cursor()
         
 if __name__ == '__main__':
     im = Importer()
     im.product()
-    # im.company()
+    im.company()
     im.seller()
     im.currency()
     im.currency_value()

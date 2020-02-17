@@ -94,8 +94,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'group23db',
         'USER': 'root',
-        'PASSWORD': 'password',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'root',
+        'HOST': '',
+        'PORT': '3307'
     }, 
 }
 

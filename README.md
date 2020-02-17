@@ -28,3 +28,8 @@ The following scripts are available:
 * `access/query.py` - Provides access to the API via Python (see API
   documentation for usage).
 * `access/importer.py` - Allows for the importing of data to the database.
+
+
+## Testing
+Tests can be run by performing the command: `python manage.py test`.
+Tests are written within the ./api/tests.py file.
