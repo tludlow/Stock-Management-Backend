@@ -111,7 +111,7 @@ See the data section to import the dataset to the database.
 ### Notes
 At present, once a pull request has been merged, the version deployment on the dcs server will not automatically be updated - this is being worked on. 
 
-### Data
+## Data
 Data can be added to the database in two ways.
 * If you navigate to  `http://localhost:8000/admin/` and select a table, you can enter data manually. The username and password if you've followed the above installation steps will be `root`.
 * Alternatively, you can import the entire data set. You can download it [here](https://drive.google.com/open?id=1qUfmmqi22YMCp7R0KIyZfj4vKYw3PqcC). Once downloaded, unzip the data set and place the unzipped directory `data` in the root of your repository. Git will ignore both
