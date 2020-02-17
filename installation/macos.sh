@@ -29,17 +29,15 @@ else
 fi
 
 # Ensure MySQL service started
-if brew services list | grep "mysql" > /dev/null
-then
-  echo "✓ MySQL is running"
-else
-  brew services start mysql
-  echo "✓ Started MySQL"
-fi
+brew services start mysql > /dev/null
+echo "✓ Started MySQL"
 
 # Ensure database exists
 echo "CREATE DATABASE IF NOT EXISTS group23db;" | mysql -u root
 echo "✓ Created group23db if it doesn't exist"
+
+# Update .env 
+echo $"DB_NAME='group23db'\nDB_USER='root'\nDB_PASSWORD=''\nDB_HOST='localhost'" > ../backend/.env
 
 # Install backend requirements
 pip3 install -r requirements.txt > /dev/null
@@ -62,51 +60,6 @@ then
 else
   echo "✓ Installed access requirements"
 fi
-
-if [ ! -f "~/.zshenv" ]
-then
-    touch ~/.zshenv
-fi
-
-# Ensure environmental variables are set
-name="$(grep 'DB_NAME' ~/.zshenv)"
-if [ "$name" != "" ]
-then
-  echo "✓ Environmental variable exists: DB_NAME"
-else
-  echo $"DB_NAME='group23db'\nexport DB_NAME" >> ~/.zshenv
-  echo "✓ Environmental variable set: DB_NAME"
-fi
-
-user="$(grep 'DB_USER' ~/.zshenv)"
-if [ "$user" != "" ]
-then
-  echo "✓ Environmental variable exists: DB_USER"
-else
-  echo $"DB_USER='root'\nexport DB_USER" >> ~/.zshenv
-  echo "✓ Environmental variable set: DB_USER"
-fi
-
-password="$(grep 'DB_PASSWORD' ~/.zshenv)"
-if [ "$password" != "" ]
-then
-  echo "✓ Environmental variable exists: DB_PASSWORD"
-else
-  echo $"DB_PASSWORD=''\nexport DB_PASSWORD" >> ~/.zshenv
-  echo "✓ Environmental variable set: DB_PASSWORD"
-fi
-
-host="$(grep 'DB_HOST' ~/.zshenv)"
-if [ "$host" != "" ]
-then
-  echo "✓ Environmental variable exists: DB_HOST"
-else
-  echo $"DB_HOST='localhost'\nexport DB_HOST" >> ~/.zshenv
-  echo "✓ Environmental variable set: DB_HOST"
-fi
-
-# Load new environmenal variables
-source ~/.zshenv
 
 # Create tables & superuser
 python3 manage.py migrate > /dev/null

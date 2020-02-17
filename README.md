@@ -3,9 +3,9 @@
 This is the code for the Django web server of the software engineering project. 
 
 ## Contributing
-There is now a basic overview of Django, what each file is for and idea on how to extend what we have at the moment. You can view the guide  [here](https://github.com/tludlow/Group23-Backend/blob/master/guide.pdf).
+There is now a basic overview of Django, what each file is for and ideas on how to extend what we have at the moment. You can view the guide  [here](https://github.com/tludlow/Group23-Backend/blob/master/guide.pdf).
 
-As well as this you can [join Monday](https://group651.monday.com/users/sign_up?invitationId=8988391078060137000) to see what else needs to be completed & more importantly, let others know what you're doing so we don't end up with code duplication. The tasks listed at present aren't a conclusive, therefore, feel free to append.
+As well as this you can [join Monday](https://group651.monday.com/users/sign_up?invitationId=8988391078060137000) to see what else needs to be completed & more importantly, let others know what you're doing so we don't end up with code duplication. The tasks listed at present aren't conclusive, therefore, feel free to append.
 
 Once you've completed coding a section, you should then make a pull request (basics of this are mentioned in the guide, however, please ask if you're struggling!).
 
@@ -32,7 +32,6 @@ Finally, you're going to want to add a remote parent to your local repository, s
 You can get any updates to the master branch using the following command (you'll be alerted via Slack when a pull request has been merged):  
 &nbsp;&nbsp;&nbsp;&nbsp; `git pull parent master`
 
-
 The next step is to install a database server.
 
 ### macOS
@@ -49,9 +48,6 @@ In essence, this script:
 1. installs [Homebrew](https://brew.sh) - a package manager for macOS
 2. installs [MySQL](https://www.mysql.com) - the database server we're going to use 
 3. creates the database `group23db`, sets environmental variables with the database configuration (database, username, password, host), creates the required tables & installs the requirements.
-
-Once executed, you're going to need to reload your shell instance in order for the updates to be implemented:  
-&nbsp;&nbsp;&nbsp;&nbsp; `source ~/.zshenv`
 
 You should now be able to run:  
 &nbsp;&nbsp;&nbsp;&nbsp; `python3 manage.py runserver`  
@@ -83,12 +79,7 @@ Open PowerShell and navigate to the root of the respository (if you've closed it
 &nbsp;&nbsp;&nbsp;&nbsp;`pip3 install -r requirements.txt`  
 &nbsp;&nbsp;&nbsp;&nbsp;`pip3 install -r access/requirements.txt`
 
-We're going to set the environmental variables required in order to allow Django to connect to your database server. Copy and paste paste the following into PowerShell:  
-&nbsp;&nbsp;&nbsp;&nbsp;`setx DB_NAME 'group23db'`  
-&nbsp;&nbsp;&nbsp;&nbsp;`setx DB_HOST 'localhost'`  
-&nbsp;&nbsp;&nbsp;&nbsp;`setx DB_USER 'root'`  
-&nbsp;&nbsp;&nbsp;&nbsp;`setx DB_PASSWORD 'root'`
-
+We're going to need to update the database password used as an environmental variable. Open nano ~/backend/.env set. 
 Now let's create the tables required by our application:  
 &nbsp;&nbsp;&nbsp;&nbsp;`python3 manage.py makemigrations`  
 &nbsp;&nbsp;&nbsp;&nbsp;`python3 manage.py migrate`
