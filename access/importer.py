@@ -1,8 +1,11 @@
 import os, csv, datetime
 from functools import partial
+from os.path import join, dirname
+from dotenv import load_dotenv
 import mysql.connector as mariadb
 import mysql.connector.errors
 import re
+
 
 class Importer:
     
@@ -169,11 +172,12 @@ class Importer:
         self.__connection.close()
         
     def __init__(self):
-        self.__connection = mariadb.connect(user='root', 
-                                            password='root',
-                                            database='group23db', 
-                                            host='127.0.0.1',
-                                            port='3307',
+        dotenv_path = join(dirname(__file__), '../backend/.env')
+        load_dotenv(dotenv_path)
+        self.__connection = mariadb.connect(user=os.environ.get('DB_USER'), 
+                                            password=os.environ.get('DB_PASSWORD'),
+                                            database=os.environ.get('DB_NAME'), 
+                                            host=os.environ.get('DB_HOST'),
                                             auth_plugin='mysql_native_password')
         self.__cursor = self.__connection.cursor()
         
