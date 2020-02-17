@@ -36,7 +36,9 @@ CORS_ALLOW_HEADERS = (
     'accept',
     'origin',
     'authorization',
-    'x-csrftoken'
+    'x-csrftoken',
+    'access-control-allow-headers',
+    'x-requested-with'
 )
 CORS_PREFLIGHT_MAX_AGE = 86400
 CORS_ALLOW_METHODS = (
@@ -103,7 +105,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': "/",
+        'HOST': "localhost",
         'PORT': os.getenv('DB_PORT'),
     },
 }
