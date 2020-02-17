@@ -9,6 +9,7 @@ from django.urls import reverse
 import requests
 import mysql.connector as mariadb
 import mysql.connector.errors
+import os
 
 # Create your tests here.
 
@@ -18,11 +19,13 @@ class CompanyAPITest(TestCase):
     def setUp(self):
         # Every test needs access to the request factory.
         self.client = Client()
-        self.__connection = mariadb.connect(user='root', 
-                                        password='root',
-                                        database='group23db', 
-                                        host='127.0.0.1',
-                                        port='3307',
+
+        #Make this use the environment variables of your computer to connect to the database for testing.
+        self.__connection = mariadb.connect(user= os.environ.get('DB_USER'), 
+                                        password= os.environ.get('DB_PASSWORD'),
+                                        database= os.environ.get('DB_NAME'), 
+                                        host= os.environ.get("DB_HOST"),
+                                        port= OS.environ.get("DB_PORT"),
                                         auth_plugin='mysql_native_password')
 
     def tearDown(self):

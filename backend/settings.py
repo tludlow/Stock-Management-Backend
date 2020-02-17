@@ -16,6 +16,10 @@ SECRET_KEY = '3geb!2z(vt!75l@=%apc$d5xli7nc6dhh08sjws6q@gt3@myjq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+#Load a .env files variables
+from dotenv import load_dotenv
+load_dotenv()
+
 # Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = ['localhost', 'group23.dcs.warwick.ac.uk']
@@ -46,16 +50,15 @@ CORS_ALLOW_METHODS = (
 
 # Application definition
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
     'api',
     'rest_framework',
-    'corsheaders',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -66,7 +69,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -89,6 +91,7 @@ TEMPLATES = [
         },
     },
 ]
+
 WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -97,12 +100,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': "/",
+        'PORT': os.getenv('DB_PORT'),
     },
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
