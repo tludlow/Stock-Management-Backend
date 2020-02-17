@@ -8,16 +8,15 @@ from .models import *
 from .serializers import *
 import datetime
 from calendar import monthrange
+from django.core.paginator import Paginator
 
 class CompanyList(APIView):
-
     def get(self, request):
         data = Company.objects.all()
         s = CompanySerializer(data, many=True)
         return Response(s.data)
 
 class CompanyByIDList(APIView):
-
     def get(self, request, id):
         data = Company.objects.filter(id=id)
         s = CompanySerializer(data, many=True)
@@ -34,7 +33,13 @@ class ProductList(APIView):
 
     def get(self, request):
         data = Product.objects.all()
-        s = ProductSerializer(data, many=True)
+
+        #Pagination
+        page_number = self.request.query_params.get("page_number")
+        page_size = self.request.query_params.get("page_size", 25)
+        paginator = Paginator(data, page_size)
+        
+        s = ProductSerializer(paginator.page(page_number), many=True)
         return Response(s.data)
 
 class ProductByIDList(APIView):
