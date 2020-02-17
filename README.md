@@ -30,7 +30,7 @@ https://github.com/tludlow/Group23-Backend and press fork, this will create your
 own copy.
 
 The next step is to clone the repository. Open up your Terminal and paste the
-following command (remeber to insert your GitHub username):  
+following command (remember to insert your GitHub username):  
 &nbsp;&nbsp;&nbsp;&nbsp; `git clone https://github.com/<YOUR GITHUB
 USERNAME>/Group23-Backend.git backend`  
 
@@ -161,7 +161,7 @@ The database schema is located in the root of this repository titled:
 Two scripts have been provided for convenience to interact with the API. 
 
 If you've followed the above setup then you'll already have the required
-requirements, however, if you haven't you'll need to install first:
+requirements, however, if you haven't you'll need to install first:  
 &nbsp;&nbsp;&nbsp;&nbsp; `pip3 install -r access/requirements.txt`  
 
 The following scripts are available:
