@@ -6,8 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import HttpResponse, JsonResponse
 from api.serializers import *
-from .models import *
-from .serializers import *
+from ..models import *
+from ..serializers import *
 import datetime
 from calendar import monthrange
 from datetime import datetime
@@ -27,19 +27,17 @@ class CompanyByIDList(APIView):
         return Response(s.data)
     
 class CompanyByNameList(APIView):
-
     def get(self, request, name):
         data = Company.objects.filter(name=name)
         s = CompanySerializer(data, many=True)
         return Response(s.data)
     
 class ProductList(APIView):
-
     def get(self, request):
         data = Product.objects.all()
 
         #Pagination
-        page_number = self.request.query_params.get("page_number")
+        page_number = self.request.query_params.get("page_number", 1)
         page_size = self.request.query_params.get("page_size", 25)
         paginator = Paginator(data, page_size)
         
@@ -54,70 +52,60 @@ class ProductByIDList(APIView):
         return Response(s.data)
 
 class ProductByNameList(APIView):
-
     def get(self, request, name):
         data = Product.objects.filter(name=name)
         s = ProductSerializer(data, many=True)
         return Response(s.data)
 
 class SellerList(APIView):
-
     def get(self, request):
         data = ProductSeller.objects.all()
         s = ProductSellerSerializer(data, many=True)
         return Response(s.data)
 
 class SellerListByProduct(APIView):
-
     def get(self, request, product):
         data = ProductSeller.objects.filter(id=product)
         s = ProductSellerSerializer(data, many=True)
         return Response(s.data)
 
 class SellerListByCompany(APIView):
-
     def get(self, request, company):
         data = ProductSeller.objects.filter(company=company)
         s = ProductSellerSerializer(data, many=True)
         return Response(s.data)
 
 class AllCurrenciesList(APIView):
-
     def get(self, request):
         data = Currency.objects.all()
         s = CurrencySerializer(data, many=True)
         return Response(s.data)
 
 class CurrencyPriceList(APIView):
-
     def get(self, request):
         data = CurrencyPrice.objects.all().order_by('date')
         s = CurrencyPriceSerializer(data, many=True)
         return Response(s.data)
 
 class StockPriceList(APIView):
-
     def get(self, request):
         data = StockPrice.objects.all().order_by('date')
         s = StockPriceSerializer(data, many=True)
         return Response(s.data)
 
 class CurrencyList(APIView):
-
     def get(self, request, currency):
         data = CurrencyPrice.objects.filter(currency=currency).order_by('date')
         s = CurrencyPriceSerializer(data, many=True)
         return Response(s.data)
 
 class CurrencyYearList(APIView):
-
     def get(self, request, currency, year):
         data = CurrencyPrice.objects.filter(currency=currency, date__year=year).order_by('date')
         s = CurrencyPriceSerializer(data, many=True)
         return Response(s.data)
 
 class CurrencyMonthList(APIView):
-
     def get(self, request, currency, year, month):
         lower = datetime.date(year, month, 1)
         days = monthrange(year, month)
@@ -127,7 +115,6 @@ class CurrencyMonthList(APIView):
         return Response(s.data)
 
 class CurrencyDayList(APIView):
-
     def get(self, request, currency, year, month, day):
         date = datetime.date(year, month, day)
         data = CurrencyPrice.objects.filter(currency=currency, date=date).order_by('date')
@@ -135,21 +122,18 @@ class CurrencyDayList(APIView):
         return Response(s.data)
 
 class StockList(APIView):
-
     def get(self, request, company):
         data = StockPrice.objects.filter(company=company).order_by('date')
         s = StockPriceSerializer(data, many=True)
         return Response(s.data)
 
 class StockYearList(APIView):
-
     def get(self, request, company, year):
         data = StockPrice.objects.filter(company=company, date__year=year).order_by('date')
         s = StockPriceSerializer(data, many=True)
         return Response(s.data)
 
 class StockMonthList(APIView):
-
     def get(self, request, company, year, month):
         lower = datetime.date(year, month, 1)
         days = monthrange(year, month)
@@ -159,7 +143,6 @@ class StockMonthList(APIView):
         return Response(s.data)
 
 class StockDayList(APIView):
-
     def get(self, request, company, year, month, day):
         date = datetime.date(year, month, day)
         data = StockPrice.objects.filter(company=company, date=date).order_by('date')
@@ -167,7 +150,6 @@ class StockDayList(APIView):
         return Response(s.data)
 
 class TradeList(APIView):
-
     def get(self, request):
         data = Trade.objects.all()
         s = TradeSerializer(data, many=True)
@@ -180,13 +162,11 @@ class TradeIDList(APIView):
         return Response(s.data)
 
 class TradeYearList(APIView):
-
     def get(self, request, year):
         data = Trade.objects.filter(date__year=year).order_by('date')
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 class TradeMonthList(APIView):
-
     def get(self, request, year, month):
         lower = datetime.date(year, month, 1)
         days = monthrange(year, month)
@@ -196,7 +176,6 @@ class TradeMonthList(APIView):
         return Response(s.data)
 
 class TradeDayList(APIView):
-
     def get(self, request, year, month, day):
         lower = datetime.datetime(year, month, day, 0, 0, 0, 0)
         upper = datetime.datetime(year, month, day, 23, 59, 59, 9999)
@@ -211,7 +190,6 @@ class TradeMaturityYearList(APIView):
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 class TradeMaturityMonthList(APIView):
-
     def get(self, request, year, month):
         lower = datetime.date(year, month, 1)
         days = monthrange(year, month)
@@ -221,7 +199,6 @@ class TradeMaturityMonthList(APIView):
         return Response(s.data)
 
 class TradeMaturityDayList(APIView):
-
     def get(self, request, year, month, day):
         lower = datetime.datetime(year, month, day, 0, 0, 0, 0)
         upper = datetime.datetime(year, month, day, 23, 59, 59, 9999)
@@ -230,82 +207,19 @@ class TradeMaturityDayList(APIView):
         return Response(s.data)
 
 class TradeBuyerList(APIView):
-
     def get(self, request, buyer):
         data = Trade.objects.filter(buying_party=buyer).order_by('date')
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeSellerList(APIView):
-
     def get(self, request, seller):
         data = Trade.objects.filter(selling_party=seller).order_by('date')
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeBuyerSellerList(APIView):
-
     def get(self, request, buyer, seller):
         data = Trade.objects.filter(buying_party=buyer, selling_party=seller).order_by('date')
         s = TradeSerializer(data, many=True)
         return Response(s.data)
-
-class TradeRecentList(APIView):
-    def get(self, request):
-        data = Trade.objects.all().order_by('-date')
-
-        #Pagination
-        page_number = self.request.query_params.get("page_number")
-        page_size = self.request.query_params.get("page_size", 12)
-        paginator = Paginator(data, page_size)
-        
-        s = TradeSerializer(paginator.page(page_number), many=True)
-        return Response(s.data)
-
-class CreateDerivativeTrade(APIView):
-    def getCompany(self, cid):
-        company = Company.objects.filter(id=cid)
-        company_serialized = CompanySerializer(company, many=True)
-        return company_serialized.data
-
-    def post(self, request):
-        trade_data = request.data
-        print(trade_data)
-
-        #Check that the request has all the data required for a trade.
-        requiredFields = ["chicken"]
-        for field in requiredFields:
-            if field not in trade_data.keys():
-                return JsonResponse(status=400, data={"error": "Missing the field '" + field + "' in the form."})
-
-
-        if int(trade_data["quantity"]) <= 0:
-            return JsonResponse(status=400, data={"error": "You cannot create a trade with a negative, or zero quantity"})
-        
-        if int(trade_data["strike_price"]) <= 0:
-            return JsonResponse(status=400, data={"error": "A trade's strike price cannot be negative or zero."})
-
-        if int(trade_data["underlying_price"]) <= 0:
-            return JsonResponse(status=400, data={"error": "A trade's underlying price cannot be negative or zero."})
-
-
-        #Check that the discrete values of the trade exist.
-        #Buying party
-        buying_company_data = self.getCompany(trade_data["buying_party"])
-        if len(buying_company_data) == 0:
-            return JsonResponse(status=400, data={"error": "The buying party does not exist."})
-
-        #Selling party
-        selling_company_data = self.getCompany(trade_data["selling_party"])
-        if len(selling_company_data) == 0:
-            return JsonResponse(status=400, data={"error": "The selling party does not exist."})
-
-
-        #Generate a random trade ID between 16 and 18 characters long
-        trade_id = ''.join(random.choices(string.ascii_letters + string.digits, k=16)).upper()
-
-        #Create the trade
-        new_trade = Trade(trade_id, )
-        #new_trade.save()
-
-        return JsonResponse(status=400, data={"trade_id": trade_id, "data": trade_data})
