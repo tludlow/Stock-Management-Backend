@@ -338,7 +338,7 @@ This endpoint retrieves the company with the given id.
 
 ### HTTP Request
 
-`GET https://group23.dcs.warwick.ac.uk/api/company/id=<ID>`
+`GET https://group23.dcs.warwick.ac.uk/api/company/id=<ID>/`
 
 ### URL Parameters
 
@@ -418,6 +418,9 @@ curl "https://group23.dcs.warwick.ac.uk/api/product/list/"
 ```
 
 This endpoint retrieves all products.
+This endpoint is paginated to aid in speeding up the requests. The default page size is 25.
+You may specify the page you would like to request with the URL:
+`GET api/product/list?page_number=x`
 
 ### HTTP Request
 
