@@ -7,7 +7,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import os
+# Load environmental variables
 from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,9 +20,7 @@ SECRET_KEY = '3geb!2z(vt!75l@=%apc$d5xli7nc6dhh08sjws6q@gt3@myjq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Load environmental variables
-from dotenv import load_dotenv
-load_dotenv()
+
 
 # Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
@@ -101,13 +101,19 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 # DATABASE_ROUTERS = ['backend.Router.AppRouter']
 
+
+#Print the database connection
+print("[DATABASE CONNECTION] " + os.getenv('DB_USER') + "@" + os.getenv('DB_HOST') + ":"
+    + os.getenv('DB_PORT') + "/" + os.getenv('DB_NAME'))
+
+#Database details
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': "localhost",
+        'PASSWORD': os.getenv('DB_PASS'),
+        'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
     },
 }
