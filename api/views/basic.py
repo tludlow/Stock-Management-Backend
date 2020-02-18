@@ -13,6 +13,7 @@ from calendar import monthrange
 from datetime import datetime
 from django.core.paginator import Paginator
 import random, string
+from django.core.paginator import Paginator
 
 class CompanyList(APIView):
     def get(self, request):
