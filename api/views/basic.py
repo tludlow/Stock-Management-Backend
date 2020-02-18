@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
+from django import forms
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import HttpResponse, JsonResponse
 from api.serializers import *
-from .models import *
-from .serializers import *
+from ..models import *
+from ..serializers import *
 import datetime
 from calendar import monthrange
+from datetime import datetime
+from django.core.paginator import Paginator
+import random, string
 from django.core.paginator import Paginator
 
 class CompanyList(APIView):
@@ -23,19 +28,17 @@ class CompanyByIDList(APIView):
         return Response(s.data)
     
 class CompanyByNameList(APIView):
-
     def get(self, request, name):
         data = Company.objects.filter(name=name)
         s = CompanySerializer(data, many=True)
         return Response(s.data)
     
 class ProductList(APIView):
-
     def get(self, request):
         data = Product.objects.all()
 
         #Pagination
-        page_number = self.request.query_params.get("page_number")
+        page_number = self.request.query_params.get("page_number", 1)
         page_size = self.request.query_params.get("page_size", 25)
         paginator = Paginator(data, page_size)
         
@@ -50,70 +53,60 @@ class ProductByIDList(APIView):
         return Response(s.data)
 
 class ProductByNameList(APIView):
-
     def get(self, request, name):
         data = Product.objects.filter(name=name)
         s = ProductSerializer(data, many=True)
         return Response(s.data)
 
 class SellerList(APIView):
-
     def get(self, request):
         data = ProductSeller.objects.all()
         s = ProductSellerSerializer(data, many=True)
         return Response(s.data)
 
 class SellerListByProduct(APIView):
-
     def get(self, request, product):
         data = ProductSeller.objects.filter(id=product)
         s = ProductSellerSerializer(data, many=True)
         return Response(s.data)
 
 class SellerListByCompany(APIView):
-
     def get(self, request, company):
         data = ProductSeller.objects.filter(company=company)
         s = ProductSellerSerializer(data, many=True)
         return Response(s.data)
 
 class AllCurrenciesList(APIView):
-
     def get(self, request):
         data = Currency.objects.all()
         s = CurrencySerializer(data, many=True)
         return Response(s.data)
 
 class CurrencyPriceList(APIView):
-
     def get(self, request):
         data = CurrencyPrice.objects.all().order_by('date')
         s = CurrencyPriceSerializer(data, many=True)
         return Response(s.data)
 
 class StockPriceList(APIView):
-
     def get(self, request):
         data = StockPrice.objects.all().order_by('date')
         s = StockPriceSerializer(data, many=True)
         return Response(s.data)
 
 class CurrencyList(APIView):
-
     def get(self, request, currency):
         data = CurrencyPrice.objects.filter(currency=currency).order_by('date')
         s = CurrencyPriceSerializer(data, many=True)
         return Response(s.data)
 
 class CurrencyYearList(APIView):
-
     def get(self, request, currency, year):
         data = CurrencyPrice.objects.filter(currency=currency, date__year=year).order_by('date')
         s = CurrencyPriceSerializer(data, many=True)
         return Response(s.data)
 
 class CurrencyMonthList(APIView):
-
     def get(self, request, currency, year, month):
         lower = datetime.date(year, month, 1)
         days = monthrange(year, month)
@@ -123,7 +116,6 @@ class CurrencyMonthList(APIView):
         return Response(s.data)
 
 class CurrencyDayList(APIView):
-
     def get(self, request, currency, year, month, day):
         date = datetime.date(year, month, day)
         data = CurrencyPrice.objects.filter(currency=currency, date=date).order_by('date')
@@ -131,21 +123,18 @@ class CurrencyDayList(APIView):
         return Response(s.data)
 
 class StockList(APIView):
-
     def get(self, request, company):
         data = StockPrice.objects.filter(company=company).order_by('date')
         s = StockPriceSerializer(data, many=True)
         return Response(s.data)
 
 class StockYearList(APIView):
-
     def get(self, request, company, year):
         data = StockPrice.objects.filter(company=company, date__year=year).order_by('date')
         s = StockPriceSerializer(data, many=True)
         return Response(s.data)
 
 class StockMonthList(APIView):
-
     def get(self, request, company, year, month):
         lower = datetime.date(year, month, 1)
         days = monthrange(year, month)
@@ -155,7 +144,6 @@ class StockMonthList(APIView):
         return Response(s.data)
 
 class StockDayList(APIView):
-
     def get(self, request, company, year, month, day):
         date = datetime.date(year, month, day)
         data = StockPrice.objects.filter(company=company, date=date).order_by('date')
@@ -163,7 +151,6 @@ class StockDayList(APIView):
         return Response(s.data)
 
 class TradeList(APIView):
-
     def get(self, request):
         data = Trade.objects.all()
         s = TradeSerializer(data, many=True)
@@ -176,13 +163,11 @@ class TradeIDList(APIView):
         return Response(s.data)
 
 class TradeYearList(APIView):
-
     def get(self, request, year):
         data = Trade.objects.filter(date__year=year).order_by('date')
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 class TradeMonthList(APIView):
-
     def get(self, request, year, month):
         lower = datetime.date(year, month, 1)
         days = monthrange(year, month)
@@ -192,7 +177,6 @@ class TradeMonthList(APIView):
         return Response(s.data)
 
 class TradeDayList(APIView):
-
     def get(self, request, year, month, day):
         lower = datetime.datetime(year, month, day, 0, 0, 0, 0)
         upper = datetime.datetime(year, month, day, 23, 59, 59, 9999)
@@ -207,7 +191,6 @@ class TradeMaturityYearList(APIView):
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 class TradeMaturityMonthList(APIView):
-
     def get(self, request, year, month):
         lower = datetime.date(year, month, 1)
         days = monthrange(year, month)
@@ -217,7 +200,6 @@ class TradeMaturityMonthList(APIView):
         return Response(s.data)
 
 class TradeMaturityDayList(APIView):
-
     def get(self, request, year, month, day):
         lower = datetime.datetime(year, month, day, 0, 0, 0, 0)
         upper = datetime.datetime(year, month, day, 23, 59, 59, 9999)
@@ -226,21 +208,18 @@ class TradeMaturityDayList(APIView):
         return Response(s.data)
 
 class TradeBuyerList(APIView):
-
     def get(self, request, buyer):
         data = Trade.objects.filter(buying_party=buyer).order_by('date')
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeSellerList(APIView):
-
     def get(self, request, seller):
         data = Trade.objects.filter(selling_party=seller).order_by('date')
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeBuyerSellerList(APIView):
-
     def get(self, request, buyer, seller):
         data = Trade.objects.filter(buying_party=buyer, selling_party=seller).order_by('date')
         s = TradeSerializer(data, many=True)

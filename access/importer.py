@@ -6,6 +6,10 @@ import mysql.connector as mariadb
 import mysql.connector.errors
 import re
 
+# Load environmental variables
+from dotenv import load_dotenv
+load_dotenv()
+
 
 class Importer:
     
@@ -174,10 +178,11 @@ class Importer:
     def __init__(self):
         dotenv_path = join(dirname(__file__), '../backend/.env')
         load_dotenv(dotenv_path)
-        self.__connection = mariadb.connect(user=os.environ.get('DB_USER'), 
-                                            password=os.environ.get('DB_PASSWORD'),
-                                            database=os.environ.get('DB_NAME'), 
-                                            host=os.environ.get('DB_HOST'),
+        self.__connection = mariadb.connect(user=os.getenv('DB_USER'), 
+                                            password=os.getenv('DB_PASSWORD'),
+                                            database=os.getenv('DB_NAME'), 
+                                            host=os.getenv('DB_HOST'),
+                                            port=os.getenv('DB_PORT'),
                                             auth_plugin='mysql_native_password')
         self.__cursor = self.__connection.cursor()
         
