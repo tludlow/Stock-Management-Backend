@@ -7,6 +7,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import os
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
@@ -15,6 +17,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '3geb!2z(vt!75l@=%apc$d5xli7nc6dhh08sjws6q@gt3@myjq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+# Load environmental variables
+load_dotenv()
 
 # Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
@@ -55,7 +60,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'api',
     'rest_framework',
-    'corsheaders',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -93,7 +97,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 # DATABASE_ROUTERS = ['backend.Router.AppRouter']
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
