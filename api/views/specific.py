@@ -14,7 +14,10 @@ from calendar import monthrange
 from datetime import datetime
 from django.core.paginator import Paginator
 import random, string
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
+@method_decorator(cache_page(5), name='dispatch')
 class TradeRecentList(APIView):
     def get(self, request):
         #Get pagination data before the request so that it saves memory and is quicker to query.
