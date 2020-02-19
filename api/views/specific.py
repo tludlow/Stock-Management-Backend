@@ -47,7 +47,7 @@ class TradeRecentList(APIView):
 
             trade_data[idx]["product"] = product_s.data.get("name")
 
-            print(str(idx) + ":  " + str(trade), end="\n\n")
+            #print(str(idx) + ":  " + str(trade), end="\n\n")
 
         #Modified the structure of a trade, will need to use a custom serializer.
         return Response(trade_data)

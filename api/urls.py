@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from rest_framework import routers
 from django.urls import path, include
-
+from django.views.decorators.cache import cache_page
 
 urlpatterns = [
     path('company/list/', views.CompanyList.as_view(), name="company_all"),
@@ -39,6 +39,6 @@ urlpatterns = [
     path('trade/', views.TradeList.as_view()),
     path('trade/recent', views.TradeRecentList.as_view(), name="recent_trades"),
 
-    path('trade/create', views.CreateDerivativeTrade.as_view(), name="create_trade"),
+    path('trade/create', cache_page(60 * 0.5)(views.CreateDerivativeTrade.as_view()), name="create_trade"),
 ]
 
