@@ -40,7 +40,14 @@ class TradeRecentList(APIView):
             trade_data[idx]["buying_company"] = buying_company.data.get("name")
             trade_data[idx]["selling_company"] = selling_company.data.get("name")
 
-            #print(str(idx) + ":  " + str(trade), end="\n\n")
+            #Take the product_id and append meaningful data about this product to the trade
+            product_id = trade.get("product_id")
+            product_data = Product.objects.get(id=product_id)
+            product_s = ProductSerializer(product_data)
+
+            trade_data[idx]["product"] = product_s.data.get("name")
+
+            print(str(idx) + ":  " + str(trade), end="\n\n")
 
         #Modified the structure of a trade, will need to use a custom serializer.
         return Response(trade_data)
