@@ -44,7 +44,7 @@ class DeleteDerivativeTrade(APIView):
         if datetime(trade_maturity.year, trade_maturity.month, trade_maturity.day, tzinfo=timezone.utc) < now :
             return JsonResponse(status=400, data={"error": "Trades can only be deleted before they mature"})
 
-        #Passed all of the checks, we can now delete the trade
+        #Passed all of the checks, we can now delete the trade by its id provided.
         Trade.objects.filter(id=trade_data["trade_id"]).delete()
 
         return JsonResponse(trade_serialized, safe=False)
