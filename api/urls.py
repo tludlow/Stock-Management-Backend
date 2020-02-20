@@ -39,5 +39,6 @@ urlpatterns = [
     path('trade/recent', views.TradeRecentList.as_view(), name="recent_trades"),
 
     path('trade/create', views.CreateDerivativeTrade.as_view(), name="create_trade"),
+    path('trade/delete', views.DeleteDerivativeTrade.as_view(), name="delete_trade")
 ]
 

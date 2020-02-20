@@ -51,7 +51,6 @@ class Currency(models.Model):
         
 
     currency = models.CharField(max_length=3, primary_key=True)
-    symbol = models.CharField(max_length=1)
 
 class CurrencyPrice(models.Model):
 
