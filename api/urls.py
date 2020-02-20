@@ -3,7 +3,6 @@ from . import views
 from rest_framework import routers
 from django.urls import path, include
 
-
 urlpatterns = [
     path('company/list/', views.CompanyList.as_view(), name="company_all"),
     path('company/id=<str:id>/', views.CompanyByIDList.as_view(), name="company_by_id"),
@@ -40,5 +39,6 @@ urlpatterns = [
     path('trade/recent', views.TradeRecentList.as_view(), name="recent_trades"),
 
     path('trade/create', views.CreateDerivativeTrade.as_view(), name="create_trade"),
+    path('trade/delete', views.DeleteDerivativeTrade.as_view(), name="delete_trade")
 ]
 

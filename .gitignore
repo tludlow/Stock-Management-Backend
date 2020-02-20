@@ -5,3 +5,5 @@
 **/.vscode
 *.env
 *.pyc
+**/cache
+/cache/*
