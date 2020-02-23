@@ -40,6 +40,9 @@ urlpatterns = [
     path('trade/product=<str:product>&buyer=<str:buyer>/', views.RecentTradesByCompanyForProduct.as_view(), name="recent_product_for_company"),
 
     path('trade/create', views.CreateDerivativeTrade.as_view(), name="create_trade"),
-    path('trade/delete', views.DeleteDerivativeTrade.as_view(), name="delete_trade")
+    path('trade/delete', views.DeleteDerivativeTrade.as_view(), name="delete_trade"),
+
+
+    path('frontend', views.Frontend.as_view())
 ]
 
