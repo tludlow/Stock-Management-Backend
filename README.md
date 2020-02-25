@@ -28,22 +28,22 @@ will create your own copy.
 
 The next step is to clone the repository. Open up your Terminal and paste the
 following command (remember to insert your GitHub username):  
-&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;
 `git clone https://github.com/<YOUR  GITHUB USERNAME>/Group23-Backend.git backend`
 
 From your current directory, you'll now be able to navigate into your local
 repository:   
-&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;
 `cd backend`
 
 Finally, you're going to want to add a remote parent to your local repository,
 so that you can retrieve updates made by other group members:  
-&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;
 `git remote add parent https://github.com/tludlow/Group23-Backend.git`
 
 You can get any updates to the master branch using the following command (you'll
 be alerted via Slack when a pull request has been merged):  
-&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;
 `git pull parent master`
 
 
@@ -53,7 +53,7 @@ Docker allows for multiple developers to create their code in the same environme
 ([read more](https://medium.com/better-programming/why-and-how-to-use-docker-for-development-a156c1de3b24)).
 
 
-Assuming you're using macOS or Windows, you're going to need to install 
+Assuming you're using macOS or Windows, you're going to need to install
 [Docker Desktop](https://www.docker.com/products/docker-desktop).
 
 In the root of the repository, you should be able to run:  
@@ -62,7 +62,7 @@ In the root of the repository, you should be able to run:
 
 Finally, open a new terminal window in the same directory. We're going to create
 the database tables:  
-&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;
 `docker-compose run web python manage.py migrate`
 
 You can verify that the server is running via visiting: http://localhost:8000/.
@@ -88,17 +88,15 @@ There are a couple or prerequisites that are required for the following guide:
 
 If you're missing any of the above, you'll need to install these first.
 
- ### Local Environment Variables
- To connect to the database you must provide your database information inside of
- a file named `.env` (within the root of the repository)  The contents of this
- file should be as follows:
- 
- - DB_NAME="group23db"
- - DB_USER=&lt;USERNAME SET IN SETUP>
- - DB_PASS=&lt;PASSWORD SET IN SETUP>
- - DB_HOST="localhost"
- - DB_PORT=&lt;3306/DATABASE PORT>
-
+### Local Environment Variables
+To connect to the database you must provide your database information inside of
+a file named `.env` (within the root of the repository). The contents of this
+file should be as follows:  
+&nbsp;&nbsp;&nbsp;&nbsp; `DB_NAME="group23db"`  
+&nbsp;&nbsp;&nbsp;&nbsp; `DB_USER=<USERNAME SET IN SETUP>`  
+&nbsp;&nbsp;&nbsp;&nbsp; `DB_PASS=<PASSWORD SET IN SETUP>`  
+&nbsp;&nbsp;&nbsp;&nbsp; `DB_HOST="localhost"`  
+&nbsp;&nbsp;&nbsp;&nbsp; `DB_PORT="3306"`  
 You should create the `.env` file in the root of the repository once you have
 installed the database server.
 
@@ -113,7 +111,7 @@ installation & setup.
 
 To execute this script, navigate to the root of your local clone of this
 repository using Terminal (you should already be there). Then paste:  
-&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;
 `sh installation/macos.sh`
 
 You may be prompted with the scripts that'll be installed - simply accept this
@@ -129,10 +127,10 @@ In essence, this script:
 3. creates the database `group23db`, creates the required tables & installs the
    requirements.
 
-Now, create the `.env` file. 
+Now, create the `.env` file.
 
 You should be able to run:  
-&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;
 `python3 manage.py runserver`
 
 The server should be accessable via: http://localhost:8000/.
@@ -185,7 +183,7 @@ Execute the following command and enter some credentials (e.g. root):
 &nbsp;&nbsp;&nbsp;&nbsp;
 `python3 manage.py createsuperuser`
 
-Now, create the `.env` file. 
+Now, create the `.env` file.
 
 You should be able to run:  
 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -216,9 +214,9 @@ installation steps will be `root`.
 Once downloaded, unzip the data set and place the unzipped directory `data` in
 the root of your repository. Git will ignore both this directory and it's
 zipped counterpart. You can then import the data set via executing:  
-&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;
 `cd access`  
-&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;
 `python3 importer.py`  
 Note: This will take a long time. You may quit the importer at any time using
 [ctrl][c] and whilst the derivative trades table won't be complete, it should
@@ -235,7 +233,7 @@ is located `backend/docs/api`.
 Two scripts have been provided for convenience to interact with the API.
 If you've followed the above setup then you'll already have the required
 requirements, however, if you haven't you'll need to install first:  
-&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;
 `pip3 install -r access/requirements.txt`
 
 The following scripts are available:
