@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+       MYSQL_DATABASE: 'group23db'
+       MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+
+  web:
+    build: .
+    environment:
+       DB_NAME: 'group23db'
+       DB_USER: 'root'
+       DB_PASS: 'root'
+       DB_HOST: 'db'
+       DB_PORT: '3306'
+    command: bash -c 'while !</dev/tcp/db/3306; do sleep 1; done; python manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - .:/app/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

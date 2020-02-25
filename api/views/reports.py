@@ -9,3 +9,12 @@
 #Get all trades deleted in the last day
 
 #Get all trades created in the last day
+
+class AvailableReportsYearList(APIView):
+    def get(self, request):
+        data = Trade.objects.raw('SELECT DISTINCT YEAR(date) from trade')
+        s = AvailableReportsSerializer(data, many=True)
+        return Response(s.data)
+        
+
+

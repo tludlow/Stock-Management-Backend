@@ -49,3 +49,8 @@ class TradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trade
         fields = '__all__'
+
+class AvailableReportsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trade
+        fields = ('date')
