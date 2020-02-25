@@ -44,6 +44,26 @@ class DeleteDerivativeTrade(APIView):
         if datetime(trade_maturity.year, trade_maturity.month, trade_maturity.day, tzinfo=timezone.utc) < now :
             return JsonResponse(status=400, data={"error": "Trades can only be deleted before they mature"})
 
+        deleted_saving = trade_serialized[0]
+
+        #Create a new entry into the deleted trades table before we delete from trades
+        new_deleted_trade = DeletedTrade(
+            deleted_trade=deleted_saving["id"],
+            date=deleted_saving["date"],
+            product_id=deleted_saving["product_id"],
+            buying_party_id=deleted_saving["buying_party_id"],
+            selling_party_id=deleted_saving["selling_party_id"],
+            notional_amount=deleted_saving["notional_amount"],
+            notional_currency_id=deleted_saving["notional_currency_id"],
+            quantity=deleted_saving["quantity"],
+            maturity_date=deleted_saving["maturity_date"],
+            underlying_price=deleted_saving["underlying_price"],
+            underlying_currency_id=deleted_saving["underlying_currency_id"],
+            strike_price=deleted_saving["strike_price"]
+
+        )
+        new_deleted_trade.save()
+
         #Passed all of the checks, we can now delete the trade by its id provided.
         Trade.objects.filter(id=trade_data["trade_id"]).delete()
 
