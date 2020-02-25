@@ -20,8 +20,6 @@ SECRET_KEY = '3geb!2z(vt!75l@=%apc$d5xli7nc6dhh08sjws6q@gt3@myjq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-
 # Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = ['localhost', 'group23.dcs.warwick.ac.uk']
@@ -170,12 +168,3 @@ STATICFILES_DIRS = (
 DOCS_URL = '/docs/'
 DOCS_ROOT = os.path.join(PROJECT_ROOT, 'docs/api/build/')
 
-# CORS Header, to allow/restrict certain domains from requesting data.
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
-CORS_ORIGIN_REGEX_WHITELIST = [
-    'http://localhost:3000',
-]
