@@ -65,3 +65,47 @@ class RecentTradesByCompanyForProduct(APIView):
         
         s = TradeSerializer(data, many=True)
         return Response(s.data)
+
+#Converts a currency from one type, into another at the latest exchange rate
+#All must pass "through" dollars as they all derive a dollar value, where a dollar = 1
+class CurrencyConversionLatest(APIView):
+    def get(self, request, from_currency, to_currency):
+        #Check if these currencies actually exist...
+        check_from = Currency.objects.filter(currency=from_currency)
+        check_to = Currency.objects.filter(currency=to_currency)
+
+        if len(check_from) != 1:
+            return JsonResponse(status=400, data={
+                "error": "The currency: " + from_currency + " does not exist or has more than 1 result",
+                "count": len(check_from)
+                })
+
+        if len(check_to) != 1:
+            return JsonResponse(status=400, data={
+                "error": "The currency: " + to_currency + " does not exist or has more than 1 result.",
+                "count": len(check_to)
+            })
+
+        #Get the latest currency value of the from currency in USD
+        from_data = CurrencyPrice.objects.filter(currency_id=from_currency).order_by("-date")[0]
+        to_data = CurrencyPrice.objects.filter(currency_id=to_currency).order_by("-date")[0]
+
+        # if len(from_data) != 1 or len(to_data) != 1:
+        #     return JsonResponse(status=500, data={
+        #         "error": "Error getting latest currency data",
+        #     })
+        
+        s_from_data = CurrencyPriceSerializer(from_data, many=False)
+        s_to_data = CurrencyPriceSerializer(to_data, many=False)
+
+        #Need data to be in 2dp for simplicity
+        usd_converted = round(s_from_data.data["value"] / s_to_data.data["value"], 2)
+
+        return JsonResponse(status=200, data={
+            "date:": s_from_data.data["date"],
+            "from": from_currency,
+            "to": to_currency,
+            "conversion": usd_converted
+        })
+
+

@@ -14,7 +14,10 @@ from datetime import datetime
 from django.core.paginator import Paginator
 import random, string
 from django.core.paginator import Paginator
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
+@method_decorator(cache_page(20), name='dispatch')
 class CompanyList(APIView):
     def get(self, request):
         data = Company.objects.all()
@@ -33,16 +36,18 @@ class CompanyByNameList(APIView):
         s = CompanySerializer(data, many=True)
         return Response(s.data)
     
+@method_decorator(cache_page(20), name='dispatch')
 class ProductList(APIView):
     def get(self, request):
         data = Product.objects.all()
 
         #Pagination
-        page_number = self.request.query_params.get("page_number", 1)
-        page_size = self.request.query_params.get("page_size", 25)
-        paginator = Paginator(data, page_size)
-        
-        s = ProductSerializer(paginator.page(page_number), many=True)
+        # page_number = self.request.query_params.get("page_number", 1)
+        # page_size = self.request.query_params.get("page_size", 25)
+        # paginator = Paginator(data, page_size)
+        # s = ProductSerializer(paginator.page(page_number), many=True)
+
+        s = ProductSerializer(data, many=True)
         return Response(s.data)
 
 class ProductByIDList(APIView):
@@ -76,6 +81,7 @@ class SellerListByCompany(APIView):
         s = ProductSellerSerializer(data, many=True)
         return Response(s.data)
 
+@method_decorator(cache_page(20), name='dispatch')
 class AllCurrenciesList(APIView):
     def get(self, request):
         data = Currency.objects.all()
