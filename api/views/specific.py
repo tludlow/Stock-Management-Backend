@@ -108,4 +108,21 @@ class CurrencyConversionLatest(APIView):
             "conversion": usd_converted
         })
 
+class ProductsForSellers(APIView):
+    def get(self, id, company):
+        #Check the company exists
+        check_company = Company.objects.filter(id=company)
+
+        if len(check_company) == 0:
+            return JsonResponse(status=400, data={
+                "error": "The company does not exist",
+                "count": len(check_company)
+                })
+        
+        #Get the products sold by this company
+        products_sold = ProductSeller.objects.filter(company_id=company)
+
+        s_products_sold = ProductSellerSerializer(products_sold, many=True)
+        return Response(s_products_sold.data)
+
 
