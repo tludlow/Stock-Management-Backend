@@ -121,8 +121,18 @@ class ProductsForSellers(APIView):
         
         #Get the products sold by this company
         products_sold = ProductSeller.objects.filter(company_id=company)
+        product_data = products_sold.values()
+        
+        for idx, trade in enumerate(product_data):
+            print(trade)
+            #Take the product_id and append meaningful data about this product to the trade
+            product_id = trade.get("product_id")
+            product_data_inner = Product.objects.get(id=product_id)
+            product_s = ProductSerializer(product_data_inner)
+            print(product_s.data)
 
-        s_products_sold = ProductSellerSerializer(products_sold, many=True)
-        return Response(s_products_sold.data)
+            product_data[idx]["name"] = product_s.data.get("name")
+
+        return Response(product_data)
 
 
