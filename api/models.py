@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.functions import Now
 
 
 class Company(models.Model):
@@ -98,4 +99,31 @@ class Trade(models.Model):
     underlying_price = models.FloatField()
     underlying_currency = models.ForeignKey(Currency, on_delete=models.CASCADE, 
                                         related_name="underlying")
+    strike_price = models.FloatField()
+
+
+#Models for the report data tables
+class DeletedTrade(models.Model):
+
+    class Meta():
+        db_table = "deleted_trades"
+
+    id = models.AutoField(primary_key=True)
+    deleted_trade = models.CharField(max_length=16)
+    deleted_at = models.DateTimeField(auto_now=True)
+
+    date = models.DateTimeField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="deleted_product")
+    buying_party = models.ForeignKey(Company, on_delete=models.CASCADE, 
+                                        related_name="deleted_buyer")
+    selling_party = models.ForeignKey(Company, on_delete=models.CASCADE, 
+                                        related_name="deleted_seller")
+    notional_amount = models.FloatField()
+    notional_currency = models.ForeignKey(Currency, on_delete=models.CASCADE,
+                                        related_name="deleted_notional")
+    quantity = models.IntegerField()
+    maturity_date = models.DateField()
+    underlying_price = models.FloatField()
+    underlying_currency = models.ForeignKey(Currency, on_delete=models.CASCADE, 
+                                        related_name="deleted_underlying")
     strike_price = models.FloatField()
