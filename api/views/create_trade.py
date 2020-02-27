@@ -13,6 +13,7 @@ from calendar import monthrange
 from datetime import datetime
 from django.core.paginator import Paginator
 import random, string
+from random import randint
 
 class CreateDerivativeTrade(APIView):
     def getCompany(self, cid):
@@ -88,19 +89,21 @@ class CreateDerivativeTrade(APIView):
         do_currencies_differ = trade_data["underlying_currency"] == trade_data["notional_currency"]
 
 
-        #Generate a random trade ID between 16 and 18 characters long
-        trade_id = ''.join(random.choices(string.ascii_letters + string.digits, k=16)).upper()
+        #Generate a random trade ID 16 characters long. 8 letters followed by 8 numbers
+        letters = ''.join(random.choice(string.ascii_letters).upper() for x in range(8))
+        nums = ''.join(["{}".format(randint(0, 9)) for num in range(0, 8)])
+        trade_id = letters+nums
 
         #Compute the notional amount, this is the underlying_price converted to the notional_price
         #which you then multiply by the quantity of the trade.
-        notional_amount = self.convertCurrency(trade_data["underlying_currency"], trade_data["notional_currency"], trade_data["quantity"])
+        notional_amount = round(self.convertCurrency(trade_data["underlying_currency"], trade_data["notional_currency"], trade_data["quantity"]), 2)
 
         #Get the product being traded
         product_instance = Product.objects.filter(id=trade_data["product"])[0]
         
         #Get the companies represented
         buying_instance = Company.objects.filter(id=trade_data["buying_party"])[0]
-        selling_instance = Company.objects.filter(id=trade_data["buying_party"])[0]
+        selling_instance = Company.objects.filter(id=trade_data["selling_party"])[0]
 
         #Get the currencies being represented
         notional_instance = Currency.objects.filter(currency=trade_data["notional_currency"])[0]
