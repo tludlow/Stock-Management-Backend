@@ -20,13 +20,35 @@ class CreateDerivativeTrade(APIView):
         company_serialized = CompanySerializer(company, many=True)
         return company_serialized.data
 
+    def convertCurrency(self, underlying, notional, amount):
+        #Most recent value of the underlying currency
+        underlying = CurrencyPrice.objects.filter(currency_id=underlying).order_by("-date")[0]
+        underlying_s = CurrencyPriceSerializer(underlying, many=False)
+
+        #Most recent value of the notional currency
+        notional = CurrencyPrice.objects.filter(currency_id=notional).order_by("-date")[0]
+        notional_s = CurrencyPriceSerializer(notional, many=False)
+
+        #Conversion rate, what does 1 underlying_value get you in notional_value
+        underlying_value = underlying_s.data["value"]
+        notional_value = notional_s.data["value"]
+
+        #The conversion goes through the base currency of dollars.
+        converted_rate = round(notional_value / underlying_value, 2)
+
+        #Overall value represented (value * quantity)
+        return converted_rate * int(amount)
+
+
     def post(self, request):
         trade_data = request.data
         #if product id = 1, then its a stock, will be purchasing stocks of the selling company
         print(trade_data)
 
         #Check that the request has all the data required for a trade.
-        requiredFields = ["quantity", "strike_price", "buying_party", "selling_party", "underlying_price"]
+        requiredFields = ["selling_party", "buying_party", "product", "quantity",
+            "maturity_date", "underlying_currency", "notional_currency", "strike_price", "underlying_price"]
+
         for field in requiredFields:
             if field not in trade_data.keys():
                 return JsonResponse(status=400, data={"error": "Missing the field '" + field + "' in the form."})
@@ -36,15 +58,19 @@ class CreateDerivativeTrade(APIView):
             return JsonResponse(status=400, 
                 data={"error": "You cannot create a trade with a negative, or zero quantity"})
         
-        if int(trade_data["strike_price"]) <= 0:
+        if float(trade_data["strike_price"]) <= 0.00:
             return JsonResponse(status=400, data={"error": "A trade's strike price cannot be negative or zero."})
 
-        if int(trade_data["underlying_price"]) <= 0:
+        if float(trade_data["underlying_price"]) <= 0.00:
             return JsonResponse(status=400, data={"error": "A trade's underlying price cannot be negative or zero."})
 
+        if int(trade_data["product"]) == -1:
+            #Trading stocks for the seller here... Need to update the ID as frontend uses -1 and in db its 1
+            trade_data["product"] = 1
 
         #Check that the discrete values of the trade exist.
         #Buying party
+
         buying_company_data = self.getCompany(trade_data["buying_party"])
         if len(buying_company_data) == 0:
             return JsonResponse(status=400, data={"error": "The buying party does not exist."})
@@ -65,8 +91,36 @@ class CreateDerivativeTrade(APIView):
         #Generate a random trade ID between 16 and 18 characters long
         trade_id = ''.join(random.choices(string.ascii_letters + string.digits, k=16)).upper()
 
-        #Create the trade
-        new_trade = Trade(trade_id, )
-        #new_trade.save()
+        #Compute the notional amount, this is the underlying_price converted to the notional_price
+        #which you then multiply by the quantity of the trade.
+        notional_amount = self.convertCurrency(trade_data["underlying_currency"], trade_data["notional_currency"], trade_data["quantity"])
 
-        return JsonResponse(status=400, data={"trade_id": trade_id, "data": trade_data})
+        #Get the product being traded
+        product_instance = Product.objects.filter(id=trade_data["product"])[0]
+        
+        #Get the companies represented
+        buying_instance = Company.objects.filter(id=trade_data["buying_party"])[0]
+        selling_instance = Company.objects.filter(id=trade_data["buying_party"])[0]
+
+        #Get the currencies being represented
+        notional_instance = Currency.objects.filter(currency=trade_data["notional_currency"])[0]
+        underlying_instance = Currency.objects.filter(currency=trade_data["underlying_currency"])[0]
+
+        #Create the trade
+        new_trade = Trade(
+            id=trade_id,
+            date=datetime.now(),
+            product=product_instance,
+            buying_party=buying_instance,
+            selling_party=selling_instance,
+            notional_amount=notional_amount,
+            notional_currency=notional_instance,
+            quantity=trade_data["quantity"],
+            maturity_date=trade_data["maturity_date"],
+            underlying_price=trade_data["underlying_price"],
+            underlying_currency=underlying_instance,
+            strike_price=trade_data["strike_price"]
+        )
+        new_trade.save()
+
+        return JsonResponse(status=200, data={"trade_id": trade_id, "data": trade_data, "notional_amount": notional_amount})
