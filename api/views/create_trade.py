@@ -70,8 +70,8 @@ class CreateDerivativeTrade(APIView):
             trade_data["product"] = 1
 
         #Check that the discrete values of the trade exist.
+        
         #Buying party
-
         buying_company_data = self.getCompany(trade_data["buying_party"])
         if len(buying_company_data) == 0:
             return JsonResponse(status=400, data={"error": "The buying party does not exist."})
@@ -80,14 +80,6 @@ class CreateDerivativeTrade(APIView):
         selling_company_data = self.getCompany(trade_data["selling_party"])
         if len(selling_company_data) == 0:
             return JsonResponse(status=400, data={"error": "The selling party does not exist."})
-
-        #Currency checks, make sure the currencies provided actually exist.
-
-
-        #Notional value calculation, this is underlying_price * quantity.
-        #In scenarios where the underlying and notional currency differ the exchange rate will need to be used.
-        do_currencies_differ = trade_data["underlying_currency"] == trade_data["notional_currency"]
-
 
         #Generate a random trade ID 16 characters long. 8 letters followed by 8 numbers
         letters = ''.join(random.choice(string.ascii_letters).upper() for x in range(8))
