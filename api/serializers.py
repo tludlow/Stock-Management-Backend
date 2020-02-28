@@ -36,7 +36,7 @@ class CurrencyPriceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CurrencyPrice
-        fields = ('date', 'value', 'currency')
+        fields = '__all__'
 
 class StockPriceSerializer(serializers.ModelSerializer):
 

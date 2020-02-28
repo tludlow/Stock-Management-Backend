@@ -41,8 +41,11 @@ urlpatterns = [
 
     path('trade/create', views.CreateDerivativeTrade.as_view(), name="create_trade"),
     path('trade/delete', views.DeleteDerivativeTrade.as_view(), name="delete_trade"),
+    path('trade/edit', views.EditDerivativeTrade.as_view(), name="edit_trade"),
 
+    path('conversion/latest/from=<str:from_currency>&to=<str:to_currency>/', views.CurrencyConversionLatest.as_view(), name="latest_currency_conversion"),
+    path('product/soldby/id=<str:company>/', views.ProductsForSellers.as_view(), name="products_for_company"),
 
-    path('frontend', views.Frontend.as_view())
+    path('frontend/', views.Frontend.as_view())
 ]
 
