@@ -10,6 +10,7 @@ urlpatterns = [
     path('product/list/', views.ProductList.as_view()),
     path('product/id=<int:id>/', views.ProductByIDList.as_view()),
     path('product/name=<str:name>/', views.ProductByNameList.as_view()),
+    path('product/soldby/company_id=<str:company>/', views.ProductsForSellers.as_view(), name="products_for_company"),
     path('seller/company=<str:company>/', views.SellerListByCompany.as_view()),
     path('seller/product=<str:product>/', views.SellerListByProduct.as_view()),
     path('currency/', views.CurrencyPriceList.as_view()),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('currency/currency=<str:currency>&year=<int:year>&month=<int:month>/', views.CurrencyMonthList.as_view()),
     path('currency/currency=<str:currency>&year=<int:year>&month=<int:month>&day=<int:day>/', views.CurrencyDayList.as_view()),
     path('currency/currency=<str:currency>/', views.CurrencyList.as_view()),
+    path('currency/conversion/latest/from=<str:from_currency>&to=<str:to_currency>/', views.CurrencyConversionLatest.as_view(), name="latest_currency_conversion"),
     path('seller/list/', views.SellerList.as_view()),
     path('stock/company=<str:company>&year=<int:year>/', views.StockYearList.as_view()),
     path('stock/company=<str:company>&year=<int:year>&month=<int:month>/', views.StockMonthList.as_view()),
@@ -36,16 +38,13 @@ urlpatterns = [
     path('trade/maturity_year=<int:year>&maturity_month=<int:month>/', views.TradeMaturityMonthList.as_view()),
     path('trade/maturity_year=<int:year>&maturity_month=<int:month>&maturity_day=<int:day>/', views.TradeMaturityDayList.as_view()),
     path('trade/', views.TradeList.as_view()),
-    path('trade/recent', views.TradeRecentList.as_view(), name="recent_trades"),
+    path('trade/recent/', views.TradeRecentList.as_view(), name="recent_trades"),
     path('trade/product=<str:product>&buyer=<str:buyer>/', views.RecentTradesByCompanyForProduct.as_view(), name="recent_product_for_company"),
-
-    path('trade/create', views.CreateDerivativeTrade.as_view(), name="create_trade"),
-    path('trade/delete', views.DeleteDerivativeTrade.as_view(), name="delete_trade"),
-    path('trade/edit', views.EditDerivativeTrade.as_view(), name="edit_trade"),
-
-    path('conversion/latest/from=<str:from_currency>&to=<str:to_currency>/', views.CurrencyConversionLatest.as_view(), name="latest_currency_conversion"),
-    path('product/soldby/id=<str:company>/', views.ProductsForSellers.as_view(), name="products_for_company"),
-
-    path('frontend/', views.Frontend.as_view())
+    path('trade/create/', views.CreateDerivativeTrade.as_view(), name="create_trade"),
+    path('trade/delete/', views.DeleteDerivativeTrade.as_view(), name="delete_trade"),
+    path('trade/edit/', views.EditDerivativeTrade.as_view(), name="edit_trade"),
+    path('report/year=<int:year>&month=<int:month>&day=<int:day>/', views.Report.as_view()),
+    path('report/available/', views.AvailableReportsYearList.as_view()),
+    path('report/available/year=<int:year>&month=<int:month>/', views.AvailableReportsDayList.as_view()),
+    path('report/available/year=<int:year>/', views.AvailableReportsMonthList.as_view()),
 ]
-
