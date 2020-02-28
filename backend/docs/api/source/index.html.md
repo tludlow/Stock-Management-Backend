@@ -2,7 +2,6 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - python
   - shell
 
 toc_footers:
@@ -26,14 +25,6 @@ No authentication is currently required.
 # Currency
 
 ## List Of Currencies
-
-
-```python
-from query import API
-
-api = API()
-api.getCurrencyList()
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/currency/list/"
@@ -62,13 +53,6 @@ This endpoint to return all supported currencies.
 <aside class="warning">For the moment, queries made must be exact - both case and format (ensure backslash at end of request)</aside>
 
 ## All Currency Prices
-
-```python
-from query import API
-
-api = API()
-api.getCurrency()
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/currency/"
@@ -101,13 +85,6 @@ This endpoint retrieves all recorded prices for all currencies (in relation to U
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 
 ## By Currency
-
-```python
-from query import API
-
-api = API()
-api.getCurrency(currency='GBP')
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/currency/currency=GBP/"
@@ -145,13 +122,6 @@ CURRENCY | The currency to retrieve
 
 ## By Year
 
-```python
-from query import API
-
-api = API()
-api.getCurrency(currency='GBP', year='2019')
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/currency/currency=GBP&year=2019/"
 ```
@@ -188,13 +158,6 @@ CURRENCY | The currency to retrieve
 YEAR | Year of data to be returned
 
 ## By Month
-
-```python
-from query import API
-
-api = API()
-api.getCurrency(currency='GBP', year='2019', month='01')
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/currency/currency=GBP&year=2019&month=01/"
@@ -234,13 +197,6 @@ MONTH | Month of data to be returned
 
 ## By Day
 
-```python
-from query import API
-
-api = API()
-api.getCurrencyPrices(currency='GBP', year='2019', month='01', day='01')
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/currency/currency=GBP&year=2019&month=01&day=01/"
 ```
@@ -272,17 +228,42 @@ YEAR | Year of data to be returned
 MONTH | Month of data to be returned
 DAY | Day of data to be returned
 
+## Latest Conversion
+
+```shell
+curl "https://group23.dcs.warwick.ac.uk/api/currency/conversion/latest/from=GBP&to=USD/"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "date:": "2019-12-31", 
+    "from": "GBP",
+    "to": "USD", 
+    "conversion": 11.36
+  }
+]
+```
+
+This endpoint retrieves the latest conversion from one currency to another.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/currency/conversion/latest/from=<FROM_CURRENCY>&to=<TO_CURRENCY>/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+FROM_CURRENCY | Currency ID of the currency to convert from
+TO_CURRENCY | Currency ID of the currency to convert to
+
 
 # Company
 
 ## List Of Companies
-
-```python
-from query import API
-
-api = API()
-api.getCompanyList()
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/company/list/"
@@ -312,13 +293,6 @@ This endpoint retrieves all companies.
 
 ## By ID
 
-```python
-from query import API
-
-api = API()
-api.getCompany(id="AGBH66")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/company/id=AGBH66/"
 ```
@@ -347,13 +321,6 @@ Parameter | Description
 ID | ID of the company to retrieve
 
 ## By Name
-
-```python
-from query import API
-
-api = API()
-api.getCompany(name="Cyberbiotics")
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/company/name=Cyberbiotics/"
@@ -390,13 +357,6 @@ You'll need to replace a space (" ") with it's encoded equivilant ("%20").
 
 ## List Of Products
 
-```python
-from query import API
-
-api = API()
-api.getProductList()
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/product/list/"
 ```
@@ -428,13 +388,6 @@ You may specify the page you would like to request with the URL:
 
 ## By ID
 
-```python
-from query import API
-
-api = API()
-api.getProduct(id="1")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/product/id=1/"
 ```
@@ -462,13 +415,6 @@ ID | ID of the product to retrieve
 
 ## By Name
 
-```python
-from query import API
-
-api = API()
-api.getProduct(name="Stocks")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/product/name=Stocks/"
 ```
@@ -484,7 +430,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/product/name=Stocks/"
 ]
 ```
 
-This endpoint retrieves a product by it's namee.
+This endpoint retrieves a product by it's name.
 
 ### HTTP Request
 
@@ -494,16 +440,45 @@ Parameter | Description
 --------- | -----------
 NAME | Name of the product to retrieve
 
+## Sold By
+
+```shell
+curl "https://group23.dcs.warwick.ac.uk/api/product/soldby/company_id=RFZG50/"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id":305, 
+    "product_id":305,
+    "company_id":"RFZG50",
+    "name":"Elven Boots"
+  },
+  {
+    "id":307,
+    "product_id":307,
+    "company_id":"RFZG50",
+    "name":"Mystic Keys"
+  }
+]
+```
+
+This endpoint retrieves a list of all products sold by the given company.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/product/soldby/company_id=<COMPANY_ID>/`
+
+Parameter | Description
+--------- | -----------
+COMPANY_ID | ID of the company 
+
+
 # Seller
 
 ## List of Sellers
-
-```python
-from query import API
-
-api = API()
-api.getSellerList()
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/seller/list/"
@@ -522,7 +497,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/seller/list/"
     "product": 606,
     "company": "DILF10"
   }
-}
+]
 ```
 
 This endpoint retrieves a list of all product seller pairs.
@@ -532,13 +507,6 @@ This endpoint retrieves a list of all product seller pairs.
 `GET https://group23.dcs.warwick.ac.uk/api/seller/list/`
 
 ## By Company
-
-```python
-from query import API
-
-api = API()
-api.getSeller(seller="QETH27")
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/seller/company=QETH27/"
@@ -572,13 +540,6 @@ COMPANY | Company ID
 
 ## By Product
 
-```python
-from query import API
-
-api = API()
-api.getSeller(product="2")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/seller/product=1/"
 ```
@@ -607,14 +568,6 @@ PRODUCT | Product ID
 # Stock
 
 ## All Stock Prices
-
-```python
-from query import API
-
-api = API()
-api.getStock()
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/stock/"
 ```
@@ -634,7 +587,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/stock/"
     "date": "2019-12-31", 
     "value": 289.62
   }
-}
+]
 ```
 
 This endpoint retrieves a list of all stock prices.
@@ -646,13 +599,6 @@ This endpoint retrieves a list of all stock prices.
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 
 ## By Company
-
-```python
-from query import API
-
-api = API()
-api.getStock(company="NCCX02")
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02/"
@@ -688,13 +634,6 @@ COMPANY | Company ID
 
 ## By Year (Company)
 
-```python
-from query import API
-
-api = API()
-api.getStock(company="NCCX02", year="2019")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019/"
 ```
@@ -729,13 +668,6 @@ COMPANY | Company ID
 YEAR | Year of data to be returned
 
 ## By Month (Company)
-
-```python
-from query import API
-
-api = API()
-api.getStock(company="NCCX02", year="2019", month="01")
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019&month=01/"
@@ -773,13 +705,6 @@ MONTH | Month of data to be returned
 
 ## By Day (Company)
 
-```python
-from query import API
-
-api = API()
-api.getStock(company="NCCX02", year="2019", month="01", day="01")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019&month=01&day=01/"
 ```
@@ -811,15 +736,133 @@ DAY | Day of data to be returned
 
 # Trade
 
-## All Trades
-
-```python
-from query import API
-
-api = API()
-api.getTrade()
+## Create Trade
+```shell
+curl -d 'selling_party=DJNE62&buying_party=RQGG65&product=58&quantity=100&maturity_date=2020-02-29&underlying_currency=USD&notional_currency=USD&strike_price=6.0&underlying_price=2.0' -X POST "https://group23.dcs.warwick.ac.uk/api/trade/create/"
 ```
 
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "trade_id": "OLKRFDAH55872205", 
+    "data": {
+        "selling_party": "DJNE62", 
+        "buying_party": "RQGG65", 
+        "product": "58",
+        "quantity": "100", 
+        "maturity_date": "2020-02-29", 
+        "underlying_currency": "USD",
+        "notional_currency": "USD", 
+        "strike_price": "6.0",
+        "underlying_price": "2.0"
+    }, 
+    "notional_amount": 100.0
+  }
+]
+```
+
+This endpoint allows for the creation of a new trade.
+
+Parameter | Description
+--------- | -----------
+SELLING_PARTY | Company ID of seller
+BUYING_PARTY | Company ID of buyer
+PRODUCT | Product ID
+QUANTITY | Quantity of trade
+MATURITY_DATE | Maturity date of trade
+UNDERLYING_CURRENCY | ID of underlying currency
+NOTIONAL_CURRENCY | ID of notional currency
+STRIKE_PRICE | Strike price of trade
+UNDERLYING_PRICE | Underlying price of trade
+
+
+### HTTP Request
+
+`POST https://group23.dcs.warwick.ac.uk/api/trade/create/`
+
+## Edit Trade
+```shell
+curl -d 'trade_id=OLKRFDAH55872205&product=57&underlying_price=3' -X POST "http://group23.dcs.warwick.ac.uk/api/trade/edit/"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "changes": {
+        "old_product": 58, 
+        "new_product": 57, 
+        "old_underlying_price": 2.0, 
+        "new_underlying_price": 3.0
+    }, 
+    "trade": [
+        {
+            "id": "OLKRFDAH55872205", 
+            "date": "2020-02-28T19:59:30.224397Z", 
+            "notional_amount": 100.0, 
+            "quantity": 100, 
+            "maturity_date": "2020-02-29", 
+            "underlying_price": 3.0, 
+            "strike_price": 6.0, 
+            "product": 57, 
+            "buying_party": "RQGG65", 
+            "selling_party": "DJNE62", 
+            "notional_currency": "USD", 
+            "underlying_currency": "USD"
+        }
+    ]
+  }
+]
+```
+
+This endpoint allows for a trade to be edited within a 3 day window where the maturity date hasn't been reached.
+
+The TRADE_ID and at least one other attribute must be provided.
+
+Parameter | Description
+--------- | -----------
+TRADE_ID | ID of the trade to edit
+SELLING_PARTY | Company ID of seller
+BUYING_PARTY | Company ID of buyer
+PRODUCT | Product ID
+QUANTITY | Quantity of trade
+MATURITY_DATE | Maturity date of trade
+UNDERLYING_CURRENCY | ID of underlying currency
+NOTIONAL_CURRENCY | ID of notional currency
+STRIKE_PRICE | Strike price of trade
+UNDERLYING_PRICE | Underlying price of trade
+
+
+### HTTP Request
+
+`POST https://group23.dcs.warwick.ac.uk/api/trade/edit/`
+
+## Deletion 
+```shell
+curl -d 'trade_id=OLKRFDAH55872205&product=57' -X POST "http://group23.dcs.warwick.ac.uk/api/trade/delete/"
+```
+```json
+[
+  {
+    "success": "Trade has been deleted."
+  }
+]
+```
+
+This endpoint allows for a trade to be deleted within a 3 day window where the maturity date hasn't been reached.
+
+Parameter | Description
+--------- | -----------
+TRADE_ID | ID of the trade to edit
+
+### HTTP Request
+
+`POST https://group23.dcs.warwick.ac.uk/api/trade/delete/`
+
+## All Trades
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/"
 ```
@@ -857,7 +900,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/"
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
-}
+]
 ```
 
 This endpoint retrieves a list of all trades.
@@ -869,14 +912,6 @@ This endpoint retrieves a list of all trades.
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 
 ## By ID 
-
-```python
-from query import API
-
-api = API()
-api.getTrade(id="PASYTZVI53631072")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/id=PASYTZVI53631072/"
 ```
@@ -899,7 +934,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/id=PASYTZVI53631072/"
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   }
-}
+]
 ```
 
 This endpoint retrieves a list of the trade with the given ID.
@@ -913,13 +948,6 @@ Parameter | Description
 ID | iD of the trade to be returned
 
 ## By Buyer
-
-```python
-from query import API
-
-api = API()
-api.getStock(buyer="FORM54")
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=FORM54/"
@@ -958,7 +986,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=FORM54/"
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
-}
+]
 ```
 
 This endpoint retrieves all trades for the given buyer .
@@ -972,14 +1000,6 @@ Parameter | Description
 BUYER | Buyer in the trade
 
 ## By Seller
-
-```python
-from query import API
-
-api = API()
-api.getStock(seller="WIZJ73")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=WIZJ73/"
 ```
@@ -1017,7 +1037,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=WIZJ73/"
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
-}
+]
 ```
 
 This endpoint retrieves all trades for the given seller .
@@ -1031,14 +1051,6 @@ Parameter | Description
 SELLER | Seller in the trade
 
 ## By Year 
-
-```python
-from query import API
-
-api = API()
-api.getTrade(year="2019")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019/"
 ```
@@ -1076,7 +1088,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019/"
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
-}
+]
 ```
 
 This endpoint retrieves a list of all trades in a given year.
@@ -1090,13 +1102,6 @@ Parameter | Description
 YEAR | Year of data to be returned
 
 ## By Month 
-
-```python
-from query import API
-
-api = API()
-api.getTrade(year="2019", month="01")
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01/"
@@ -1135,7 +1140,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01/"
     "notional_currency": "USD",
     "underlying_currency": "BZD"
   }
-}
+]
 ```
 
 This endpoint retrieves all trades for the given year and month.
@@ -1150,14 +1155,6 @@ YEAR | Year of data to be returned
 MONTH | Month of data to be returned
 
 ## By Day
-
-```python
-from query import API
-
-api = API()
-api.getStock(year="2019", month="01", day="01")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01&day=01/"
 ```
@@ -1195,7 +1192,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01&day=01/"
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
-}
+]
 ```
 
 This endpoint retrieves all trades for the given year, month and day.
@@ -1211,14 +1208,6 @@ MONTH | Month of data to be returned
 DAY | Day of data to be returned
 
 ## By Maturity Year 
-
-```python
-from query import API
-
-api = API()
-api.getTrade(maturity_year="2024")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024/"
 ```
@@ -1256,7 +1245,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024/"
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
-}
+]
 ```
 
 This endpoint retrieves a list of all trades with the given maturity year.
@@ -1270,13 +1259,6 @@ Parameter | Description
 MATURITY_YEAR | Maturity year of data to be returned
 
 ## By Maturity Month 
-
-```python
-from query import API
-
-api = API()
-api.getTrade(maturity_year="2024", maturity_month="01")
-```
 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_month=01/"
@@ -1315,7 +1297,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
-}
+]
 ```
 
 This endpoint retrieves a list of all trades with the given maturity month.
@@ -1330,14 +1312,6 @@ MATURITY_YEAR | Maturity year of data to be returned
 MATURITY_MONTH | Maturity month of data to be returned
 
 ## By Maturity Day
-
-```python
-from query import API
-
-api = API()
-api.getTrade(maturity_year="2024", maturity_month="01", maturity_day="01")
-```
-
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_month=01&maturity_day=01/"
 ```
@@ -1375,7 +1349,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
-}
+]
 ```
 
 This endpoint retrieves a list of all trades with the given maturity day.
@@ -1389,3 +1363,162 @@ Parameter | Description
 MATURITY_YEAR | Maturity year of data to be returned
 MATURITY_MONTH | Maturity month of data to be returned
 MATURITY_DAY | Maturity day of data to be returned
+
+# Report
+## Get Report
+```shell
+curl "https://group23.dcs.warwick.ac.uk/api/report/year=2018&month=01&day=01/"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": "BBILNMOD82695232",
+    "date": "2018-01-31T00:00:00Z",
+    "notional_amount": 75879.0,
+    "quantity": 900,
+    "maturity_date": "2022-11-13",
+    "underlying_price": 366.31,
+    "strike_price": 72.31,
+    "product": 1,
+    "buying_party": "RFZG50",
+    "selling_party": "DJNE62",
+    "notional_currency": "USD",
+    "underlying_currency": "LRD",
+    "edits": [
+        {
+            "id": 1,
+            "attribute_edited": "buying party",
+            "edit_date": "2018-02-01T00:00:00Z",
+            "old_value": "DJNE62",
+            "new_value": "RFZG50",
+        }
+    ],
+    "deleted": [
+        {
+            "id": 1,
+            "deleted_at": "2020-12-12T00:00:00Z",
+        }
+    ]
+  },
+  ...
+  {
+    "id": "TBHUTJXH45919615",
+    "date": "2019-12-31T06:51:00Z",
+    "notional_amount": 14310.0,
+    "quantity": 3000,
+    "maturity_date": "2024-01-01",
+    "underlying_price": 4.77,
+    "strike_price": 4.15,
+    "product": 1,
+    "buying_party": "PQSW95",
+    "selling_party": "OKYS51",
+    "notional_currency": "USD",
+    "underlying_currency": "USD"
+    "edits": [],
+    "deleted": []
+  }
+]
+```
+
+This endpoint retrieves a report for the given date.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/report/year=<YEAR>&month=<MONTH>&day=<DAY>/`
+
+Parameter | Description
+--------- | -----------
+YEAR | Year of report to be returned
+MONTH | Month of report to be returned
+DAY | Day of report to be returned
+
+## Available by Year
+ ```shell
+ curl "https://group23.dcs.warwick.ac.uk/api/report/available/"
+ ```
+
+ > The above command returns JSON structured like this:
+
+ ```json
+[
+  {
+    "year": "2020"
+  },
+  ...
+  {
+    "year": "2010"
+  }
+]
+```
+This endpoint retrieves the years that reports are available for.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/report/available/`
+
+## Available by Month
+ ```shell
+ curl "https://group23.dcs.warwick.ac.uk/api/report/available/year=2019/"
+ ```
+
+ > The above command returns JSON structured like this:
+
+ ```json
+[
+  {
+    "year": "2019",
+    "month": "12"
+  },
+  ...
+  {
+    "year": "2019",
+    "month": "1"
+  }
+]
+```
+This endpoint retrieves the months that reports are available for given a year.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/report/available/year=<YEAR>/`
+
+Parameter | Description
+--------- | -----------
+YEAR | Year of report
+
+## Available by Day
+ ```shell
+ curl "https://group23.dcs.warwick.ac.uk/api/report/available/year=2019&month=1/"
+ ```
+
+ > The above command returns JSON structured like this:
+
+ ```json
+[
+  {
+    "year": "2019",
+    "month": "1",
+    "day": "31"
+  },
+  ...
+  {
+    "year": "2019",
+    "month": "1",
+    "day": "1"
+  }
+]
+```
+This endpoint retrieves the days that reports are available for given a year and month.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/report/available/year=<YEAR>&month=<MONTH>/`
+
+Parameter | Description
+--------- | -----------
+YEAR | Year of report
+MONTH | Month of report
+

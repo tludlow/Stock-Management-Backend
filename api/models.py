@@ -101,7 +101,6 @@ class Trade(models.Model):
                                         related_name="underlying")
     strike_price = models.FloatField()
 
-
 #Models for the report data tables
 class DeletedTrade(models.Model):
 
@@ -109,36 +108,28 @@ class DeletedTrade(models.Model):
         db_table = "deleted_trade"
 
     id = models.AutoField(primary_key=True)
-    deleted_trade = models.CharField(max_length=16)
+    trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="deleted_trade")
     deleted_at = models.DateTimeField(auto_now=True)
 
-    date = models.DateTimeField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="deleted_product")
-    buying_party = models.ForeignKey(Company, on_delete=models.CASCADE, 
-                                        related_name="deleted_buyer")
-    selling_party = models.ForeignKey(Company, on_delete=models.CASCADE, 
-                                        related_name="deleted_seller")
-    notional_amount = models.FloatField()
-    notional_currency = models.ForeignKey(Currency, on_delete=models.CASCADE,
-                                        related_name="deleted_notional")
-    quantity = models.IntegerField()
-    maturity_date = models.DateField()
-    underlying_price = models.FloatField()
-    underlying_currency = models.ForeignKey(Currency, on_delete=models.CASCADE, 
-                                        related_name="deleted_underlying")
-    strike_price = models.FloatField()
-
-
-class EditedTradeField(models.Model):
-
-    class Meta():
-        db_table="edited_trade_field"
+class EditedTrade(models.Model):
     
+    class Meta():
+        db_table = "edited_trade"
+    EDITABlE_FIELDS = [
+        ('PR', 'product'),
+        ('BP', 'buying party'),
+        ('SP', 'selling party'),
+        ('NC', 'notional currency'),
+        ('QT', 'quantity'),
+        ('MD', 'maturity date'),
+        ('UP', 'underlying price'),
+        ('UC', 'underlying currency'),
+        ('ST', 'strike price')
+    ]
     id = models.AutoField(primary_key=True)
-    trade_id = models.CharField(max_length=16)
-    edited_date = models.DateTimeField(auto_now=True)
-    field = models.CharField(max_length=32)
+    trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="edited_trade")
+    edit_date = models.DateTimeField()
+    attribute_edited = models.CharField(max_length=2, choices=EDITABlE_FIELDS)
+    old_value = models.CharField(max_length=32)
+    new_value = models.CharField(max_length=32)
 
-    #These are chars because they can vary in type depending on what part of the trade they are, need to convert to str.
-    old_value = models.CharField(max_length=64)
-    new_value = models.CharField(max_length=64)
