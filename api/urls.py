@@ -38,11 +38,11 @@ urlpatterns = [
     path('trade/', views.TradeList.as_view()),
     path('trade/recent', views.TradeRecentList.as_view(), name="recent_trades"),
     path('trade/product=<str:product>&buyer=<str:buyer>/', views.RecentTradesByCompanyForProduct.as_view(), name="recent_product_for_company"),
-    path('report/')
-    path('trade/create', views.CreateDerivativeTrade.as_view(), name="create_trade"),
-    path('trade/delete', views.DeleteDerivativeTrade.as_view(), name="delete_trade"),
-
-
-    path('frontend', views.Frontend.as_view())
+    path('trade/create/', views.CreateDerivativeTrade.as_view(), name="create_trade"),
+    path('trade/delete/', views.DeleteDerivativeTrade.as_view(), name="delete_trade"),
+    path('report/year=<int:year>&month=<int:month>&day=<int:day>/', views.Report.as_view()),
+    path('report/available/', views.AvailableReportsYearList.as_view()),
+    path('report/available/year=<int:year>&month=<int:month>/', views.AvailableReportsDayList.as_view()),
+    path('report/available/year=<int:year>/', views.AvailableReportsMonthList.as_view()),
+    path('frontend/', views.Frontend.as_view())
 ]
-

@@ -108,26 +108,12 @@ class DeletedTrade(models.Model):
         db_table = "deleted_trade"
 
     id = models.AutoField(primary_key=True)
-    deleted_trade = models.CharField(max_length=16)
+    trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="deleted_trade")
     deleted_at = models.DateTimeField(auto_now=True)
 
-    date = models.DateTimeField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="deleted_product")
-    buying_party = models.ForeignKey(Company, on_delete=models.CASCADE, 
-                                        related_name="deleted_buyer")
-    selling_party = models.ForeignKey(Company, on_delete=models.CASCADE, 
-                                        related_name="deleted_seller")
-    notional_amount = models.FloatField()
-    notional_currency = models.ForeignKey(Currency, on_delete=models.CASCADE,
-                                        related_name="deleted_notional")
-    quantity = models.IntegerField()
-    maturity_date = models.DateField()
-    underlying_price = models.FloatField()
-    underlying_currency = models.ForeignKey(Currency, on_delete=models.CASCADE, 
-                                        related_name="deleted_underlying")
-    strike_price = models.FloatField()
-
 class EditedTrade(models.Model):
+    class Meta():
+        db_table = "edited_trade"
     EDITABlE_FIELDS = [
         ('DT', 'date'),
         ('PR', 'product'),
@@ -136,13 +122,13 @@ class EditedTrade(models.Model):
         ('NA', 'notional amount'),
         ('NC', 'notional currency'),
         ('QT', 'quantity'),
-        ('MD', 'maturity date')
+        ('MD', 'maturity date'),
         ('UP', 'underlying price'),
         ('UC', 'underlying currency'),
         ('SP', 'strike price')
     ]
     id = models.AutoField(primary_key=True)
-    trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE)
+    trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="edited_trade")
     edit_date = models.DateTimeField()
     attribute_edited = models.CharField(max_length=2, choices=EDITABlE_FIELDS)
     old_value = models.CharField(max_length=16)

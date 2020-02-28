@@ -6,15 +6,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import HttpResponse, JsonResponse
 from api.serializers import *
+from django.core import serializers
 from ..models import *
 from ..serializers import *
 import datetime
 from calendar import monthrange
-from datetime import datetime
 from django.core.paginator import Paginator
 import random, string
-from django.core.paginator import Paginator
-
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 class CompanyList(APIView):
     def get(self, request):
         data = Company.objects.all()

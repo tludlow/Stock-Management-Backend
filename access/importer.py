@@ -9,8 +9,6 @@ import re
 # Load environmental variables
 from dotenv import load_dotenv
 load_dotenv()
-
-
 class Importer:
     
     def __start(self, path, stmt):
@@ -64,7 +62,8 @@ class Importer:
             
     def __traverse(self, directory, func):
         base = '../data/'+directory
-        ignore = ['.DS_Store']
+        old_years = ['20'+str(format(x, '02d')) for x in range(18)]
+        ignore = ['.DS_Store'] + old_years
         lst = lambda path : [x for x in os.listdir(path) if x not in ignore]
         
         for year in lst(base):
@@ -176,8 +175,6 @@ class Importer:
         self.__connection.close()
         
     def __init__(self):
-        dotenv_path = join(dirname(__file__), '../backend/.env')
-        load_dotenv(dotenv_path)
         self.__connection = mariadb.connect(user=os.getenv('DB_USER'), 
                                             password=os.getenv('DB_PASS'),
                                             database=os.getenv('DB_NAME'), 
