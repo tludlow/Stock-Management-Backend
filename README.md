@@ -60,11 +60,6 @@ In the root of the repository, you should be able to run:
 &nbsp;&nbsp;&nbsp;&nbsp;
 `docker-compose up`
 
-Finally, open a new terminal window in the same directory. We're going to create
-the database tables:  
-&nbsp;&nbsp;&nbsp;&nbsp;
-`docker-compose run web python manage.py migrate`
-
 You can verify that the server is running via visiting: http://localhost:8000/.
 
 The server can be stopped using [ctrl][c].

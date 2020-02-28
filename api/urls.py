@@ -40,9 +40,13 @@ urlpatterns = [
     path('trade/product=<str:product>&buyer=<str:buyer>/', views.RecentTradesByCompanyForProduct.as_view(), name="recent_product_for_company"),
     path('trade/create/', views.CreateDerivativeTrade.as_view(), name="create_trade"),
     path('trade/delete/', views.DeleteDerivativeTrade.as_view(), name="delete_trade"),
+    path('trade/edit/', views.EditDerivativeTrade.as_view(), name="edit_trade"),
     path('report/year=<int:year>&month=<int:month>&day=<int:day>/', views.Report.as_view()),
     path('report/available/', views.AvailableReportsYearList.as_view()),
     path('report/available/year=<int:year>&month=<int:month>/', views.AvailableReportsDayList.as_view()),
     path('report/available/year=<int:year>/', views.AvailableReportsMonthList.as_view()),
+
+    path('conversion/latest/from=<str:from_currency>&to=<str:to_currency>/', views.CurrencyConversionLatest.as_view(), name="latest_currency_conversion"),
+    path('product/soldby/id=<str:company>/', views.ProductsForSellers.as_view(), name="products_for_company"),
     path('frontend/', views.Frontend.as_view())
 ]
