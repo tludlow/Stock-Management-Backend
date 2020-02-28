@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.functions import Now
+
 
 class Company(models.Model):
 
@@ -98,3 +100,36 @@ class Trade(models.Model):
     underlying_currency = models.ForeignKey(Currency, on_delete=models.CASCADE, 
                                         related_name="underlying")
     strike_price = models.FloatField()
+
+#Models for the report data tables
+class DeletedTrade(models.Model):
+
+    class Meta():
+        db_table = "deleted_trade"
+
+    id = models.AutoField(primary_key=True)
+    trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="deleted_trade")
+    deleted_at = models.DateTimeField(auto_now=True)
+
+class EditedTrade(models.Model):
+    
+    class Meta():
+        db_table = "edited_trade"
+    EDITABlE_FIELDS = [
+        ('PR', 'product'),
+        ('BP', 'buying party'),
+        ('SP', 'selling party'),
+        ('NC', 'notional currency'),
+        ('QT', 'quantity'),
+        ('MD', 'maturity date'),
+        ('UP', 'underlying price'),
+        ('UC', 'underlying currency'),
+        ('ST', 'strike price')
+    ]
+    id = models.AutoField(primary_key=True)
+    trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="edited_trade")
+    edit_date = models.DateTimeField()
+    attribute_edited = models.CharField(max_length=2, choices=EDITABlE_FIELDS)
+    old_value = models.CharField(max_length=32)
+    new_value = models.CharField(max_length=32)
+

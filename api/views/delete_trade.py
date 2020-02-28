@@ -13,7 +13,6 @@ from datetime import datetime, timedelta, timezone, date
 class DeleteDerivativeTrade(APIView):
     def post(self, request):
         trade_data = request.data
-
         requiredFields = ["trade_id"]
         for field in requiredFields:
             if field not in trade_data.keys():
@@ -27,8 +26,15 @@ class DeleteDerivativeTrade(APIView):
             return JsonResponse(status=400, data={"error": "No trade with id: " + trade_data["trade_id"] +
                 " has been found in the database"})
 
-        trade_serialized = list(found_trade.values())
+        # Ensure that the trade has not already been deleted
+        deleted_already = DeletedTrade.objects.filter(trade_id=trade_data["trade_id"])
+        if len(deleted_already) > 0:
+            return JsonResponse(status=400, data={"error": "Trade with id: " + trade_data["trade_id"] +
+                " has already been deleted."})
 
+        deleted_already = DeletedTrade.objects.filter(trade_id=trade_data["trade_id"])
+        trade_serialized = list(found_trade.values())
+        
         #Check if the trade was created within the last 3 days or hasnt matured.
         trade_created_at = trade_serialized[0]["date"]
         now = datetime.now(timezone.utc)
@@ -44,7 +50,13 @@ class DeleteDerivativeTrade(APIView):
         if datetime(trade_maturity.year, trade_maturity.month, trade_maturity.day, tzinfo=timezone.utc) < now :
             return JsonResponse(status=400, data={"error": "Trades can only be deleted before they mature"})
 
-        #Passed all of the checks, we can now delete the trade by its id provided.
-        Trade.objects.filter(id=trade_data["trade_id"]).delete()
+        trade = trade_serialized[0]
 
-        return JsonResponse(trade_serialized, safe=False)
+        #Create a new entry into the deleted trades table before we delete from trades
+        new_deleted_trade = DeletedTrade(
+            trade_id=found_trade[0],
+            deleted_at=now,
+        )
+        new_deleted_trade.save()
+
+        return JsonResponse(status=200, data={"success": "Trade has been deleted."})
