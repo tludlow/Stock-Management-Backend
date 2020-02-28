@@ -245,6 +245,9 @@
                   <li>
                     <a href="#by-day" class="toc-h2 toc-link" data-title="By Day">By Day</a>
                   </li>
+                  <li>
+                    <a href="#latest-conversion" class="toc-h2 toc-link" data-title="Latest Conversion">Latest Conversion</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -272,6 +275,9 @@
                   </li>
                   <li>
                     <a href="#by-name-2" class="toc-h2 toc-link" data-title="By Name">By Name</a>
+                  </li>
+                  <li>
+                    <a href="#sold-by" class="toc-h2 toc-link" data-title="Sold By">Sold By</a>
                   </li>
               </ul>
           </li>
@@ -312,6 +318,15 @@
           <li>
             <a href="#trade" class="toc-h1 toc-link" data-title="Trade">Trade</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-trade" class="toc-h2 toc-link" data-title="Create Trade">Create Trade</a>
+                  </li>
+                  <li>
+                    <a href="#edit-trade" class="toc-h2 toc-link" data-title="Edit Trade">Edit Trade</a>
+                  </li>
+                  <li>
+                    <a href="#deletion" class="toc-h2 toc-link" data-title="Deletion">Deletion</a>
+                  </li>
                   <li>
                     <a href="#all-trades" class="toc-h2 toc-link" data-title="All Trades">All Trades</a>
                   </li>
@@ -576,6 +591,39 @@
 <td>Day of data to be returned</td>
 </tr>
 </tbody></table>
+<h2 id='latest-conversion'>Latest Conversion</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/currency/conversion/latest/from=GBP&amp;to=USD/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"date:"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"conversion"</span><span class="p">:</span><span class="w"> </span><span class="mf">11.36</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves the latest conversion from one currency to another.</p>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>GET https://group23.dcs.warwick.ac.uk/api/currency/conversion/latest/from=&lt;FROM_CURRENCY&gt;&amp;to=&lt;TO_CURRENCY&gt;/</code></p>
+<h3 id='url-parameters-5'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>FROM_CURRENCY</td>
+<td>Currency ID of the currency to convert from</td>
+</tr>
+<tr>
+<td>TO_CURRENCY</td>
+<td>Currency ID of the currency to convert to</td>
+</tr>
+</tbody></table>
 <h1 id='company'>Company</h1><h2 id='list-of-companies'>List Of Companies</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/company/list/"</span>
 </code></pre>
 <blockquote>
@@ -594,7 +642,7 @@
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all companies.</p>
-<h3 id='http-request-7'>HTTP Request</h3>
+<h3 id='http-request-8'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/company/list/</code></p>
 <h2 id='by-id'>By ID</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/company/id=AGBH66/"</span>
 </code></pre>
@@ -609,9 +657,9 @@
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the company with the given id.</p>
-<h3 id='http-request-8'>HTTP Request</h3>
+<h3 id='http-request-9'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/company/id=&lt;ID&gt;/</code></p>
-<h3 id='url-parameters-5'>URL Parameters</h3>
+<h3 id='url-parameters-6'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -636,9 +684,9 @@
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the company with the given name.</p>
-<h3 id='http-request-9'>HTTP Request</h3>
+<h3 id='http-request-10'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/company/name=&lt;NAME&gt;/</code></p>
-<h3 id='url-parameters-6'>URL Parameters</h3>
+<h3 id='url-parameters-7'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -675,7 +723,7 @@ You'll need to replace a space (" ") with it's encoded equivilant ("%20").
 This endpoint is paginated to aid in speeding up the requests. The default page size is 25.
 You may specify the page you would like to request with the URL:
 <code>GET api/product/list?page_number=x</code></p>
-<h3 id='http-request-10'>HTTP Request</h3>
+<h3 id='http-request-11'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/product/list/</code></p>
 <h2 id='by-id-2'>By ID</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/product/id=1/"</span>
 </code></pre>
@@ -690,7 +738,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a product by it&#39;s ID.</p>
-<h3 id='http-request-11'>HTTP Request</h3>
+<h3 id='http-request-12'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/product/id=&lt;ID&gt;/</code></p>
 
 <table><thead>
@@ -716,8 +764,8 @@ You may specify the page you would like to request with the URL:
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a product by it&#39;s namee.</p>
-<h3 id='http-request-12'>HTTP Request</h3>
+<p>This endpoint retrieves a product by it&#39;s name.</p>
+<h3 id='http-request-13'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/product/name=&lt;NAME&gt;/</code></p>
 
 <table><thead>
@@ -729,6 +777,41 @@ You may specify the page you would like to request with the URL:
 <tr>
 <td>NAME</td>
 <td>Name of the product to retrieve</td>
+</tr>
+</tbody></table>
+<h2 id='sold-by'>Sold By</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/product/soldby/company_id=RFZG50/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="mi">305</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="mi">305</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"company_id"</span><span class="p">:</span><span class="s2">"RFZG50"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"Elven Boots"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="mi">307</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="mi">307</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"company_id"</span><span class="p">:</span><span class="s2">"RFZG50"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"Mystic Keys"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves a list of all products sold by the given company.</p>
+<h3 id='http-request-14'>HTTP Request</h3>
+<p><code>GET https://group23.dcs.warwick.ac.uk/api/product/soldby/company_id=&lt;COMPANY_ID&gt;/</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>COMPANY_ID</td>
+<td>ID of the company</td>
 </tr>
 </tbody></table>
 <h1 id='seller'>Seller</h1><h2 id='list-of-sellers'>List of Sellers</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/seller/list/"</span>
@@ -749,7 +832,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all product seller pairs.</p>
-<h3 id='http-request-13'>HTTP Request</h3>
+<h3 id='http-request-15'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/seller/list/</code></p>
 <h2 id='by-company'>By Company</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/seller/company=QETH27/"</span>
 </code></pre>
@@ -769,7 +852,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all products the company sells.</p>
-<h3 id='http-request-14'>HTTP Request</h3>
+<h3 id='http-request-16'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/seller/company=&lt;COMPANY&gt;/</code></p>
 
 <table><thead>
@@ -796,7 +879,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all companies which the product is sold by.</p>
-<h3 id='http-request-15'>HTTP Request</h3>
+<h3 id='http-request-17'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/seller/product=&lt;PRODUCT&gt;/</code></p>
 
 <table><thead>
@@ -830,7 +913,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all stock prices.</p>
-<h3 id='http-request-16'>HTTP Request</h3>
+<h3 id='http-request-18'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/stock/</code></p>
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
@@ -854,7 +937,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all stock prices for the given company.</p>
-<h3 id='http-request-17'>HTTP Request</h3>
+<h3 id='http-request-19'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/stock/company=&lt;COMPANY&gt;/</code></p>
 
 <table><thead>
@@ -888,7 +971,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all stock prices for the given company and year.</p>
-<h3 id='http-request-18'>HTTP Request</h3>
+<h3 id='http-request-20'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/stock/company=&lt;COMPANY&gt;&amp;year=&lt;YEAR&gt;/</code></p>
 
 <table><thead>
@@ -926,7 +1009,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all stock prices for the given company, year and month.</p>
-<h3 id='http-request-19'>HTTP Request</h3>
+<h3 id='http-request-21'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/stock/company=&lt;COMPANY&gt;&amp;year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;/</code></p>
 
 <table><thead>
@@ -962,7 +1045,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all stock prices for the given company, year, month and day.</p>
-<h3 id='http-request-20'>HTTP Request</h3>
+<h3 id='http-request-22'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/stock/company=&lt;COMPANY&gt;&amp;year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;&amp;day=&lt;DAY&gt;/</code></p>
 
 <table><thead>
@@ -988,7 +1071,184 @@ You may specify the page you would like to request with the URL:
 <td>Day of data to be returned</td>
 </tr>
 </tbody></table>
-<h1 id='trade'>Trade</h1><h2 id='all-trades'>All Trades</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/"</span>
+<h1 id='trade'>Trade</h1><h2 id='create-trade'>Create Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'selling_party=DJNE62&amp;buying_party=RQGG65&amp;product=58&amp;quantity=100&amp;maturity_date=2020-02-29&amp;underlying_currency=USD&amp;notional_currency=USD&amp;strike_price=6.0&amp;underlying_price=2.0'</span> -X POST <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/create/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"trade_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OLKRFDAH55872205"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DJNE62"</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RQGG65"</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"58"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100"</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-02-29"</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6.0"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="w">
+    </span><span class="p">},</span><span class="w"> 
+    </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>This endpoint allows for the creation of a new trade.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>SELLING_PARTY</td>
+<td>Company ID of seller</td>
+</tr>
+<tr>
+<td>BUYING_PARTY</td>
+<td>Company ID of buyer</td>
+</tr>
+<tr>
+<td>PRODUCT</td>
+<td>Product ID</td>
+</tr>
+<tr>
+<td>QUANTITY</td>
+<td>Quantity of trade</td>
+</tr>
+<tr>
+<td>MATURITY_DATE</td>
+<td>Maturity date of trade</td>
+</tr>
+<tr>
+<td>UNDERLYING_CURRENCY</td>
+<td>ID of underlying currency</td>
+</tr>
+<tr>
+<td>NOTIONAL_CURRENCY</td>
+<td>ID of notional currency</td>
+</tr>
+<tr>
+<td>STRIKE_PRICE</td>
+<td>Strike price of trade</td>
+</tr>
+<tr>
+<td>UNDERLYING_PRICE</td>
+<td>Underlying price of trade</td>
+</tr>
+</tbody></table>
+<h3 id='http-request-23'>HTTP Request</h3>
+<p><code>POST https://group23.dcs.warwick.ac.uk/api/trade/create/</code></p>
+<h2 id='edit-trade'>Edit Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'trade_id=OLKRFDAH55872205&amp;product=57&amp;underlying_price=3'</span> -X POST <span class="s2">"http://group23.dcs.warwick.ac.uk/api/trade/edit/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"changes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"old_product"</span><span class="p">:</span><span class="w"> </span><span class="mi">58</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"new_product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"old_underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"new_underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="w">
+    </span><span class="p">},</span><span class="w"> 
+    </span><span class="s2">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OLKRFDAH55872205"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-02-28T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-02-29"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RQGG65"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DJNE62"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>This endpoint allows for a trade to be edited within a 3 day window where the maturity date hasn&#39;t been reached.</p>
+
+<p>The TRADE_ID and at least one other attribute must be provided.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TRADE_ID</td>
+<td>ID of the trade to edit</td>
+</tr>
+<tr>
+<td>SELLING_PARTY</td>
+<td>Company ID of seller</td>
+</tr>
+<tr>
+<td>BUYING_PARTY</td>
+<td>Company ID of buyer</td>
+</tr>
+<tr>
+<td>PRODUCT</td>
+<td>Product ID</td>
+</tr>
+<tr>
+<td>QUANTITY</td>
+<td>Quantity of trade</td>
+</tr>
+<tr>
+<td>MATURITY_DATE</td>
+<td>Maturity date of trade</td>
+</tr>
+<tr>
+<td>UNDERLYING_CURRENCY</td>
+<td>ID of underlying currency</td>
+</tr>
+<tr>
+<td>NOTIONAL_CURRENCY</td>
+<td>ID of notional currency</td>
+</tr>
+<tr>
+<td>STRIKE_PRICE</td>
+<td>Strike price of trade</td>
+</tr>
+<tr>
+<td>UNDERLYING_PRICE</td>
+<td>Underlying price of trade</td>
+</tr>
+</tbody></table>
+<h3 id='http-request-24'>HTTP Request</h3>
+<p><code>POST https://group23.dcs.warwick.ac.uk/api/trade/edit/</code></p>
+<h2 id='deletion'>Deletion</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'trade_id=OLKRFDAH55872205&amp;product=57'</span> -X POST <span class="s2">"http://group23.dcs.warwick.ac.uk/api/trade/delete/"</span>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Trade has been deleted."</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>This endpoint allows for a trade to be deleted within a 3 day window where the maturity date hasn&#39;t been reached.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TRADE_ID</td>
+<td>ID of the trade to edit</td>
+</tr>
+</tbody></table>
+<h3 id='http-request-25'>HTTP Request</h3>
+<p><code>POST https://group23.dcs.warwick.ac.uk/api/trade/delete/</code></p>
+<h2 id='all-trades'>All Trades</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1026,7 +1286,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all trades.</p>
-<h3 id='http-request-21'>HTTP Request</h3>
+<h3 id='http-request-26'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/</code></p>
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
@@ -1053,7 +1313,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of the trade with the given ID.</p>
-<h3 id='http-request-22'>HTTP Request</h3>
+<h3 id='http-request-27'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/id=&lt;ID&gt;/</code></p>
 
 <table><thead>
@@ -1105,7 +1365,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all trades for the given buyer .</p>
-<h3 id='http-request-23'>HTTP Request</h3>
+<h3 id='http-request-28'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/buyer=&lt;BUYER&gt;/</code></p>
 
 <table><thead>
@@ -1157,7 +1417,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all trades for the given seller .</p>
-<h3 id='http-request-24'>HTTP Request</h3>
+<h3 id='http-request-29'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/seller=&lt;SELLER&gt;/</code></p>
 
 <table><thead>
@@ -1209,7 +1469,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all trades in a given year.</p>
-<h3 id='http-request-25'>HTTP Request</h3>
+<h3 id='http-request-30'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/year=&lt;YEAR&gt;/</code></p>
 
 <table><thead>
@@ -1261,7 +1521,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all trades for the given year and month.</p>
-<h3 id='http-request-26'>HTTP Request</h3>
+<h3 id='http-request-31'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;/</code></p>
 
 <table><thead>
@@ -1317,7 +1577,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all trades for the given year, month and day.</p>
-<h3 id='http-request-27'>HTTP Request</h3>
+<h3 id='http-request-32'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;&amp;day=&lt;DAY&gt;/</code></p>
 
 <table><thead>
@@ -1377,7 +1637,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all trades with the given maturity year.</p>
-<h3 id='http-request-28'>HTTP Request</h3>
+<h3 id='http-request-33'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=&lt;MATURITY_YEAR&gt;/</code></p>
 
 <table><thead>
@@ -1429,7 +1689,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all trades with the given maturity month.</p>
-<h3 id='http-request-29'>HTTP Request</h3>
+<h3 id='http-request-34'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=&lt;MATURITY_YEAR&gt;&amp;maturity_month=&lt;MATURITY_MONTH&gt;/</code></p>
 
 <table><thead>
@@ -1485,7 +1745,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all trades with the given maturity day.</p>
-<h3 id='http-request-30'>HTTP Request</h3>
+<h3 id='http-request-35'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=&lt;MATURITY_YEAR&gt;&amp;maturity_month=&lt;MATURITY_MONTH&gt;&amp;maturity_day=&lt;MATURITY_DAY&gt;/</code></p>
 
 <table><thead>
@@ -1562,7 +1822,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a report for the given date.</p>
-<h3 id='http-request-31'>HTTP Request</h3>
+<h3 id='http-request-36'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;&amp;day=&lt;DAY&gt;/</code></p>
 
 <table><thead>
@@ -1600,7 +1860,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the years that reports are available for.</p>
-<h3 id='http-request-32'>HTTP Request</h3>
+<h3 id='http-request-37'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/</code></p>
 <h2 id='available-by-month'>Available by Month</h2><pre class="highlight shell tab-shell"><code> curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/available/year=2019/"</span>
 </code></pre>
@@ -1620,7 +1880,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the months that reports are available for given a year.</p>
-<h3 id='http-request-33'>HTTP Request</h3>
+<h3 id='http-request-38'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/year=&lt;YEAR&gt;/</code></p>
 
 <table><thead>
@@ -1654,7 +1914,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the days that reports are available for given a year and month.</p>
-<h3 id='http-request-34'>HTTP Request</h3>
+<h3 id='http-request-39'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;/</code></p>
 
 <table><thead>

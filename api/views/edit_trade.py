@@ -14,25 +14,29 @@ from datetime import datetime
 from django.core.paginator import Paginator
 import random, string
 from random import randint
+import dateutil.parser
 from datetime import datetime, timedelta, timezone, date
 
 class EditDerivativeTrade(APIView):
     
+    # Given dictionaries containing the updated and original attributes 
+    # respectively, as well as a trade object, updates the trade, creates new  
+    # EditedTrade tuples for each edited attribute and returns the differences
     def update(self, updated, original, obj):
-        tags = {'date' : 'DT', 'product' : 'PR', 'buying_party' : 'BP',
-                'selling_party' : 'SP', 'notional_amount' : 'NA', 
+        # Tags for the DB
+        tags = {'product' : 'PR', 'buying_party' : 'BP',
+                'selling_party' : 'SP', 
                 'notional_currency' : 'NC', 'quantity' : 'QT',
                 'maturity_date' : 'MD', 'underlying_price' : 'UP',
                 'underlying_currency' : 'UC', 'strike_price' : 'ST'
         }
 
+        # Update the trade
         trade = Trade.objects.filter(id=original["id"])
         trade.update(     
-            date=updated["date"], 
             product=updated["product"], 
             buying_party=updated["buying_party"], 
             selling_party=updated["selling_party"], 
-            notional_amount=updated["notional_amount"], 
             notional_currency=updated["notional_currency"], 
             quantity=updated["quantity"], 
             maturity_date=updated["maturity_date"], 
@@ -40,12 +44,13 @@ class EditDerivativeTrade(APIView):
             underlying_currency=updated["underlying_currency"], 
             strike_price=updated["strike_price"])
         
+        # Serialize the updated trade
         new = TradeSerializer(trade[0], many=False).data
 
+        # Check difference between original & updated trade
         return_info = {}
         for item in updated.keys():
             if new[item] != original[item]:
-                update_made = True
                 new_edit = EditedTrade(
                     trade_id=obj,
                     edit_date=datetime.now(),
@@ -61,8 +66,8 @@ class EditDerivativeTrade(APIView):
     def post(self, request):
         trade_data = request.data
         edits = []
-        allowed_fields = ["trade_id", "date", "product", "buying_party", 
-                    "selling_party", "notional_amount", "notional_currency", 
+        allowed_fields = ["trade_id", "product", "buying_party", 
+                    "selling_party", "notional_currency", 
                     "quantity",  "maturity_date", "underlying_price", 
                     "underlying_currency", "strike_price"]
         #Makes sure we have all the data we should in the request
@@ -101,13 +106,12 @@ class EditDerivativeTrade(APIView):
             return JsonResponse(status=400, data={"error": "Trades can only be edited before they mature"})
 
         #Check that the trade was created within the last 3 days
-        trade_created_at = datetime.strptime(trade_obj_s.data["date"], '%Y-%m-%dT%H:%M:%SZ').date()
+        trade_created_at = dateutil.parser.isoparse(trade_obj_s.data["date"])
         date_delta = now - datetime(trade_created_at.year, trade_created_at.month, trade_created_at.day)
         if date_delta.days > 3:
             return JsonResponse(status=400, data={"error": "Trades can only be edited within 3 days of creation"})
 
         #Compare the provided trade details with those known in the database to see if they have been edited
-
         updated = {}
         for i in allowed_fields[1:]:
             updated[i] = trade_data.get(i, trade_obj_s.data[i])

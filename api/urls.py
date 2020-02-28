@@ -10,6 +10,7 @@ urlpatterns = [
     path('product/list/', views.ProductList.as_view()),
     path('product/id=<int:id>/', views.ProductByIDList.as_view()),
     path('product/name=<str:name>/', views.ProductByNameList.as_view()),
+    path('product/soldby/company_id=<str:company>/', views.ProductsForSellers.as_view(), name="products_for_company"),
     path('seller/company=<str:company>/', views.SellerListByCompany.as_view()),
     path('seller/product=<str:product>/', views.SellerListByProduct.as_view()),
     path('currency/', views.CurrencyPriceList.as_view()),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('currency/currency=<str:currency>&year=<int:year>&month=<int:month>/', views.CurrencyMonthList.as_view()),
     path('currency/currency=<str:currency>&year=<int:year>&month=<int:month>&day=<int:day>/', views.CurrencyDayList.as_view()),
     path('currency/currency=<str:currency>/', views.CurrencyList.as_view()),
+    path('currency/conversion/latest/from=<str:from_currency>&to=<str:to_currency>/', views.CurrencyConversionLatest.as_view(), name="latest_currency_conversion"),
     path('seller/list/', views.SellerList.as_view()),
     path('stock/company=<str:company>&year=<int:year>/', views.StockYearList.as_view()),
     path('stock/company=<str:company>&year=<int:year>&month=<int:month>/', views.StockMonthList.as_view()),
@@ -45,8 +47,4 @@ urlpatterns = [
     path('report/available/', views.AvailableReportsYearList.as_view()),
     path('report/available/year=<int:year>&month=<int:month>/', views.AvailableReportsDayList.as_view()),
     path('report/available/year=<int:year>/', views.AvailableReportsMonthList.as_view()),
-
-    path('conversion/latest/from=<str:from_currency>&to=<str:to_currency>/', views.CurrencyConversionLatest.as_view(), name="latest_currency_conversion"),
-    path('product/soldby/id=<str:company>/', views.ProductsForSellers.as_view(), name="products_for_company"),
-    path('frontend/', views.Frontend.as_view())
 ]

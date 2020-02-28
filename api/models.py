@@ -116,17 +116,15 @@ class EditedTrade(models.Model):
     class Meta():
         db_table = "edited_trade"
     EDITABlE_FIELDS = [
-        ('DT', 'date'),
         ('PR', 'product'),
         ('BP', 'buying party'),
         ('SP', 'selling party'),
-        ('NA', 'notional amount'),
         ('NC', 'notional currency'),
         ('QT', 'quantity'),
         ('MD', 'maturity date'),
         ('UP', 'underlying price'),
         ('UC', 'underlying currency'),
-        ('SP', 'strike price')
+        ('ST', 'strike price')
     ]
     id = models.AutoField(primary_key=True)
     trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="edited_trade")
