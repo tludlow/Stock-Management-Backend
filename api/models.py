@@ -106,7 +106,7 @@ class Trade(models.Model):
 class DeletedTrade(models.Model):
 
     class Meta():
-        db_table = "deleted_trades"
+        db_table = "deleted_trade"
 
     id = models.AutoField(primary_key=True)
     deleted_trade = models.CharField(max_length=16)
@@ -127,3 +127,18 @@ class DeletedTrade(models.Model):
     underlying_currency = models.ForeignKey(Currency, on_delete=models.CASCADE, 
                                         related_name="deleted_underlying")
     strike_price = models.FloatField()
+
+
+class EditedTradeField(models.Model):
+
+    class Meta():
+        db_table="edited_trade_field"
+    
+    id = models.AutoField(primary_key=True)
+    trade_id = models.CharField(max_length=16)
+    edited_date = models.DateTimeField(auto_now=True)
+    field = models.CharField(max_length=32)
+
+    #These are chars because they can vary in type depending on what part of the trade they are, need to convert to str.
+    old_value = models.CharField(max_length=64)
+    new_value = models.CharField(max_length=64)
