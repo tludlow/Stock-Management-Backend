@@ -22,20 +22,20 @@ class EditDerivativeTrade(APIView):
         trade_data = request.data
 
         #Makes sure we have all the data we should in the request
-        required_fields = ["trade_id", "maturity_date", "quantity", "strike_price", "underlying_price"]
+        required_fields = ["id", "maturity_date", "quantity", "strike_price", "underlying_price"]
         for field in required_fields:
             if field not in trade_data.keys():
                 return JsonResponse(status=400, data={"error": "Missing the field '" + field + "' in the form."})
 
 
         #Get the trade being edited's database values
-        trade_obj = Trade.objects.filter(id=trade_data["trade_id"])[0]
+        trade_obj = Trade.objects.filter(id=trade_data["id"])[0]
         trade_obj_s = TradeSerializer(trade_obj, many=False)
 
         #Check if data actually got returned
         if not trade_obj:
             return JsonResponse(status=400, data={"error": "Cannot edit the trade with id: " + 
-                trade_data["trade_id"] + ". Cannot find the trade information."})
+                trade_data["id"] + ". Cannot find the trade information."})
         
         #Check that the trade is not matured
         now = datetime.now()
@@ -71,9 +71,9 @@ class EditDerivativeTrade(APIView):
         returnInfo = dict()
         for field in edited_fields:
             if field[0] == "strike_price":
-                Trade.objects.filter(id=trade_data["trade_id"]).update(strike_price=field[1])
+                Trade.objects.filter(id=trade_data["id"]).update(strike_price=field[1])
                 edited_strike = EditedTradeField(
-                    trade_id=trade_data["trade_id"],
+                    trade_id=trade_data["id"],
                     field="strike_price",
                     old_value=str(field[2]),
                     new_value=str(field[1])
@@ -82,9 +82,9 @@ class EditDerivativeTrade(APIView):
                 returnInfo["old_strike_price"] = field[2]
                 returnInfo["new_strike_price"] = field[1]
             elif field[0] == "maturity_date":
-                Trade.objects.filter(id=trade_data["trade_id"]).update(maturity_date=field[1])
+                Trade.objects.filter(id=trade_data["id"]).update(maturity_date=field[1])
                 edited_strike = EditedTradeField(
-                    trade_id=trade_data["trade_id"],
+                    trade_id=trade_data["id"],
                     field="maturity_date",
                     old_value=str(field[2]),
                     new_value=str(field[1])
@@ -93,9 +93,9 @@ class EditDerivativeTrade(APIView):
                 returnInfo["old_maturity_date"] = field[2]
                 returnInfo["new_maturity_date"] = field[1]
             elif field[0] == "underlying_price":
-                Trade.objects.filter(id=trade_data["trade_id"]).update(underlying_price=field[1])
+                Trade.objects.filter(id=trade_data["id"]).update(underlying_price=field[1])
                 edited_strike = EditedTradeField(
-                    trade_id=trade_data["trade_id"],
+                    trade_id=trade_data["id"],
                     field="underlying_price",
                     old_value=str(field[2]),
                     new_value=str(field[1])
@@ -104,9 +104,9 @@ class EditDerivativeTrade(APIView):
                 returnInfo["old_underlying_price"] = field[2]
                 returnInfo["new_underlying_price"] = field[1]
             elif field[0] == "quantity":
-                Trade.objects.filter(id=trade_data["trade_id"]).update(quantity=field[1])
+                Trade.objects.filter(id=trade_data["id"]).update(quantity=field[1])
                 edited_strike = EditedTradeField(
-                    trade_id=trade_data["trade_id"],
+                    trade_id=trade_data["id"],
                     field="quantity",
                     old_value=str(field[2]),
                     new_value=str(field[1])
@@ -119,4 +119,6 @@ class EditDerivativeTrade(APIView):
         if len(edited_fields) == 0:
             return JsonResponse(status=200, data={"changes": "No fields were modified"})
         else:
-            return JsonResponse(status=200, data={"changes": returnInfo})
+            return_trade = Trade.objects.filter(id=trade_data["id"])
+            return_s = TradeSerializer(return_trade, many=True)
+            return JsonResponse(status=200, data={"changes": returnInfo, "trade": return_s.data})
