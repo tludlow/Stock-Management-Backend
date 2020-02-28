@@ -13,7 +13,6 @@ from datetime import datetime, timedelta, timezone, date
 class DeleteDerivativeTrade(APIView):
     def post(self, request):
         trade_data = request.data
-        print(request.data)
         requiredFields = ["trade_id"]
         for field in requiredFields:
             if field not in trade_data.keys():
