@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, timezone, date
 class DeleteDerivativeTrade(APIView):
     def post(self, request):
         trade_data = request.data
-
+        print(request.data)
         requiredFields = ["trade_id"]
         for field in requiredFields:
             if field not in trade_data.keys():
@@ -27,8 +27,15 @@ class DeleteDerivativeTrade(APIView):
             return JsonResponse(status=400, data={"error": "No trade with id: " + trade_data["trade_id"] +
                 " has been found in the database"})
 
-        trade_serialized = list(found_trade.values())
+        # Ensure that the trade has not already been deleted
+        deleted_already = DeletedTrade.objects.filter(trade_id=trade_data["trade_id"])
+        if len(deleted_already) > 0:
+            return JsonResponse(status=400, data={"error": "Trade with id: " + trade_data["trade_id"] +
+                " has already been deleted."})
 
+        deleted_already = DeletedTrade.objects.filter(trade_id=trade_data["trade_id"])
+        trade_serialized = list(found_trade.values())
+        
         #Check if the trade was created within the last 3 days or hasnt matured.
         trade_created_at = trade_serialized[0]["date"]
         now = datetime.now(timezone.utc)
@@ -44,27 +51,13 @@ class DeleteDerivativeTrade(APIView):
         if datetime(trade_maturity.year, trade_maturity.month, trade_maturity.day, tzinfo=timezone.utc) < now :
             return JsonResponse(status=400, data={"error": "Trades can only be deleted before they mature"})
 
-        deleted_saving = trade_serialized[0]
+        trade = trade_serialized[0]
 
         #Create a new entry into the deleted trades table before we delete from trades
         new_deleted_trade = DeletedTrade(
-            deleted_trade=deleted_saving["id"],
-            date=deleted_saving["date"],
-            product_id=deleted_saving["product_id"],
-            buying_party_id=deleted_saving["buying_party_id"],
-            selling_party_id=deleted_saving["selling_party_id"],
-            notional_amount=deleted_saving["notional_amount"],
-            notional_currency_id=deleted_saving["notional_currency_id"],
-            quantity=deleted_saving["quantity"],
-            maturity_date=deleted_saving["maturity_date"],
-            underlying_price=deleted_saving["underlying_price"],
-            underlying_currency_id=deleted_saving["underlying_currency_id"],
-            strike_price=deleted_saving["strike_price"]
-
+            trade_id=found_trade[0],
+            deleted_at=now,
         )
         new_deleted_trade.save()
 
-        #Passed all of the checks, we can now delete the trade by its id provided.
-        Trade.objects.filter(id=trade_data["trade_id"]).delete()
-
-        return JsonResponse(trade_serialized, safe=False)
+        return JsonResponse(status=200, data={"success": "Trade has been deleted."})

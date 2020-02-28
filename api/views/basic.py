@@ -158,19 +158,25 @@ class StockDayList(APIView):
 
 class TradeList(APIView):
     def get(self, request):
-        data = Trade.objects.all()
+        trades = Trade.objects.all()
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 class TradeIDList(APIView):
 
     def get(self, request, id):
-        data = Trade.objects.filter(id=id).order_by('date')
+        trades = Trade.objects.filter(id=id).order_by('date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeYearList(APIView):
     def get(self, request, year):
-        data = Trade.objects.filter(date__year=year).order_by('date')
+        trades = Trade.objects.filter(date__year=year).order_by('date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 class TradeMonthList(APIView):
@@ -178,7 +184,9 @@ class TradeMonthList(APIView):
         lower = datetime.date(year, month, 1)
         days = monthrange(year, month)
         upper = lower + datetime.timedelta(days=days[1]-1)
-        data = Trade.objects.filter(date__range=[lower, upper]).order_by('date')
+        trades = Trade.objects.filter(date__range=[lower, upper]).order_by('date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
@@ -186,14 +194,17 @@ class TradeDayList(APIView):
     def get(self, request, year, month, day):
         lower = datetime.datetime(year, month, day, 0, 0, 0, 0)
         upper = datetime.datetime(year, month, day, 23, 59, 59, 9999)
-        data = Trade.objects.filter(date__range=[lower, upper]).order_by('date')
+        trades = Trade.objects.filter(date__range=[lower, upper]).order_by('date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeMaturityYearList(APIView):
-
     def get(self, request, year):
-        data = Trade.objects.filter(maturity_date__year=year).order_by('date')
+        trades = Trade.objects.filter(maturity_date__year=year).order_by('date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 class TradeMaturityMonthList(APIView):
@@ -201,7 +212,9 @@ class TradeMaturityMonthList(APIView):
         lower = datetime.date(year, month, 1)
         days = monthrange(year, month)
         upper = lower + datetime.timedelta(days=days[1]-1)
-        data = Trade.objects.filter(maturity_date__range=[lower, upper]).order_by('date')
+        trades = Trade.objects.filter(maturity_date__range=[lower, upper]).order_by('date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
@@ -209,24 +222,32 @@ class TradeMaturityDayList(APIView):
     def get(self, request, year, month, day):
         lower = datetime.datetime(year, month, day, 0, 0, 0, 0)
         upper = datetime.datetime(year, month, day, 23, 59, 59, 9999)
-        data = Trade.objects.filter(maturity_date__range=[lower, upper]).order_by('date')
+        trades = Trade.objects.filter(maturity_date__range=[lower, upper]).order_by('date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeBuyerList(APIView):
     def get(self, request, buyer):
-        data = Trade.objects.filter(buying_party=buyer).order_by('date')
+        trades = Trade.objects.filter(buying_party=buyer).order_by('date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeSellerList(APIView):
     def get(self, request, seller):
-        data = Trade.objects.filter(selling_party=seller).order_by('date')
+        trades = Trade.objects.filter(selling_party=seller).order_by('date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeBuyerSellerList(APIView):
     def get(self, request, buyer, seller):
-        data = Trade.objects.filter(buying_party=buyer, selling_party=seller).order_by('date')
+        trades = Trade.objects.filter(buying_party=buyer, selling_party=seller).order_by('date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)
         s = TradeSerializer(data, many=True)
         return Response(s.data)

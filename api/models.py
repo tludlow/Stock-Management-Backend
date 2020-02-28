@@ -101,7 +101,6 @@ class Trade(models.Model):
                                         related_name="underlying")
     strike_price = models.FloatField()
 
-
 #Models for the report data tables
 class DeletedTrade(models.Model):
 
@@ -113,6 +112,7 @@ class DeletedTrade(models.Model):
     deleted_at = models.DateTimeField(auto_now=True)
 
 class EditedTrade(models.Model):
+    
     class Meta():
         db_table = "edited_trade"
     EDITABlE_FIELDS = [
@@ -132,5 +132,6 @@ class EditedTrade(models.Model):
     trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="edited_trade")
     edit_date = models.DateTimeField()
     attribute_edited = models.CharField(max_length=2, choices=EDITABlE_FIELDS)
-    old_value = models.CharField(max_length=16)
-    new_value = models.CharField(max_length=16)
+    old_value = models.CharField(max_length=32)
+    new_value = models.CharField(max_length=32)
+
