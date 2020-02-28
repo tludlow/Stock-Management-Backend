@@ -100,8 +100,7 @@ class EditDerivativeTrade(APIView):
         #Check that the trade is not matured
         now = datetime.now()
         trade_maturity = datetime.strptime(trade_obj_s.data["maturity_date"], '%Y-%m-%d').date()
-        print("trade mat: ", datetime(trade_maturity.year, trade_maturity.month, trade_maturity.day))
-        print("now: ", now)
+
         if datetime(trade_maturity.year, trade_maturity.month, trade_maturity.day) < now:
             return JsonResponse(status=400, data={"error": "Trades can only be edited before they mature"})
 

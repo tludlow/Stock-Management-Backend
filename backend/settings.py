@@ -9,10 +9,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 # Load environmental variables
 from dotenv import load_dotenv
-load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -153,11 +154,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'frontend', "build", "static"),  # update the STATICFILES_DIRS
-)
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'frontend/build/static/')
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'frontend/build/static/'),  # update the STATICFILES_DIRS
+#)
 
 DOCS_URL = '/docs/'
 DOCS_ROOT = os.path.join(PROJECT_ROOT, 'docs/api/build/')

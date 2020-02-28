@@ -7,8 +7,9 @@ import mysql.connector.errors
 import re
 
 # Load environmental variables
-from dotenv import load_dotenv
-load_dotenv()
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
 class Importer:
     
     def __start(self, path, stmt):
