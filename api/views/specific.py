@@ -145,40 +145,59 @@ class CurrencyChanges(APIView):
     def get(self, request):
         currency_rows = dict()
         percentage_change = dict()
-        max_date = None
-        min_date = None
+        day_one = None
+        day_two = None
+        day_three = None
+        day_four = None
+        day_five = None
+        day_six = None
+        day_seven = None
 
         for row in Trade.objects.raw("""
-        SELECT id, currency_id, value, (SELECT MAX(DATE) FROM currency_price) AS max_date, (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 7 DAY)) AS min_date
+        SELECT id, currency_id, value, 
+        (SELECT MAX(DATE) FROM currency_price) AS day_seven, 
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 2 DAY)) AS day_six,
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 3 DAY)) AS day_five,
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 4 DAY)) AS day_four,
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 5 DAY)) AS day_three,
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 6 DAY)) AS day_two,
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 7 DAY)) AS day_one
         FROM currency_price 
         WHERE DATE BETWEEN DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 7 DAY) AND (SELECT MAX(DATE) FROM currency_price) 
         ORDER BY currency_id, DATE DESC;
         """):
-            max_date = row.max_date
-            min_date = row.min_date
+            day_one = row.day_one
+            day_two = row.day_two
+            day_three = row.day_three
+            day_four = row.day_four
+            day_five = row.day_five
+            day_six = row.day_six
+            day_seven = row.day_seven
             if row.currency_id not in currency_rows.keys():
                 currency_rows[row.currency_id] = list()
                 percentage_change[row.currency_id] = 0
 
             currency_rows[row.currency_id].append(row.value)
 
-        
+        #Calculate the change in value of the currencies compared to the start of the week and now.
         for currency in currency_rows:
             start_value = currency_rows[currency][0]
             end_value = currency_rows[currency][-1]
-            change = round(end_value / start_value, 5)
+            change = round(end_value / start_value, 3)
             # print(str(currency) + ": " + str(currency_rows[currency]))
             # print("Start: " + str(start_value) + "   |   End: " + str(end_value))
             # print("Change: " + str(change), end="\n\n")
             percentage_change[currency] = change
 
+        #Sort the currencies by their change, this allows us to get the largest appreciation and depreciation
         percentage_sorted = list({k: v for k, v in sorted(percentage_change.items(), key=lambda item: -item[1])})
-        largest_appreciations = percentage_sorted[:5]
-        largest_depreciations = percentage_sorted[-5:]
+        largest_appreciations = percentage_sorted[:3]
+        largest_depreciations = percentage_sorted[-3:]
     
         appreciation_dict = list()
         depreciation_dict = list()
 
+        #Format the data so its suitable to be returned as json.
         for index, currency in enumerate(largest_appreciations):
             appreciation_dict.append(dict())
             appreciation_dict[index]["currency"] = currency
@@ -192,5 +211,13 @@ class CurrencyChanges(APIView):
 
         print(largest_appreciations)
 
-        return JsonResponse(status=200, data={"max_date": max_date, "min_date": min_date,
-            "largest_appreciations": appreciation_dict, "largest_depreciations": depreciation_dict})
+        return JsonResponse(status=200, data={
+            "day_one": day_one,
+            "day_two": day_two,
+            "day_three": day_three,
+            "day_four": day_four,
+            "day_five": day_five,
+            "day_six": day_six,
+            "day_seven": day_seven,
+            "largest_appreciations": appreciation_dict,
+            "largest_depreciations": depreciation_dict})
