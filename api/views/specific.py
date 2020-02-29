@@ -203,10 +203,10 @@ class CurrencyChanges(APIView):
             appreciation_dict[index]["currency"] = currency
             appreciation_dict[index]["change"] = str(percentage_change[currency]) + "%"
             appreciation_dict[index]["values"] = currency_rows[currency]
-        for index, currency in enumerate(largest_depreciations):
+        for index, currency in enumerate(reversed(largest_depreciations)):
             depreciation_dict.append(dict())
             depreciation_dict[index]["currency"] = currency
-            depreciation_dict[index]["change"] = str(percentage_change[currency]) + "%"
+            depreciation_dict[index]["change"] = str(round(1 - percentage_change[currency], 3)) + "%"
             depreciation_dict[index]["values"] = currency_rows[currency]
 
         print(largest_appreciations)
