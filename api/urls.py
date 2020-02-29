@@ -20,6 +20,8 @@ urlpatterns = [
     path('currency/currency=<str:currency>&year=<int:year>&month=<int:month>&day=<int:day>/', views.CurrencyDayList.as_view()),
     path('currency/currency=<str:currency>/', views.CurrencyList.as_view()),
     path('currency/conversion/latest/from=<str:from_currency>&to=<str:to_currency>/', views.CurrencyConversionLatest.as_view(), name="latest_currency_conversion"),
+    path('currency/report/currency=<str:currency>/', views.CurrencyValuesPastMonth.as_view()),
+    path('currency/report/changes', views.CurrencyChanges.as_view()),
     path('seller/list/', views.SellerList.as_view()),
     path('stock/company=<str:company>&year=<int:year>/', views.StockYearList.as_view()),
     path('stock/company=<str:company>&year=<int:year>&month=<int:month>/', views.StockMonthList.as_view()),

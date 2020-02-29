@@ -135,4 +135,62 @@ class ProductsForSellers(APIView):
 
         return Response(product_data)
 
+class CurrencyValuesPastMonth(APIView):
+    def get(self, request, currency):
+        data = CurrencyPrice.objects.filter(currency_id=currency).order_by("-date")[:30]
+        s = CurrencyPriceSerializer(data, many=True)
+        return Response(s.data)
 
+class CurrencyChanges(APIView):
+    def get(self, request):
+        currency_rows = dict()
+        percentage_change = dict()
+        max_date = None
+        min_date = None
+
+        for row in Trade.objects.raw("""
+        SELECT id, currency_id, value, (SELECT MAX(DATE) FROM currency_price) AS max_date, (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 7 DAY)) AS min_date
+        FROM currency_price 
+        WHERE DATE BETWEEN DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 7 DAY) AND (SELECT MAX(DATE) FROM currency_price) 
+        ORDER BY currency_id, DATE DESC;
+        """):
+            max_date = row.max_date
+            min_date = row.min_date
+            if row.currency_id not in currency_rows.keys():
+                currency_rows[row.currency_id] = list()
+                percentage_change[row.currency_id] = 0
+
+            currency_rows[row.currency_id].append(row.value)
+
+        
+        for currency in currency_rows:
+            start_value = currency_rows[currency][0]
+            end_value = currency_rows[currency][-1]
+            change = round(end_value / start_value, 5)
+            # print(str(currency) + ": " + str(currency_rows[currency]))
+            # print("Start: " + str(start_value) + "   |   End: " + str(end_value))
+            # print("Change: " + str(change), end="\n\n")
+            percentage_change[currency] = change
+
+        percentage_sorted = list({k: v for k, v in sorted(percentage_change.items(), key=lambda item: -item[1])})
+        largest_appreciations = percentage_sorted[:5]
+        largest_depreciations = percentage_sorted[-5:]
+    
+        appreciation_dict = list()
+        depreciation_dict = list()
+
+        for index, currency in enumerate(largest_appreciations):
+            appreciation_dict.append(dict())
+            appreciation_dict[index]["currency"] = currency
+            appreciation_dict[index]["change"] = str(percentage_change[currency]) + "%"
+            appreciation_dict[index]["values"] = currency_rows[currency]
+        for index, currency in enumerate(largest_depreciations):
+            depreciation_dict.append(dict())
+            depreciation_dict[index]["currency"] = currency
+            depreciation_dict[index]["change"] = str(percentage_change[currency]) + "%"
+            depreciation_dict[index]["values"] = currency_rows[currency]
+
+        print(largest_appreciations)
+
+        return JsonResponse(status=200, data={"max_date": max_date, "min_date": min_date,
+            "largest_appreciations": appreciation_dict, "largest_depreciations": depreciation_dict})
