@@ -110,11 +110,17 @@ DATABASES = {
     },
 }
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 #Cache details
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+<<<<<<< HEAD
         'LOCATION': os.path.join(BASE_DIR,'cache/backend_cache/'),
+=======
+        'LOCATION': os.path.join(PROJECT_ROOT,'../cache/backend_cache/'),
+>>>>>>> 2bf58ec730bc521763cace710a05139bea7ed8a5
         'TIMEOUT': 60,
         'OPTIONS': {
             'MAX_ENTRIES': 100,
@@ -152,9 +158,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+<<<<<<< HEAD
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'frontend/build/static/'), )
 
+=======
+STATIC_ROOT = os.path.join(BASE_DIR, 'frontend/build/static/')
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'frontend/build/static/'),  # update the STATICFILES_DIRS
+#)
+>>>>>>> 2bf58ec730bc521763cace710a05139bea7ed8a5
 
 DOCS_URL = '/docs/'
 DOCS_ROOT = os.path.join(BASE_DIR, 'docs/api/build/')
