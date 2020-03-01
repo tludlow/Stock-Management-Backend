@@ -56,12 +56,17 @@ class TradeRecentList(APIView):
         return Response(trade_data)
 
 class RecentTradesByCompanyForProduct(APIView):
-    def get(self, request, buyer, product):
+    def get(self, request, buyer, product, seller):
         #Get pagination data before the request so that it saves memory and is quicker to query.
         page_number = int(self.request.query_params.get("page_number", 1))
         page_size = int(self.request.query_params.get("page_size", 150))
 
-        data = Trade.objects.filter(buying_party=buyer, product_id=product).order_by('-date')[(page_number-1)*page_size : page_number*page_size]
+        #If the product is stocks we need more limitations on the data returned
+        data = None
+        if product == "1":
+            data = Trade.objects.filter(buying_party=buyer, selling_party=seller, product_id=product).order_by('-date')[(page_number-1)*page_size : page_number*page_size]
+        else:
+            data = Trade.objects.filter(buying_party=buyer, product_id=product).order_by('-date')[(page_number-1)*page_size : page_number*page_size]
         
         s = TradeSerializer(data, many=True)
         return Response(s.data)

@@ -12,3 +12,7 @@ sqlparse==0.2.4
 mysqlclient
 django-cors-headers
 python-dotenv
+numpy
+sklearn
+matplotlib
+pandas

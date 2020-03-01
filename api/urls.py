@@ -41,7 +41,7 @@ urlpatterns = [
     path('trade/maturity_year=<int:year>&maturity_month=<int:month>&maturity_day=<int:day>/', views.TradeMaturityDayList.as_view()),
     path('trade/', views.TradeList.as_view()),
     path('trade/recent/', views.TradeRecentList.as_view(), name="recent_trades"),
-    path('trade/product=<str:product>&buyer=<str:buyer>/', views.RecentTradesByCompanyForProduct.as_view(), name="recent_product_for_company"),
+    path('trade/product=<str:product>&buyer=<str:buyer>&seller=<str:seller>/', views.RecentTradesByCompanyForProduct.as_view(), name="recent_product_for_company"),
     path('trade/create/', views.CreateDerivativeTrade.as_view(), name="create_trade"),
     path('trade/delete/', views.DeleteDerivativeTrade.as_view(), name="delete_trade"),
     path('trade/edit/', views.EditDerivativeTrade.as_view(), name="edit_trade"),
