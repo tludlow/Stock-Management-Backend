@@ -141,6 +141,22 @@ class CurrencyValuesPastMonth(APIView):
         s = CurrencyPriceSerializer(data, many=True)
         return Response(s.data)
 
+class TotalActionsOnDay(APIView):
+    def get(self, request):
+        now = datetime.now()
+        lower = datetime(now.year, now.month, now.day, 0, 0, 0, 0)
+        upper = datetime(now.year, now.month, now.day, 23, 59, 59, 9999)
+
+        creation_count = Trade.objects.filter(date__range=[lower, upper]).count()
+        edit_count = EditedTrade.objects.filter(edit_date__range=[lower, upper]).distinct().count()
+        delete_count = DeletedTrade.objects.filter(deleted_at__range=[lower, upper]).count()
+
+        return JsonResponse(status=200, data={
+            "creation_count": creation_count,
+            "edit_count": edit_count,
+            "delete_count": delete_count
+        })
+
 class CurrencyChanges(APIView):
     def get(self, request):
         currency_rows = dict()
