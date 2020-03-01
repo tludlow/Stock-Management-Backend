@@ -17,11 +17,7 @@ services:
        DB_PASS: 'root'
        DB_HOST: 'db'
        DB_PORT: '3306'
-<<<<<<< HEAD
     command: sh docker_startup.sh
-=======
-    command: bash -c 'while !</dev/tcp/db/3306; do sleep 1; done; python manage.py makemigrations; python manage.py migrate; python manage.py runserver 0.0.0.0:8000'
->>>>>>> 2bf58ec730bc521763cace710a05139bea7ed8a5
     volumes:
       - .:/app/
     ports:
