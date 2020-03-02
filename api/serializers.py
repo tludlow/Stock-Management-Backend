@@ -94,13 +94,17 @@ class EditedTradesSerializer(serializers.Serializer):
         for i in self.edits:
             edit = i["attribute_edited"]
             edit_date = dateutil.parser.isoparse(i['edit_date']).replace(tzinfo=utc)
+            print(edit_date)
+            print(date)
             if edit_date > date:
                 if edit not in seen_revert:
                     seen_revert.append(edit)
                     trade[edit] = i["old_value"]
+                    print("old")
             if edit_date == date:
                 if edit not in seen_today:
                     seen_today.append(edit)
+                    print("new")
                     trade[edit] = i["new_value"]
         return trade
 
@@ -110,7 +114,7 @@ class EditedTradesSerializer(serializers.Serializer):
         n_year, n_month, n_day = d.year, d.month, d.day
         lower = datetime.datetime(year, month, day, 0, 0, 0, 0)
         upper = datetime.datetime(n_year, n_month, n_day, 23, 59, 59, 9999)
-        return EditedTradeSerializer(many=True, instance=parent.edited_trade.filter(edit_date__range=[lower, upper]).order_by('edit_date')).data
+        return EditedTradeSerializer(many=True, instance=parent.edited_trade.filter(edit_date__range=[lower, upper]).order_by('-edit_date')).data
 
     def get_num_of_edits(self, parent):
         year, month, day = self.context.get("date")
@@ -121,7 +125,7 @@ class EditedTradesSerializer(serializers.Serializer):
         
     def get_edits(self, parent):
         return self.edits 
-        
+
 class ReportSerializer(serializers.Serializer):
     created = serializers.DateTimeField()
     num_of_new_trades = serializers.IntegerField()

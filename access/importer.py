@@ -93,8 +93,8 @@ class Importer:
             VALUES 
                 ("{x}", "{y}");
             """)
-        self.__products, _, _ = self.__start_and_save('../data/product.csv', stmt, 
-                                                ['name'])
+        self.__products = self.__start_and_save('../data/product.csv', stmt, 
+                                                ['name'])[0]
     
     def seller(self):
         stmt = lambda x, y : (
@@ -114,8 +114,8 @@ class Importer:
             VALUES 
                 ("{x}", "{y}");
             """)
-        _, self.__companies, _ = self.__start_and_save('../data/companyCodes.csv', 
-                                                        stmt, ['name', 'id'])
+        self.__companies = self.__start_and_save('../data/companyCodes.csv', 
+                                                stmt, ['name', 'id'])[1]
     
     def currency(self):
         stmt = lambda x : (
@@ -149,14 +149,15 @@ class Importer:
                 maturity_date, underlying_price, underlying_currency_id, 
                 strike_price) 
             VALUES 
-                ("{y}", "{self.__date(x)}", "{self.__productID(z)}", "{self.__companyID(a)}", 
-                "{self.__companyID(b)}", "{c}", "{d}", "{e}", "{self.__date(f)}", "{g}", 
-                "{h}", "{i}");
+                ("{y}", "{self.__date(x)}", "{self.__productID(z)}", 
+                "{self.__companyID(a)}", "{self.__companyID(b)}", "{c}", "{d}", 
+                "{e}", "{self.__date(f)}", "{g}", "{h}", "{i}");
             """)
-        _, _, new_auto_id = self.__start_and_save(dir, stmt, ['date', 'id', 'product_id', 'buying_party_id', 'selling_party_id', 
-                'notional_amount', 'notional_currency_id', 'quantity', 
-                'maturity_date', 'underlying_price', 'underlying_currency_id', 
-                'strike_price'], auto_id=auto_id)
+        tags = ['date', 'id', 'product_id', 'buying_party_id', 
+                'selling_party_id', 'notional_amount', 'notional_currency_id', 
+                'quantity', 'maturity_date', 'underlying_price', 
+                'underlying_currency_id','strike_price']
+        new_auto_id = self.__start_and_save(dir, stmt, tags, auto_id=auto_id)[2]
         return new_auto_id
 
     def trade(self):
