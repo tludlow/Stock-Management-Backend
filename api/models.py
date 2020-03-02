@@ -8,7 +8,8 @@ class Company(models.Model):
         db_table = "company"
         
 
-    id = models.CharField(max_length=8, primary_key = True, unique=True)
+    id = models.AutoField(primary_key=True)
+    # models.CharField(max_length=8, primary_key = True, unique=True)
     name = models.CharField(max_length=80)
 
 class Product(models.Model):
@@ -84,7 +85,8 @@ class Trade(models.Model):
         db_table = "trade"
         
 
-    id = models.CharField(max_length=16, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    # models.CharField(max_length=16, primary_key=True)
     date = models.DateTimeField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="trade_product")
     buying_party = models.ForeignKey(Company, on_delete=models.CASCADE, 
@@ -115,17 +117,19 @@ class EditedTrade(models.Model):
     
     class Meta():
         db_table = "edited_trade"
+
     EDITABlE_FIELDS = [
         ('PR', 'product'),
-        ('BP', 'buying party'),
-        ('SP', 'selling party'),
-        ('NC', 'notional currency'),
+        ('BP', 'buying_party'),
+        ('SP', 'selling_party'),
+        ('NC', 'notional_currency'),
         ('QT', 'quantity'),
-        ('MD', 'maturity date'),
-        ('UP', 'underlying price'),
-        ('UC', 'underlying currency'),
-        ('ST', 'strike price')
+        ('MD', 'maturity_date'),
+        ('UP', 'underlying_price'),
+        ('UC', 'underlying_currency'),
+        ('ST', 'strike_price')
     ]
+
     id = models.AutoField(primary_key=True)
     trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="edited_trade")
     edit_date = models.DateTimeField()
