@@ -121,7 +121,8 @@ class EditedTradesSerializer(serializers.Serializer):
         
     def get_edits(self, parent):
         return self.edits 
-class TestSerializer(serializers.Serializer):
+        
+class ReportSerializer(serializers.Serializer):
     created = serializers.DateTimeField()
     num_of_new_trades = serializers.IntegerField()
     created_trades = serializers.SerializerMethodField()
@@ -139,54 +140,7 @@ class TestSerializer(serializers.Serializer):
 
     def get_deleted_trades(self, parent):
         return DeletedTradesSerializer(parent.deleted_trades, many=True).data
-    # def paginate (self, obj):
-    #     page_size = self.context['request'].query_params.get('size') or 10
-    #     paginator = Paginator(obj.wordinbook_set.all(), page_size)
-    #     page = self.context['request'].query_params.get('page') or 1
-    #     words_in_book = paginator.page(page)
-    #     serializer = WordInBookSerializer(words_in_book, many=True)
-    #     return serializer.data
 
-# def get_deleted(self, parent):
-#     return Delete
-# class ReportSerializer(serializers.Serializer):
-#     trades = serializers.SerializerMethodField()
-#     edits = serializers.SerializerMethodField()
-
-# def getTrades:
-
-
-
-# class ReportSerializer(serializers.ModelSerializer):
-
-#     edits = serializers.SerializerMethodField()
-#     # deleted = serializers.SerializerMethodField()
-#     class Meta:
-#         model = Trade
-#         fields = ('id', 'date', 'notional_amount', 'quantity', 
-#                   'maturity_date', 'underlying_price', 'strike_price', 
-#                   'product', 'buying_party', 'selling_party', 
-#                   'notional_currency', 'underlying_currency', 'edits', 
-#                   'deleted')
-
-#     def get_edits(self, parent):
-#         return EditedTradeSerializer(many=True, instance=parent.edited_trade.all()).data
-    
-#     def get_deleted(self, parent):
-#         return Delete
-
-# class ReportSerializer(serializers.ModelSerializer):
-
-#     edits = serializers.SerializerMethodField()
-#     deleted = serializers.SerializerMethodField()
-#     class Meta:
-#         fields = ('trade', 'edits', 'deleted')
-
-#     def get_edits(self, parent):
-#         return EditedTradeSerializer(many=True, instance=parent.edited_trade.all()).data
-    
-#     def get_deleted(self, parent):
-#         return DeletedTradeSerializer(many=True, instance=parent.deleted_trade.all()).data
 class AvailableReportsYearSerializer(serializers.Serializer):
     year = serializers.CharField(max_length=4)
 

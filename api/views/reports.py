@@ -94,8 +94,13 @@ class Report(APIView, PageNumberPagination):
 
             date = (year, month, day)
             combined = Combine(trades, edits, deletes, date)
-            s = TestSerializer(combined, many=False)
+            s = ReportSerializer(combined, many=False)
             
+            # page_size = self.request.query_params.get("page_size", 25)
+            # paginator = Paginator(tuple(s.data.items()), page_size)
+            # page_number = self.request.query_params.get("page_number", 1)
+            # data = paginator.page(page_number)
+
             if len(s.data) > 0:
                 return Response(s.data)
         

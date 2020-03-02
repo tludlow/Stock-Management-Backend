@@ -8,7 +8,8 @@ class Company(models.Model):
         db_table = "company"
         
 
-    id = models.CharField(max_length=8, primary_key = True, unique=True)
+    id = models.AutoField(primary_key=True)
+    # models.CharField(max_length=8, primary_key = True, unique=True)
     name = models.CharField(max_length=80)
 
 class Product(models.Model):
@@ -84,7 +85,8 @@ class Trade(models.Model):
         db_table = "trade"
         
 
-    id = models.CharField(max_length=16, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    # models.CharField(max_length=16, primary_key=True)
     date = models.DateTimeField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="trade_product")
     buying_party = models.ForeignKey(Company, on_delete=models.CASCADE, 
@@ -115,7 +117,7 @@ class EditedTrade(models.Model):
     
     class Meta():
         db_table = "edited_trade"
-        
+
     EDITABlE_FIELDS = [
         ('PR', 'product'),
         ('BP', 'buying_party'),
