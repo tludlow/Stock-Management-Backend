@@ -133,7 +133,7 @@ class EditedTrade(models.Model):
     old_value = models.CharField(max_length=32)
     new_value = models.CharField(max_length=32)
 
-class ErroneousTradeAttribute(model.Model):
+class ErroneousTradeAttribute(models.Model):
     class Meta():
         db_table = "erroneous_trade_attribute"
 
@@ -151,7 +151,7 @@ class ErroneousTradeAttribute(model.Model):
     upper_range = models.CharField(max_length=20)
     mean = models.CharField(max_length=20)
 
-class FieldCorrection(model.Model):
+class FieldCorrection(models.Model):
     class Meta():
         db_table = "attribute_correction"
 
@@ -161,9 +161,9 @@ class FieldCorrection(model.Model):
         ('ST', 'strike price')
     ]
 
-    CORRECTION_TYPES = [
+    CHANGE_TYPES = [
         ('USER', 'user'),
-        ('SYSTEM', 'system')
+        ('SYTM', 'system'),
     ]
 
     id = models.AutoField(primary_key=True)
@@ -171,5 +171,5 @@ class FieldCorrection(model.Model):
     erroneous_attribute = models.CharField(max_length=2, choices=EDITABlE_FIELDS)
     old_value = models.CharField(max_length=32)
     new_value = models.CharField(max_length=32)
-    change_type = models.CharField(max_length=5, choices=["user", "system"])
+    change_type = models.CharField(max_length=5, choices=CHANGE_TYPES)
     date = models.DateTimeField()

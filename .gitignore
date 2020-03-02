@@ -9,3 +9,5 @@
 /cache/*
 .env
 /.env
+
+/backend/learning/*.pickle
