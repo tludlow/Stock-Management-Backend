@@ -29,13 +29,12 @@ class Importer:
                     continue
         self.__connection.commit()
         
-    def __start_and_save(self, path, stmt, ids):
+    def __start_and_save(self, path, stmt, ids, auto_id=1):
         data = []
         conversion = []
         with open(path) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             next(csv_reader)
-            auto_id = 1
             for row in csv_reader:
                 new_stmt = stmt
                 new_stmt = partial(new_stmt, auto_id)
@@ -56,7 +55,7 @@ class Importer:
                     print("Error occured...Skipping")
                     continue
         self.__connection.commit()
-        return data, conversion
+        return data, conversion, auto_id
         
     def __find(self, json, field, target, val):
         return [obj for obj in json if obj[field]==val][0][target]
@@ -79,12 +78,12 @@ class Importer:
         old_years = ['20'+str(format(x, '02d')) for x in range(18)]
         ignore = ['.DS_Store'] + old_years
         lst = lambda path : [x for x in os.listdir(path) if x not in ignore]
-        
+        counter = 1
         for year in lst(base):
             for month in lst(base+year):
                 for day in lst(base+year+'/'+month):
                     print(base+year+'/'+month+'/'+day)
-                    counter = func(base+year+'/'+month+'/'+day)
+                    counter = func(base+year+'/'+month+'/'+day, counter)
 
     def product(self):
         stmt = lambda x, y : (
@@ -94,7 +93,7 @@ class Importer:
             VALUES 
                 ("{x}", "{y}");
             """)
-        self.__products, _ = self.__start_and_save('../data/product.csv', stmt, 
+        self.__products, _, _ = self.__start_and_save('../data/product.csv', stmt, 
                                                 ['name'])
     
     def seller(self):
@@ -115,7 +114,7 @@ class Importer:
             VALUES 
                 ("{x}", "{y}");
             """)
-        _, self.__companies = self.__start_and_save('../data/companyCodes.csv', 
+        _, self.__companies, _ = self.__start_and_save('../data/companyCodes.csv', 
                                                         stmt, ['name', 'id'])
     
     def currency(self):
@@ -128,7 +127,7 @@ class Importer:
             """)
         self.__start('../data/currencies.csv', stmt)
 
-    def __currency(self, dir):
+    def __currency(self, dir, counter):
         stmt = lambda x, y, z : (
             f"""
             INSERT INTO group23db.currency_price 
@@ -141,7 +140,7 @@ class Importer:
     def currency_value(self):
         self.__traverse('currencyValues/', self.__currency)
     
-    def __trade(self, dir):
+    def __trade(self, dir, auto_id):
         stmt = lambda y, x, z, a, b, c, d, e, f, g, h, i : (
             f"""
             INSERT INTO group23db.trade 
@@ -154,15 +153,16 @@ class Importer:
                 "{self.__companyID(b)}", "{c}", "{d}", "{e}", "{self.__date(f)}", "{g}", 
                 "{h}", "{i}");
             """)
-        self.__start_and_save(dir, stmt, ['date', 'id', 'product_id', 'buying_party_id', 'selling_party_id', 
+        _, _, new_auto_id = self.__start_and_save(dir, stmt, ['date', 'id', 'product_id', 'buying_party_id', 'selling_party_id', 
                 'notional_amount', 'notional_currency_id', 'quantity', 
                 'maturity_date', 'underlying_price', 'underlying_currency_id', 
-                'strike_price'])
-        
+                'strike_price'], auto_id=auto_id)
+        return new_auto_id
+
     def trade(self):
         self.__traverse('derivativeTrades/', self.__trade)
 
-    def __stock_price(self, dir):
+    def __stock_price(self, dir, counter):
         stmt = lambda x, y, z : (
             f"""
             INSERT INTO group23db.stock_price 
@@ -175,7 +175,7 @@ class Importer:
     def stock_price(self):
         self.__traverse('stockPrices/', self.__stock_price)
     
-    def __product_price(self, dir):
+    def __product_price(self, dir, counter):
         stmt = lambda x, y, z : (
             f"""
             INSERT INTO group23db.product_price 
