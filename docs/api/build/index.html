@@ -209,7 +209,7 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo-1e815a84.png" class="logo" alt="Logo" />
+      <img src="images/logo-87725293.png" class="logo" alt="Logo" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
         </div>
@@ -220,9 +220,6 @@
       <ul id="toc" class="toc-list-h1">
           <li>
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
-          </li>
-          <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
             <a href="#currency" class="toc-h1 toc-link" data-title="Currency">Currency</a>
@@ -325,7 +322,7 @@
                     <a href="#edit-trade" class="toc-h2 toc-link" data-title="Edit Trade">Edit Trade</a>
                   </li>
                   <li>
-                    <a href="#deletion" class="toc-h2 toc-link" data-title="Deletion">Deletion</a>
+                    <a href="#delete-trade" class="toc-h2 toc-link" data-title="Delete Trade">Delete Trade</a>
                   </li>
                   <li>
                     <a href="#all-trades" class="toc-h2 toc-link" data-title="All Trades">All Trades</a>
@@ -388,11 +385,7 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Primitive API documentation for group project.</p>
-
-<aside class="warning">Check usage & required credits of using slate before final submission.</aside>
-<h1 id='authentication'>Authentication</h1>
-<p>No authentication is currently required.</p>
+<p>Group 23&#39;s API documentation for their <a href="https://www.warwick.ac.uk/cs261">CS261</a> group project.</p>
 <h1 id='currency'>Currency</h1><h2 id='list-of-currencies'>List Of Currencies</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/currency/list/"</span>
 </code></pre>
 <blockquote>
@@ -631,28 +624,28 @@
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AGBH66"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cyberbiotics"</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blue Sun Corporation"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="p">,</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZXVX98"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Noah Family"</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">202</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passione"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all companies.</p>
 <h3 id='http-request-8'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/company/list/</code></p>
-<h2 id='by-id'>By ID</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/company/id=AGBH66/"</span>
+<h2 id='by-id'>By ID</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/company/id=1/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AGBH66"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cyberbiotics"</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blue Sun Corporation"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -671,15 +664,15 @@
 <td>ID of the company to retrieve</td>
 </tr>
 </tbody></table>
-<h2 id='by-name'>By Name</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/company/name=Cyberbiotics/"</span>
+<h2 id='by-name'>By Name</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/company/name=Blue%20Sun%20Corporation/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AGBH66"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cyberbiotics"</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blue Sun Corporation"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -779,7 +772,7 @@ You may specify the page you would like to request with the URL:
 <td>Name of the product to retrieve</td>
 </tr>
 </tbody></table>
-<h2 id='sold-by'>Sold By</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/product/soldby/company_id=RFZG50/"</span>
+<h2 id='sold-by'>Sold By</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/product/soldby/company_id=102/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -788,13 +781,13 @@ You may specify the page you would like to request with the URL:
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="mi">305</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"product_id"</span><span class="p">:</span><span class="mi">305</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"company_id"</span><span class="p">:</span><span class="s2">"RFZG50"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"company_id"</span><span class="p">:</span><span class="mi">102</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"Elven Boots"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="mi">307</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product_id"</span><span class="p">:</span><span class="mi">307</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"company_id"</span><span class="p">:</span><span class="s2">"RFZG50"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"company_id"</span><span class="p">:</span><span class="mi">102</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"Mystic Keys"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
@@ -822,19 +815,19 @@ You may specify the page you would like to request with the URL:
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QETH27"</span><span class="w">
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">606</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DILF10"</span><span class="w">
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">202</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all product seller pairs.</p>
 <h3 id='http-request-15'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/seller/list/</code></p>
-<h2 id='by-company'>By Company</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/seller/company=QETH27/"</span>
+<h2 id='by-company'>By Company</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/seller/company=1/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -842,12 +835,12 @@ You may specify the page you would like to request with the URL:
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QETH27"</span><span class="w">
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QETH27"</span><span class="w">
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -874,7 +867,7 @@ You may specify the page you would like to request with the URL:
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QETH27"</span><span class="w">
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -893,20 +886,20 @@ You may specify the page you would like to request with the URL:
 <td>Product ID</td>
 </tr>
 </tbody></table>
-<h1 id='stock'>Stock</h1><h2 id='all-stock-prices'>All Stock Prices</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/stock/"</span>
+<h1 id='stock'>Stock</h1><h2 id='all-stock-prices'>All Stock Prices</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/stock/list/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QETH27"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.48</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DILF10"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">202</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">289.62</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -914,23 +907,23 @@ You may specify the page you would like to request with the URL:
 </span></code></pre>
 <p>This endpoint retrieves a list of all stock prices.</p>
 <h3 id='http-request-18'>HTTP Request</h3>
-<p><code>GET https://group23.dcs.warwick.ac.uk/api/stock/</code></p>
+<p><code>GET https://group23.dcs.warwick.ac.uk/api/stock/list/</code></p>
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
-<h2 id='by-company-2'>By Company</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02/"</span>
+<h2 id='by-company-2'>By Company</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/stock/company=133/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NCCX02"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">797.0</span><span class="w">
   </span><span class="p">}</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NCCX02"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">1221.27</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -951,20 +944,20 @@ You may specify the page you would like to request with the URL:
 <td>Company ID</td>
 </tr>
 </tbody></table>
-<h2 id='by-year-company'>By Year (Company)</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&amp;year=2019/"</span>
+<h2 id='by-year-company'>By Year (Company)</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/stock/company=133&amp;year=2019/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NCCX02"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">797.0</span><span class="w">
   </span><span class="p">}</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NCCX02"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">1221.27</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -989,20 +982,20 @@ You may specify the page you would like to request with the URL:
 <td>Year of data to be returned</td>
 </tr>
 </tbody></table>
-<h2 id='by-month-company'>By Month (Company)</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&amp;year=2019&amp;month=01/"</span>
+<h2 id='by-month-company'>By Month (Company)</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/stock/company=133&amp;year=2019&amp;month=01/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NCCX02"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">797.0</span><span class="w">
   </span><span class="p">}</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NCCX02"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-31"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">869.27</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1031,14 +1024,14 @@ You may specify the page you would like to request with the URL:
 <td>Month of data to be returned</td>
 </tr>
 </tbody></table>
-<h2 id='by-day-company'>By Day (Company)</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&amp;year=2019&amp;month=01&amp;day=01/"</span>
+<h2 id='by-day-company'>By Day (Company)</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/stock/company=133&amp;year=2019&amp;month=01&amp;day=01/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NCCX02"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">797.0</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1071,20 +1064,20 @@ You may specify the page you would like to request with the URL:
 <td>Day of data to be returned</td>
 </tr>
 </tbody></table>
-<h1 id='trade'>Trade</h1><h2 id='create-trade'>Create Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'selling_party=DJNE62&amp;buying_party=RQGG65&amp;product=58&amp;quantity=100&amp;maturity_date=2020-02-29&amp;underlying_currency=USD&amp;notional_currency=USD&amp;strike_price=6.0&amp;underlying_price=2.0'</span> -X POST <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/create/"</span>
+<h1 id='trade'>Trade</h1><h2 id='create-trade'>Create Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'selling_party=26&amp;buying_party=160&amp;product=58&amp;quantity=100&amp;maturity_date=2020-04-03&amp;underlying_currency=USD&amp;notional_currency=USD&amp;strike_price=6.0&amp;underlying_price=2.0'</span> -X POST <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/create/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"trade_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OLKRFDAH55872205"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"trade_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360717</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DJNE62"</span><span class="p">,</span><span class="w"> 
-        </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RQGG65"</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
         </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"58"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100"</span><span class="p">,</span><span class="w"> 
-        </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-02-29"</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
         </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
         </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6.0"</span><span class="p">,</span><span class="w">
@@ -1141,7 +1134,7 @@ You may specify the page you would like to request with the URL:
 </tbody></table>
 <h3 id='http-request-23'>HTTP Request</h3>
 <p><code>POST https://group23.dcs.warwick.ac.uk/api/trade/create/</code></p>
-<h2 id='edit-trade'>Edit Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'trade_id=OLKRFDAH55872205&amp;product=57&amp;underlying_price=3'</span> -X POST <span class="s2">"http://group23.dcs.warwick.ac.uk/api/trade/edit/"</span>
+<h2 id='edit-trade'>Edit Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'trade_id=2360717&amp;product=57&amp;underlying_price=3'</span> -X POST <span class="s2">"http://group23.dcs.warwick.ac.uk/api/trade/edit/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1156,16 +1149,16 @@ You may specify the page you would like to request with the URL:
     </span><span class="p">},</span><span class="w"> 
     </span><span class="s2">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OLKRFDAH55872205"</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-02-28T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2360717"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-02-29"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RQGG65"</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DJNE62"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
         </span><span class="p">}</span><span class="w">
@@ -1226,7 +1219,7 @@ You may specify the page you would like to request with the URL:
 </tbody></table>
 <h3 id='http-request-24'>HTTP Request</h3>
 <p><code>POST https://group23.dcs.warwick.ac.uk/api/trade/edit/</code></p>
-<h2 id='deletion'>Deletion</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'trade_id=OLKRFDAH55872205&amp;product=57'</span> -X POST <span class="s2">"http://group23.dcs.warwick.ac.uk/api/trade/delete/"</span>
+<h2 id='delete-trade'>Delete Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'trade_id=2360717'</span> -X POST <span class="s2">"http://group23.dcs.warwick.ac.uk/api/trade/delete/"</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Trade has been deleted."</span><span class="w">
@@ -1255,7 +1248,7 @@ You may specify the page you would like to request with the URL:
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PASYTZVI53631072"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T00:00:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">369300.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
@@ -1263,14 +1256,14 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FORM54"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ISWT83"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZTLGMVSN76336825"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360716</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:59:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">4396800.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">80000</span><span class="p">,</span><span class="w">
@@ -1278,8 +1271,8 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">54.96</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.24</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SWGF93"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ESPL27"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">178</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1290,14 +1283,14 @@ You may specify the page you would like to request with the URL:
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/</code></p>
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
-<h2 id='by-id-3'>By ID</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/id=PASYTZVI53631072/"</span>
+<h2 id='by-id-3'>By ID</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/id=1/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PASYTZVI53631072"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T00:00:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">369300.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
@@ -1305,8 +1298,8 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FORM54"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ISWT83"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1327,14 +1320,14 @@ You may specify the page you would like to request with the URL:
 <td>iD of the trade to be returned</td>
 </tr>
 </tbody></table>
-<h2 id='by-buyer'>By Buyer</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/buyer=FORM54/"</span>
+<h2 id='by-buyer'>By Buyer</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/buyer=22/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PASYTZVI53631072"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T00:00:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">369300.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
@@ -1342,14 +1335,14 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FORM54"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ISWT83"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UDXTYEZM95287495"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360627</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:58:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">8995.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
@@ -1357,8 +1350,8 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.99</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FORM54"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WIZJ73"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1379,14 +1372,14 @@ You may specify the page you would like to request with the URL:
 <td>Buyer in the trade</td>
 </tr>
 </tbody></table>
-<h2 id='by-seller'>By Seller</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/seller=WIZJ73/"</span>
+<h2 id='by-seller'>By Seller</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/seller=24/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RAKMTSOF05364150"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">67</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T02:50:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">16243.02</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
@@ -1394,14 +1387,14 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">93.19</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">28.46</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">73</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CVMG22"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WIZJ73"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BND"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UDXTYEZM95287495"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360627</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:58:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">8995.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
@@ -1409,8 +1402,8 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.99</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FORM54"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WIZJ73"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1438,7 +1431,7 @@ You may specify the page you would like to request with the URL:
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PASYTZVI53631072"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T00:00:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">369300.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
@@ -1446,14 +1439,14 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FORM54"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ISWT83"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZTLGMVSN76336825"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360716</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:59:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">4396800.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">80000</span><span class="p">,</span><span class="w">
@@ -1461,8 +1454,8 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">54.96</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.24</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SWGF93"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ESPL27"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">179</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1490,7 +1483,7 @@ You may specify the page you would like to request with the URL:
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PASYTZVI53631072"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T00:00:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">369300.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
@@ -1498,14 +1491,14 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FORM54"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ISWT83"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VRAOOOSE39397903"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1967264</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-31T11:59:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">502400.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">80000</span><span class="p">,</span><span class="w">
@@ -1513,8 +1506,8 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">51.04</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">5.75</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CBOX52"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MEOQ86"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">86</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">58</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BZD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1546,7 +1539,7 @@ You may specify the page you would like to request with the URL:
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PASYTZVI53631072"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T00:00:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">369300.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
@@ -1554,14 +1547,14 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FORM54"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ISWT83"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CQHJKYMA90014810"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">646771</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T11:59:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">54290.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span><span class="w">
@@ -1569,8 +1562,8 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">135.74</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">151.79</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DNIL23"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PKBF70"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">84</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1606,7 +1599,7 @@ You may specify the page you would like to request with the URL:
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JZXTBWMB27877603"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">646001</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T00:51:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">19976400.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">90000</span><span class="p">,</span><span class="w">
@@ -1614,14 +1607,14 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2761.52</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">248.17</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">427</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HHOA99"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PQSW95"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">190</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">143</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PAB"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KSLSFRZA92830687"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2330714</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-30T11:54:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">3770500.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span><span class="w">
@@ -1629,8 +1622,8 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">75.41</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">59.87</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SRYE59"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VKMV12"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">164</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">180</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1658,7 +1651,7 @@ You may specify the page you would like to request with the URL:
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JZXTBWMB27877603"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">646001</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T00:51:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">19976400.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">90000</span><span class="p">,</span><span class="w">
@@ -1666,14 +1659,14 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2761.52</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">248.17</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">427</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HHOA99"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PQSW95"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">190</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">143</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PAB"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RIIIHLYF92433894"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360019</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T04:39:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">474500.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span><span class="w">
@@ -1681,8 +1674,8 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">9.49</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.65</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FGQR22"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PJKH65"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">138</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1714,7 +1707,7 @@ You may specify the page you would like to request with the URL:
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JZXTBWMB27877603"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">646001</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T00:51:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">19976400.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">90000</span><span class="p">,</span><span class="w">
@@ -1722,14 +1715,14 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2761.52</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">248.17</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">427</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HHOA99"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PQSW95"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">190</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">143</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PAB"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TBHUTJXH45919615"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2320014</span><span class="p">,</span><span class="w">
     </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T06:51:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">14310.0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">3000</span><span class="p">,</span><span class="w">
@@ -1737,8 +1730,8 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.77</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.15</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PQSW95"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OKYS51"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">143</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1772,54 +1765,87 @@ You may specify the page you would like to request with the URL:
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BBILNMOD82695232"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-31T00:00:00Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">75879.0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">900</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-11-13"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">366.31</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">72.31</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RFZG50"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DJNE62"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LRD"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"edits"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-04T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"num_of_new_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"attribute_edited"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buying party"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"edit_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-01T00:00:00Z"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"old_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DJNE62"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"new_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RFZG50"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2360717"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="s2">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"num_of_edited_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"edited_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"deleted_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-12-12T00:00:00Z"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2360717"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"num_of_edits"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"edits"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"attribute_edited"</span><span class="p">:</span><span class="w"> </span><span class="s2">"product"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"edit_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-01T20:00:03Z"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"old_value"</span><span class="p">:</span><span class="w"> </span><span class="mi">58</span><span class="p">,</span><span class="w"> 
+                    </span><span class="s2">"new_value"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
+                </span><span class="p">},</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"attribute_edited"</span><span class="p">:</span><span class="w"> </span><span class="s2">"underlying_price"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"edit_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-01T22:42:20Z"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"old_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"new_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"num_of_deleted_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"deleted_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2360717"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"deletion"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"deleted_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-01T23:19:51Z"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">]</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="err">...</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TBHUTJXH45919615"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T06:51:00Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">14310.0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">3000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-01"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.77</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.15</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PQSW95"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OKYS51"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
-    </span><span class="s2">"edits"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-    </span><span class="s2">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a report for the given date.</p>
 <h3 id='http-request-36'>HTTP Request</h3>

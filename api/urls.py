@@ -25,7 +25,7 @@ urlpatterns = [
     path('stock/company=<str:company>&year=<int:year>&month=<int:month>/', views.StockMonthList.as_view()),
     path('stock/company=<str:company>&year=<int:year>&month=<int:month>&day=<int:day>/', views.StockDayList.as_view()),
     path('stock/company=<str:company>/', views.StockList.as_view()),
-    path('stock/', views.StockPriceList.as_view()),
+    path('stock/list/', views.StockPriceList.as_view()),
     path('trade/id=<str:id>/', views.TradeIDList.as_view()),
     path('trade/buyer=<str:buyer>&seller=<str:seller>/', views.TradeBuyerSellerList.as_view()),
     path('trade/buyer=<str:buyer>/', views.TradeBuyerList.as_view()),

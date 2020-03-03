@@ -14,6 +14,7 @@ from calendar import monthrange
 from django.core.paginator import Paginator
 import random, string
 from rest_framework.pagination import PageNumberPagination
+import json
 
 #You will need to create new models and a migration for the editedtrade table
 #and deletedtrades table.
@@ -29,12 +30,19 @@ from rest_framework.pagination import PageNumberPagination
 #Get all trades created in the last day
 class AvailableReportsYearList(APIView):
     def get(self, request):
-        data = Trade.objects.raw("""
-            SELECT DISTINCT 1 as id, YEAR(date) as year
-            FROM trade
-            ORDER BY year DESC""")
-        s = AvailableReportsYearSerializer(data, many=True)
-        return Response(s.data)
+    
+        year = 2010
+        data = []
+        while year <= datetime.datetime.now().year:
+            exists = len(Trade.objects.raw("""
+                SELECT 1 as id, YEAR(date) FROM trade where date between '%s-01-01' and '%s-12-31' LIMIT 1;
+            """, [year, year]))
+            if exists != 0:
+                data.append({ 'year' : {year} })
+            print(year)
+            year+=1
+        print(data)
+        return HttpResponse(json.dumps(data))
 
 class AvailableReportsMonthList(APIView):
     def get(self, request, year):
