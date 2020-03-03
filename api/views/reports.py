@@ -14,7 +14,10 @@ from calendar import monthrange
 from django.core.paginator import Paginator
 import random, string
 from rest_framework.pagination import PageNumberPagination
+<<<<<<< HEAD
 import json
+=======
+>>>>>>> a9ce5ed5e037fbc9cc00598b4ab5ea5f70cc97e1
 
 #You will need to create new models and a migration for the editedtrade table
 #and deletedtrades table.
