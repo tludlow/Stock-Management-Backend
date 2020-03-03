@@ -44,8 +44,6 @@ This endpoint to return all supported currencies.
 
 `GET https://group23.dcs.warwick.ac.uk/api/currency/list/`
 
-<aside class="warning">For the moment, queries made must be exact - both case and format (ensure backslash at end of request)</aside>
-
 ## All Currency Prices
 
 ```shell
@@ -778,7 +776,7 @@ UNDERLYING_PRICE | Underlying price of trade
 
 ## Edit Trade
 ```shell
-curl -d 'trade_id=2360717&product=57&underlying_price=3' -X POST "http://group23.dcs.warwick.ac.uk/api/trade/edit/"
+curl -d 'trade_id=2360717&product=57&underlying_price=3' -X POST "https://group23.dcs.warwick.ac.uk/api/trade/edit/"
 ```
 
 > The above command returns JSON structured like this:
@@ -836,7 +834,7 @@ UNDERLYING_PRICE | Underlying price of trade
 
 ## Delete Trade 
 ```shell
-curl -d 'trade_id=2360717' -X POST "http://group23.dcs.warwick.ac.uk/api/trade/delete/"
+curl -d 'trade_id=2360717' -X POST "https://group23.dcs.warwick.ac.uk/api/trade/delete/"
 ```
 ```json
 [
@@ -858,7 +856,7 @@ TRADE_ID | ID of the trade to edit
 
 ## All Trades
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/trade/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/list/"
 ```
 
 > The above command returns JSON structured like this:
@@ -901,7 +899,7 @@ This endpoint retrieves a list of all trades.
 
 ### HTTP Request
 
-`GET https://group23.dcs.warwick.ac.uk/api/trade/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/list/`
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 

@@ -404,8 +404,6 @@
 <p>This endpoint to return all supported currencies.</p>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/currency/list/</code></p>
-
-<aside class="warning">For the moment, queries made must be exact - both case and format (ensure backslash at end of request)</aside>
 <h2 id='all-currency-prices'>All Currency Prices</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/currency/"</span>
 </code></pre>
 <blockquote>
@@ -1134,7 +1132,7 @@ You may specify the page you would like to request with the URL:
 </tbody></table>
 <h3 id='http-request-23'>HTTP Request</h3>
 <p><code>POST https://group23.dcs.warwick.ac.uk/api/trade/create/</code></p>
-<h2 id='edit-trade'>Edit Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'trade_id=2360717&amp;product=57&amp;underlying_price=3'</span> -X POST <span class="s2">"http://group23.dcs.warwick.ac.uk/api/trade/edit/"</span>
+<h2 id='edit-trade'>Edit Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'trade_id=2360717&amp;product=57&amp;underlying_price=3'</span> -X POST <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/edit/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1219,7 +1217,7 @@ You may specify the page you would like to request with the URL:
 </tbody></table>
 <h3 id='http-request-24'>HTTP Request</h3>
 <p><code>POST https://group23.dcs.warwick.ac.uk/api/trade/edit/</code></p>
-<h2 id='delete-trade'>Delete Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'trade_id=2360717'</span> -X POST <span class="s2">"http://group23.dcs.warwick.ac.uk/api/trade/delete/"</span>
+<h2 id='delete-trade'>Delete Trade</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'trade_id=2360717'</span> -X POST <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/delete/"</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Trade has been deleted."</span><span class="w">
@@ -1241,7 +1239,7 @@ You may specify the page you would like to request with the URL:
 </tbody></table>
 <h3 id='http-request-25'>HTTP Request</h3>
 <p><code>POST https://group23.dcs.warwick.ac.uk/api/trade/delete/</code></p>
-<h2 id='all-trades'>All Trades</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/"</span>
+<h2 id='all-trades'>All Trades</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/list/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1280,7 +1278,7 @@ You may specify the page you would like to request with the URL:
 </span></code></pre>
 <p>This endpoint retrieves a list of all trades.</p>
 <h3 id='http-request-26'>HTTP Request</h3>
-<p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/</code></p>
+<p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/list/</code></p>
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 <h2 id='by-id-3'>By ID</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/id=1/"</span>
