@@ -58,5 +58,6 @@ class DeleteDerivativeTrade(APIView):
             deleted_at=now,
         )
         new_deleted_trade.save()
+        
 
         return JsonResponse(status=200, data={"success": "Trade has been deleted."})

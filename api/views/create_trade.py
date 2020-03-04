@@ -103,7 +103,6 @@ class CreateDerivativeTrade(APIView):
 
         #Create the trade
         new_trade = Trade(
-            id=trade_id,
             date=datetime.now(),
             product=product_instance,
             buying_party=buying_instance,
@@ -118,4 +117,4 @@ class CreateDerivativeTrade(APIView):
         )
         new_trade.save()
 
-        return JsonResponse(status=200, data={"trade_id": trade_id, "data": trade_data, "notional_amount": notional_amount})
+        return JsonResponse(status=200, data={"trade_id": new_trade.id, "data": trade_data, "notional_amount": notional_amount})

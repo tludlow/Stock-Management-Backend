@@ -55,6 +55,15 @@ class TradeRecentList(APIView):
         #Modified the structure of a trade, will need to use a custom serializer.
         return Response(trade_data)
 
+
+class TotalTrades(APIView):
+    def get(self, request):
+        total_trades = Trade.objects.all().count()
+
+        return JsonResponse(status=200, data={
+            "total_trades": total_trades
+        })
+
 class RecentTradesByCompanyForProduct(APIView):
     def get(self, request, buyer, product, seller):
         #Get pagination data before the request so that it saves memory and is quicker to query.
@@ -161,7 +170,9 @@ class TotalActionsOnDay(APIView):
         return JsonResponse(status=200, data={
             "creation_count": creation_count,
             "edit_count": edit_count,
-            "delete_count": delete_count
+            "delete_count": delete_count,
+            "erroneous_fields": 69,
+            "corrections": 69
         })
 
 class CurrencyChanges(APIView):
