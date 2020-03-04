@@ -328,6 +328,12 @@
                     <a href="#all-trades" class="toc-h2 toc-link" data-title="All Trades">All Trades</a>
                   </li>
                   <li>
+                    <a href="#recent" class="toc-h2 toc-link" data-title="Recent">Recent</a>
+                  </li>
+                  <li>
+                    <a href="#recent-trades-by-company-for-product" class="toc-h2 toc-link" data-title="Recent Trades By Company For Product">Recent Trades By Company For Product</a>
+                  </li>
+                  <li>
                     <a href="#by-id-3" class="toc-h2 toc-link" data-title="By ID">By ID</a>
                   </li>
                   <li>
@@ -1281,6 +1287,96 @@ You may specify the page you would like to request with the URL:
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/list/</code></p>
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
+<h2 id='recent'>Recent</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/recent/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360720</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T18:37:03.859802Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notional_currency_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_currency_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FOX"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Atlas Corp."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cell Cells"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">289262</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:59:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">71</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">145</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">5355.0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"notional_currency_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-06"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.71</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"underlying_currency_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">9.36</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"buying_company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gekko and Co."</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"selling_company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Okama"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stocks"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves a list of all trades descending order by date.</p>
+<h3 id='http-request-27'>HTTP Request</h3>
+<p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/id=&lt;ID&gt;/</code></p>
+<h2 id='recent-trades-by-company-for-product'>Recent Trades By Company For Product</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/product=1&amp;buyer=1/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:
+<code>json
+[
+  {
+    &quot;id&quot;: 289225,
+    &quot;date&quot;: &quot;2019-12-31T11:48:00Z&quot;,
+    &quot;notional_amount&quot;: 160920.0,
+    &quot;quantity&quot;: 9000,
+    &quot;maturity_date&quot;: &quot;2024-09-12&quot;,
+    &quot;underlying_price&quot;: 191.58,
+    &quot;strike_price&quot;: 15.21,
+    &quot;product&quot;: 1,
+    &quot;buying_party&quot;: 1,
+    &quot;selling_party&quot;: 150,
+    &quot;notional_currency&quot;: &quot;USD&quot;,
+    &quot;underlying_currency&quot;: &quot;GMD&quot;
+  }
+  ...
+]
+</code>
+This endpoint retrieves all trades with a giveen product and buyer.</p>
+</blockquote>
+<h3 id='http-request-28'>HTTP Request</h3>
+<p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/product=&lt;PRODUCT&gt;&amp;buyer=&lt;BUYER&gt;/</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>PRODUCT</td>
+<td>Product in the trade</td>
+</tr>
+<tr>
+<td>BUYER</td>
+<td>Buyer in the trade</td>
+</tr>
+</tbody></table>
 <h2 id='by-id-3'>By ID</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/id=1/"</span>
 </code></pre>
 <blockquote>
@@ -1303,8 +1399,8 @@ You may specify the page you would like to request with the URL:
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a list of the trade with the given ID.</p>
-<h3 id='http-request-27'>HTTP Request</h3>
+<p>This endpoint retrieves the trade with the given ID.</p>
+<h3 id='http-request-29'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/id=&lt;ID&gt;/</code></p>
 
 <table><thead>
@@ -1356,7 +1452,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all trades for the given buyer .</p>
-<h3 id='http-request-28'>HTTP Request</h3>
+<h3 id='http-request-30'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/buyer=&lt;BUYER&gt;/</code></p>
 
 <table><thead>
@@ -1408,7 +1504,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all trades for the given seller .</p>
-<h3 id='http-request-29'>HTTP Request</h3>
+<h3 id='http-request-31'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/seller=&lt;SELLER&gt;/</code></p>
 
 <table><thead>
@@ -1460,7 +1556,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all trades in a given year.</p>
-<h3 id='http-request-30'>HTTP Request</h3>
+<h3 id='http-request-32'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/year=&lt;YEAR&gt;/</code></p>
 
 <table><thead>
@@ -1512,7 +1608,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all trades for the given year and month.</p>
-<h3 id='http-request-31'>HTTP Request</h3>
+<h3 id='http-request-33'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;/</code></p>
 
 <table><thead>
@@ -1568,7 +1664,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all trades for the given year, month and day.</p>
-<h3 id='http-request-32'>HTTP Request</h3>
+<h3 id='http-request-34'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;&amp;day=&lt;DAY&gt;/</code></p>
 
 <table><thead>
@@ -1628,7 +1724,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all trades with the given maturity year.</p>
-<h3 id='http-request-33'>HTTP Request</h3>
+<h3 id='http-request-35'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=&lt;MATURITY_YEAR&gt;/</code></p>
 
 <table><thead>
@@ -1680,7 +1776,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all trades with the given maturity month.</p>
-<h3 id='http-request-34'>HTTP Request</h3>
+<h3 id='http-request-36'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=&lt;MATURITY_YEAR&gt;&amp;maturity_month=&lt;MATURITY_MONTH&gt;/</code></p>
 
 <table><thead>
@@ -1736,7 +1832,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a list of all trades with the given maturity day.</p>
-<h3 id='http-request-35'>HTTP Request</h3>
+<h3 id='http-request-37'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=&lt;MATURITY_YEAR&gt;&amp;maturity_month=&lt;MATURITY_MONTH&gt;&amp;maturity_day=&lt;MATURITY_DAY&gt;/</code></p>
 
 <table><thead>
@@ -1764,11 +1860,12 @@ You may specify the page you would like to request with the URL:
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-04T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"date_of_report"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-04T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-05T00:00:00Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"num_of_new_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"created_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2360717"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360718</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
@@ -1786,16 +1883,16 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"edited_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
             </span><span class="s2">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2360717"</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2130102</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-02-01T14:51:11.215319Z"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">31.0</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">230</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-01"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stocks"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New York Inquirer"</span><span class="p">,</span><span class="w"> 
+                </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"International Data Corporation"</span><span class="p">,</span><span class="w"> 
                 </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
                 </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
             </span><span class="p">},</span><span class="w">
@@ -1804,16 +1901,16 @@ You may specify the page you would like to request with the URL:
                 </span><span class="p">{</span><span class="w">
                     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
                     </span><span class="s2">"attribute_edited"</span><span class="p">:</span><span class="w"> </span><span class="s2">"product"</span><span class="p">,</span><span class="w">
-                    </span><span class="s2">"edit_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-01T20:00:03Z"</span><span class="p">,</span><span class="w">
-                    </span><span class="s2">"old_value"</span><span class="p">:</span><span class="w"> </span><span class="mi">58</span><span class="p">,</span><span class="w"> 
-                    </span><span class="s2">"new_value"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
+                    </span><span class="s2">"edit_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T20:00:03Z"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"old_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rings of Teleportation"</span><span class="p">,</span><span class="w"> 
+                    </span><span class="s2">"new_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stocks"</span><span class="p">,</span><span class="w"> 
                 </span><span class="p">},</span><span class="w">
                 </span><span class="p">{</span><span class="w">
                     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
                     </span><span class="s2">"attribute_edited"</span><span class="p">:</span><span class="w"> </span><span class="s2">"underlying_price"</span><span class="p">,</span><span class="w">
-                    </span><span class="s2">"edit_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-01T22:42:20Z"</span><span class="p">,</span><span class="w">
-                    </span><span class="s2">"old_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
-                    </span><span class="s2">"new_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="w">
+                    </span><span class="s2">"edit_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T22:42:20Z"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"old_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"420"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"new_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
                 </span><span class="p">}</span><span class="w">
             </span><span class="p">]</span><span class="w">
         </span><span class="p">}</span><span class="w">
@@ -1821,32 +1918,26 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"num_of_deleted_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"deleted_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2360717"</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
-                </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="s2">"deletion"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="p">{</span><span class="w">
-                    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-                    </span><span class="s2">"deleted_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-01T23:19:51Z"</span><span class="w">
-                </span><span class="p">}</span><span class="w">
-            </span><span class="p">]</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360715</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T21:01:11.394367Z"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">89.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100000</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-11-01"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">60.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stocks"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tokra Electronics"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wario Ware Inc."</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
+            </span><span class="s2">"delete_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"deleted_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-01T23:19:51Z"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a report for the given date.</p>
-<h3 id='http-request-36'>HTTP Request</h3>
+<h3 id='http-request-38'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;&amp;day=&lt;DAY&gt;/</code></p>
 
 <table><thead>
@@ -1884,7 +1975,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the years that reports are available for.</p>
-<h3 id='http-request-37'>HTTP Request</h3>
+<h3 id='http-request-39'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/</code></p>
 <h2 id='available-by-month'>Available by Month</h2><pre class="highlight shell tab-shell"><code> curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/available/year=2019/"</span>
 </code></pre>
@@ -1904,7 +1995,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the months that reports are available for given a year.</p>
-<h3 id='http-request-38'>HTTP Request</h3>
+<h3 id='http-request-40'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/year=&lt;YEAR&gt;/</code></p>
 
 <table><thead>
@@ -1938,7 +2029,7 @@ You may specify the page you would like to request with the URL:
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the days that reports are available for given a year and month.</p>
-<h3 id='http-request-39'>HTTP Request</h3>
+<h3 id='http-request-41'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;/</code></p>
 
 <table><thead>

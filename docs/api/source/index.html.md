@@ -903,6 +903,95 @@ This endpoint retrieves a list of all trades.
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 
+## Recent
+```shell
+curl "https://group23.dcs.warwick.ac.uk/api/trade/recent/"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": 2360720,
+    "date": "2020-03-03T18:37:03.859802Z",
+    "product_id": 57,
+    "buying_party_id": 160,
+    "selling_party_id": 26,
+    "notional_amount": 100.0,
+    "notional_currency_id": "USD",
+    "quantity": 100,
+    "maturity_date": "2020-04-03",
+    "underlying_price": 3.0,
+    "underlying_currency_id": "USD",
+    "strike_price": 6.0,
+    "buying_company": "FOX",
+    "selling_company": "Atlas Corp.",
+    "product": "Cell Cells"
+  },
+  {
+      "id": 289262,
+      "date": "2019-12-31T11:59:00Z",
+      "product_id": 1,
+      "buying_party_id": 71,
+      "selling_party_id": 145,
+      "notional_amount": 5355.0,
+      "notional_currency_id": "USD",
+      "quantity": 500,
+      "maturity_date": "2021-12-06",
+      "underlying_price": 10.71,
+      "underlying_currency_id": "USD",
+      "strike_price": 9.36,
+      "buying_company": "Gekko and Co.",
+      "selling_company": "Okama",
+      "product": "Stocks"
+  },
+  ...
+}
+]
+```
+This endpoint retrieves a list of all trades descending order by date.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/trade/id=<ID>/`
+
+## Recent Trades By Company For Product
+```shell
+curl "https://group23.dcs.warwick.ac.uk/api/trade/product=1&buyer=1/"
+```
+> The above command returns JSON structured like this:
+```json
+[
+  {
+    "id": 289225,
+    "date": "2019-12-31T11:48:00Z",
+    "notional_amount": 160920.0,
+    "quantity": 9000,
+    "maturity_date": "2024-09-12",
+    "underlying_price": 191.58,
+    "strike_price": 15.21,
+    "product": 1,
+    "buying_party": 1,
+    "selling_party": 150,
+    "notional_currency": "USD",
+    "underlying_currency": "GMD"
+  }
+  ...
+]
+```
+This endpoint retrieves all trades with a giveen product and buyer.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/trade/product=<PRODUCT>&buyer=<BUYER>/`
+
+Parameter | Description
+--------- | -----------
+PRODUCT | Product in the trade
+BUYER | Buyer in the trade
+
+
 ## By ID 
 ```shell
 curl "https://group23.dcs.warwick.ac.uk/api/trade/id=1/"
@@ -929,7 +1018,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/id=1/"
 ]
 ```
 
-This endpoint retrieves a list of the trade with the given ID.
+This endpoint retrieves the trade with the given ID.
 
 ### HTTP Request
 
@@ -1366,11 +1455,12 @@ curl "https://group23.dcs.warwick.ac.uk/api/report/year=2018&month=01&day=01/"
 
 ```json
 {
-    "created": "2020-03-04T00:00:00Z",
+    "date_of_report": "2020-03-04T00:00:00Z",
+    "created": "2020-03-05T00:00:00Z",
     "num_of_new_trades": 1,
     "created_trades": [
         {
-            "id": "2360717", 
+            "id": 2360718, 
             "date": "2020-03-03T19:59:30.224397Z", 
             "notional_amount": 100.0, 
             "quantity": 100, 
@@ -1388,16 +1478,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/report/year=2018&month=01&day=01/"
     "edited_trades": [
         {
             "trade": {
-                "id": "2360717", 
-                "date": "2020-03-03T19:59:30.224397Z", 
-                "notional_amount": 100.0, 
-                "quantity": 100, 
-                "maturity_date": "2020-04-03", 
-                "underlying_price": 3.0, 
-                "strike_price": 6.0, 
-                "product": 57, 
-                "buying_party": 160, 
-                "selling_party": 26, 
+                "id": 2130102, 
+                "date": "2020-02-01T14:51:11.215319Z", 
+                "notional_amount": 31.0, 
+                "quantity": 230, 
+                "maturity_date": "2021-12-01", 
+                "underlying_price": 1.0, 
+                "strike_price": 2.0, 
+                "product": "Stocks", 
+                "buying_party": "New York Inquirer", 
+                "selling_party": "International Data Corporation", 
                 "notional_currency": "USD", 
                 "underlying_currency": "USD"
             },
@@ -1406,16 +1496,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/report/year=2018&month=01&day=01/"
                 {
                     "id": 1,
                     "attribute_edited": "product",
-                    "edit_date": "2020-03-01T20:00:03Z",
-                    "old_value": 58, 
-                    "new_value": 57, 
+                    "edit_date": "2020-03-03T20:00:03Z",
+                    "old_value": "Rings of Teleportation", 
+                    "new_value": "Stocks", 
                 },
                 {
                     "id": 2,
                     "attribute_edited": "underlying_price",
-                    "edit_date": "2020-03-01T22:42:20Z",
-                    "old_value": "4",
-                    "new_value": "3"
+                    "edit_date": "2020-03-03T22:42:20Z",
+                    "old_value": "420",
+                    "new_value": "1"
                 }
             ]
         }
@@ -1423,26 +1513,20 @@ curl "https://group23.dcs.warwick.ac.uk/api/report/year=2018&month=01&day=01/"
     "num_of_deleted_trades": 1,
     "deleted_trades": [
         {
-            "trade": {
-                "id": "2360717", 
-                "date": "2020-03-03T19:59:30.224397Z", 
-                "notional_amount": 100.0, 
-                "quantity": 100, 
-                "maturity_date": "2020-04-03", 
-                "underlying_price": 3.0, 
-                "strike_price": 6.0, 
-                "product": 57, 
-                "buying_party": 160, 
-                "selling_party": 26, 
-                "notional_currency": "USD", 
-                "underlying_currency": "USD"
-            },
-            "deletion": [
-                {
-                    "id": 1,
-                    "deleted_at": "2020-03-01T23:19:51Z"
-                }
-            ]
+            "id": 2360715, 
+            "date": "2020-03-03T21:01:11.394367Z", 
+            "notional_amount": 89.0, 
+            "quantity": 100000, 
+            "maturity_date": "2022-11-01", 
+            "underlying_price": 10.0, 
+            "strike_price": 60.0, 
+            "product": "Stocks", 
+            "buying_party": "Tokra Electronics", 
+            "selling_party": "Wario Ware Inc.", 
+            "notional_currency": "USD", 
+            "underlying_currency": "USD"
+            "delete_id": 1,
+            "deleted_at": "2020-03-01T23:19:51Z"
         }
     ]
 }
