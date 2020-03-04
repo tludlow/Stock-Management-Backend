@@ -305,7 +305,7 @@ class ErrorsAndCorrections(APIView):
             if error["trade_id"] not in trades:
                 trades.append(error["trade_id"])
     
-
+        #Convert to nested trades with errors and corrections included
         finalList = []
         for trade in trades:
             errors = self.getErrorsForTrade(trade, formatted_errors)
@@ -313,7 +313,4 @@ class ErrorsAndCorrections(APIView):
 
             finalList.append({"id": trade, "errors": errors, "corrections": corrections})
             
-
-        print(finalList)
-
         return JsonResponse(status=200, data={"errors_and_corrections": finalList}, safe=False)
