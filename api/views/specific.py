@@ -311,6 +311,18 @@ class ErrorsAndCorrections(APIView):
             errors = self.getErrorsForTrade(trade, formatted_errors)
             corrections = self.getCorrectionsForError(trade, formatted_errors, formatted_corrections)
 
-            finalList.append({"id": trade, "errors": errors, "corrections": corrections})
+            for error in errors:
+                foundCorrection = False
+                if foundCorrection == True:
+                    continue
+                
+                for correction in corrections:
+                    if correction["error"] == error["id"]:
+                        error["correction"] = correction
+                        foundCorrection = True
+                if foundCorrection == False:
+                    error["correction"] = "null"
+
+            finalList.append({"id": trade, "errors": errors})
             
         return JsonResponse(status=200, data={"errors_and_corrections": finalList}, safe=False)
