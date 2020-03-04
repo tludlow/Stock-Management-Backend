@@ -172,13 +172,15 @@ class TotalActionsOnDay(APIView):
         creation_count = Trade.objects.filter(date__range=[lower, upper]).count()
         edit_count = EditedTrade.objects.filter(edit_date__range=[lower, upper]).distinct().count()
         delete_count = DeletedTrade.objects.filter(deleted_at__range=[lower, upper]).count()
+        erroneous_count = ErroneousTradeAttribute.objects.filter(date__range=[lower, upper]).count()
+        correction_count = FieldCorrection.objects.filter(date__range=[lower, upper]).count()
 
         return JsonResponse(status=200, data={
             "creation_count": creation_count,
             "edit_count": edit_count,
             "delete_count": delete_count,
-            "erroneous_fields": 69,
-            "corrections": 69
+            "erroneous_fields": erroneous_count,
+            "corrections": correction_count
         })
 
 class CurrencyChanges(APIView):
