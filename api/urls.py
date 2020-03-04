@@ -51,4 +51,5 @@ urlpatterns = [
     path('report/available/year=<int:year>&month=<int:month>/', views.AvailableReportsDayList.as_view()),
     path('report/available/year=<int:year>/', views.AvailableReportsMonthList.as_view()),
     path('report/actions/today/', views.TotalActionsOnDay.as_view()),
+    path('errorsandcorrections/', views.ErrorsAndCorrections.as_view())
 ]

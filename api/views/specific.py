@@ -263,3 +263,57 @@ class CurrencyChanges(APIView):
             "day_seven": day_seven,
             "largest_appreciations": appreciation_dict,
             "largest_depreciations": depreciation_dict})
+
+
+class ErrorsAndCorrections(APIView):
+    def getErrorsForTrade(self, tradeID, errors):
+        returnList = []
+        for error in errors:
+            if error["trade_id"] == tradeID:
+                returnList.append(error)
+        return returnList
+
+    def getCorrectionsForError(self, tradeID, errors, corrections):
+        returnList = []
+        for error in errors:
+            if error["trade_id"] == tradeID:
+                for correction in corrections:
+                    if correction["error"] == error["id"]:
+                        returnList.append(correction)
+        return returnList
+
+
+    def get(self, request):
+        #Get all errors ordered by date
+        errors = ErroneousTradeAttribute.objects.all().order_by("-date")
+        corrections = FieldCorrection.objects.all()
+
+        errors_s = ErroneousAttributeSerializer(errors, many=True)
+        corrections_s = CorrectionSerializer(corrections, many=True)
+
+        trades = []
+        formatted_errors = []
+        formatted_corrections = []
+
+        for error in errors_s.data:
+            formatted_errors.append(dict(error))
+
+        for correction in corrections_s.data:
+            formatted_corrections.append(dict(correction))
+
+        for error in formatted_errors:
+            if error["trade_id"] not in trades:
+                trades.append(error["trade_id"])
+    
+
+        finalList = []
+        for trade in trades:
+            errors = self.getErrorsForTrade(trade, formatted_errors)
+            corrections = self.getCorrectionsForError(trade, formatted_errors, formatted_corrections)
+
+            finalList.append({"id": trade, "errors": errors, "corrections": corrections})
+            
+
+        print(finalList)
+
+        return JsonResponse(status=200, data={"errors_and_corrections": finalList}, safe=False)

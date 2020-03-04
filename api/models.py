@@ -169,8 +169,7 @@ class FieldCorrection(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="corrected_trade")
-    erroneous_attribute = models.CharField(max_length=2, choices=EDITABlE_FIELDS)
+    error = models.ForeignKey(ErroneousTradeAttribute, on_delete=models.CASCADE, related_name="error_reference")
     old_value = models.CharField(max_length=32)
     new_value = models.CharField(max_length=32)
     change_type = models.CharField(max_length=5, choices=CHANGE_TYPES)

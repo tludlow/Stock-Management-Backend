@@ -98,6 +98,10 @@ def scanTradeForErrors(trade):
     trainData(1, boughtProduct, buyingCompany, totalTrades, K, X, y)
     testData(predict, buyingCompany, boughtProduct, totalTrades, K, userInput, nonUserValues, X, y)
 
+    #Make it run for strike price
+
+    #Make it run for underlying_price
+
     debug = True
     if debug:
 #         # plot the graph
