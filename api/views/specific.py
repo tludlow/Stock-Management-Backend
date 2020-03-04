@@ -311,18 +311,51 @@ class ErrorsAndCorrections(APIView):
             errors = self.getErrorsForTrade(trade, formatted_errors)
             corrections = self.getCorrectionsForError(trade, formatted_errors, formatted_corrections)
 
+            correction_count = 0
+
             for error in errors:
                 foundCorrection = False
                 if foundCorrection == True:
                     continue
-                
+
                 for correction in corrections:
                     if correction["error"] == error["id"]:
                         error["correction"] = correction
+                        correction_count += 1
                         foundCorrection = True
                 if foundCorrection == False:
                     error["correction"] = "null"
 
-            finalList.append({"id": trade, "errors": errors})
+
+            finalList.append({"id": trade, "correction_count": correction_count, "errors": errors})
             
         return JsonResponse(status=200, data={"errors_and_corrections": finalList}, safe=False)
+
+class DeleteCorrection(APIView):
+    def post(self, request):
+        cid = request.data["correctionID"]
+
+        correction = FieldCorrection.objects.filter(id=cid)[0]
+        correction.delete()
+
+        return JsonResponse(status=200, data={"success": "Correction has been deleted."})
+
+class CreateCorrection(APIView):
+    def post(self, request):
+        print(request.data)
+
+        #Get the error referenced in the correction
+        error = ErroneousTradeAttribute.objects.filter(id=request.data["errorID"])[0]
+        error_s = ErroneousAttributeSerializer(error)
+
+        #Create new correction
+        new_correction = FieldCorrection(
+            error = error,
+            old_value = error_s.data["erroneous_value"],
+            new_value = request.data["new_value"],
+            change_type = "USER",
+            date = datetime.now()
+        )
+        new_correction.save()
+
+        return JsonResponse(status=200, data={"success": "Correction has been applied."})
