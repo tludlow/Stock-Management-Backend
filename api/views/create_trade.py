@@ -14,6 +14,7 @@ from datetime import datetime
 from django.core.paginator import Paginator
 import random, string
 from random import randint
+from .learning import *
 
 class CreateDerivativeTrade(APIView):
     def getCompany(self, cid):
@@ -44,7 +45,6 @@ class CreateDerivativeTrade(APIView):
     def post(self, request):
         trade_data = request.data
         #if product id = 1, then its a stock, will be purchasing stocks of the selling company
-        print(trade_data)
 
         #Check that the request has all the data required for a trade.
         requiredFields = ["selling_party", "buying_party", "product", "quantity",
@@ -116,5 +116,7 @@ class CreateDerivativeTrade(APIView):
             strike_price=trade_data["strike_price"]
         )
         new_trade.save()
+
+        scanTradeForErrors(new_trade)
 
         return JsonResponse(status=200, data={"trade_id": new_trade.id, "data": trade_data, "notional_amount": notional_amount})

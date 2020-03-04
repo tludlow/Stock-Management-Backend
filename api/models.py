@@ -151,9 +151,6 @@ class ErroneousTradeAttribute(models.Model):
     trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="erroneous_trade")
     erroneous_attribute = models.CharField(max_length=2, choices=EDITABlE_FIELDS)
     erroneous_value = models.CharField(max_length=20)
-    lower_range = models.CharField(max_length=20)
-    upper_range = models.CharField(max_length=20)
-    mean = models.CharField(max_length=20)
 
 class FieldCorrection(models.Model):
     class Meta():

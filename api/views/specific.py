@@ -70,15 +70,20 @@ class RecentTradesByCompanyForProduct(APIView):
         page_number = int(self.request.query_params.get("page_number", 1))
         page_size = int(self.request.query_params.get("page_size", 150))
 
+        erroneous = DeletedTrade.objects.all().values('trade_id')
+        deleted = ErroneousTradeAttribute.objects.all().values('trade_id')
+
+
+        #TODO filter by deleted trades AND erroneous trades, not just erroneous.
         #If the product is stocks we need more limitations on the data returned
         data = None
         if product == "1":
-            print("Stocks")
-            data = Trade.objects.filter(buying_party=buyer, selling_party=seller, product_id=product).order_by('-date')[(page_number-1)*page_size : page_number*page_size]
+            trades = Trade.objects.filter(buying_party=buyer, selling_party=seller, product_id=product).order_by('-date')
+            data = trades.exclude(id__in = erroneous)[(page_number-1)*page_size : page_number*page_size]
         else:
-            print("Not stocks")
-            data = Trade.objects.filter(buying_party=buyer, product_id=product).order_by('-date')[(page_number-1)*page_size : page_number*page_size]
-        
+            trades = Trade.objects.filter(buying_party=buyer, product_id=product).order_by('-date')
+            data = trades.exclude(id__in = erroneous)[(page_number-1)*page_size : page_number*page_size]
+
         s = TradeSerializer(data, many=True)
         return Response(s.data)
 

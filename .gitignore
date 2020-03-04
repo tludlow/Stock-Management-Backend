@@ -12,3 +12,4 @@
 
 /backend/learning/*.pickle
 /api/migrations
+*.pickle
