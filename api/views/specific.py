@@ -72,11 +72,6 @@ class RecentTradesByCompanyForProduct(APIView):
         page_number = int(self.request.query_params.get("page_number", 1))
         page_size = int(self.request.query_params.get("page_size", 150))
 
-<<<<<<< HEAD
-        trades = Trade.objects.filter(buying_party=buyer, product_id=product).order_by('-date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
-=======
         erroneous = DeletedTrade.objects.all().values('trade_id')
         deleted = ErroneousTradeAttribute.objects.all().values('trade_id')
 
@@ -91,7 +86,6 @@ class RecentTradesByCompanyForProduct(APIView):
             trades = Trade.objects.filter(buying_party=buyer, product_id=product).order_by('-date')
             dataFirst = trades.exclude(id__in = erroneous)
             data = dataFirst.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
->>>>>>> 55ae167d13c8e2e15e970e6f0d91d74e4b8a1e56
 
         s = TradeSerializer(data, many=True)
         return Response(s.data)

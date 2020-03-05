@@ -14,7 +14,6 @@ from calendar import monthrange
 from django.core.paginator import Paginator
 import random, string
 from rest_framework.pagination import PageNumberPagination
-<<<<<<< HEAD
 from django.db import connection
 import json
 from django.core.serializers.json import DjangoJSONEncoder
@@ -42,9 +41,6 @@ def raw_dictfetchall(cursor):
         for row in cursor.fetchall()
     ]
     
-=======
-
->>>>>>> 55ae167d13c8e2e15e970e6f0d91d74e4b8a1e56
 class AvailableReportsYearList(APIView):
     def get(self, request):
         BASE_YEAR = 2010
