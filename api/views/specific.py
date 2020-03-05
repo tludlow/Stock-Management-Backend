@@ -223,9 +223,6 @@ class CurrencyChanges(APIView):
             start_value = currency_rows[currency][0]
             end_value = currency_rows[currency][-1]
             change = round(end_value / start_value, 3)
-            # print(str(currency) + ": " + str(currency_rows[currency]))
-            # print("Start: " + str(start_value) + "   |   End: " + str(end_value))
-            # print("Change: " + str(change), end="\n\n")
             percentage_change[currency] = change
 
         #Sort the currencies by their change, this allows us to get the largest appreciation and depreciation
@@ -331,21 +328,6 @@ class DeleteCorrection(APIView):
         cid = request.data["correctionID"]
 
         correction = FieldCorrection.objects.filter(id=cid)[0]
-        correction_s = CorrectionSerializer(correction)
-
-        #Get the trade being corrected and revert the correction
-        trade = trade = Trade.objects.filter(id=request.data["tradeID"])[0]
-        old_value = correction_s.data["old_value"]
-        field = request.data["field_type"]
-
-        if field == "QT":
-            trade.quantity = old_value
-        if field == "SP":
-            trade.strike_price = old_value
-        if field == "UP":
-            trade.underlying_price = old_value
-        trade.save()
-
         correction.delete()
 
         return JsonResponse(status=200, data={"success": "Correction has been deleted."})
@@ -366,20 +348,5 @@ class CreateCorrection(APIView):
             date = datetime.now()
         )
         new_correction.save()
-
-        #Get the trade being corrected
-        trade = Trade.objects.filter(id=request.data["tradeID"])[0]
-        
-        field = request.data["field_type"]
-        new_value = request.data["new_value"]
-        if field == "QT":
-            trade.quantity = new_value
-        if field == "SP":
-            trade.strike_price = new_value
-        if field == "UP":
-            trade.underlying_price = new_value
-
-        trade.save()
-
 
         return JsonResponse(status=200, data={"success": "Correction has been applied."})

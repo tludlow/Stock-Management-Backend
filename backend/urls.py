@@ -11,7 +11,6 @@ urlpatterns = [
     path('', Frontend.as_view()),
     path('trading/', Frontend.as_view()),
     path('reports/', Frontend.as_view()),
-    path('corrections/', Frontend.as_view()),
     path('admin/', admin.site.urls),
     path('api/', include(urls)),
     path('docs/', RedirectView.as_view(url='/docs/index.html'))
