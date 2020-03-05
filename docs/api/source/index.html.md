@@ -1467,9 +1467,9 @@ curl "https://group23.dcs.warwick.ac.uk/api/report/year=2020&month=03&day=04/"
             "maturity_date": "2020-04-03", 
             "underlying_price": 3.0, 
             "strike_price": 6.0, 
-            "product": 57, 
-            "buying_party": 160, 
-            "selling_party": 26, 
+            "product": "Stocks", 
+            "buying_party": "Com Tron Industries", 
+            "selling_party": "Wax Masons", 
             "notional_currency": "USD", 
             "underlying_currency": "USD"
         }
