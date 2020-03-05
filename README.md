@@ -221,7 +221,7 @@ prove a sufficent basis for development.
 
 API documentation may be accessed via: https://group23.dcs.warwick.ac.uk/docs/.
 It utilises [slate](https://github.com/slatedocs/slate) and the source directory
-is located `backend/docs/api`.
+is located `docs/api/source`.
 
 ## Interaction
 

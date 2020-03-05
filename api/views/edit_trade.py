@@ -74,8 +74,8 @@ class EditDerivativeTrade(APIView):
         #Makes sure we have all the data we should in the request
         if "trade_id" not in trade_data.keys():
             return JsonResponse(status=400, data={"error": "No trade id provided."})
-        elif len(trade_data.keys()) <= 2:
-            return JsonResponse(status=400, data={"error": "Too many or too few attributes provided."})
+        elif len(trade_data.keys()) <= 1:
+            return JsonResponse(status=400, data={"error": "Too few attributes provided."})
         else:
             for param in trade_data.keys():
                 if param not in allowed_fields:

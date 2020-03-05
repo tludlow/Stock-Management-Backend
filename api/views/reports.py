@@ -17,31 +17,72 @@ from rest_framework.pagination import PageNumberPagination
 
 class AvailableReportsYearList(APIView):
     def get(self, request):
-        data = Trade.objects.raw("""
-            SELECT DISTINCT 1 as id, YEAR(date) as year
+        BASE_YEAR = 2010
+        CURRENT_YEAR = datetime.datetime.now().year
+        sql = ""
+
+        for i in reversed(range(BASE_YEAR, CURRENT_YEAR+1)):
+            lower = datetime.datetime(i, 1, 1, 0, 0, 0, 0)
+            upper = datetime.datetime(i, 12, 31, 23, 59, 59, 9999)
+            if i != CURRENT_YEAR:
+                sql += " UNION "
+            sql += f"""
+            (SELECT 
+                YEAR(date) as year 
             FROM trade
-            ORDER BY year DESC""")
-        s = AvailableReportsYearSerializer(data, many=True)
-        return Response(s.data)
+            WHERE 
+                date>='{lower}' AND date<='{upper}'
+            LIMIT 1)"""
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            data = raw_dictfetchall(cursor)
+        return Response(data)
 
 class AvailableReportsMonthList(APIView):
     def get(self, request, year):
-        data = Trade.objects.raw("""
-        SELECT DISTINCT 1 as id, YEAR(date) as year, MONTH(date) as month
-        FROM trade WHERE YEAR(date)=%s
-        ORDER BY month DESC""", [year])
-        s = AvailableReportsMonthSerializer(data, many=True)
-        return Response(s.data)
+        sql = ""
+        FIRST_MONTH = 1
+        LAST_MONTH = 12
+        for i in reversed(range(FIRST_MONTH, LAST_MONTH+1)):
+            days = calendar.monthrange(year, i)[1]
+            lower = datetime.datetime(year, i, 1, 0, 0, 0, 0)
+            upper = datetime.datetime(year, i, days, 23, 59, 59, 9999)
+            if i != LAST_MONTH:
+                sql += " UNION "
+            sql += f"""
+            (SELECT 
+                MONTH(date) as month, YEAR(date) as year 
+            FROM trade
+            WHERE 
+                date>='{lower}' AND date<='{upper}'
+            LIMIT 1)"""
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            data = raw_dictfetchall(cursor)
+        return Response(data)
 
 class AvailableReportsDayList(APIView):
     def get(self, request, year, month):
-        data = Trade.objects.raw("""
-        SELECT DISTINCT 1 as id, YEAR(date) as year, MONTH(date) as month,
-        DAY(date) as day
-        FROM trade WHERE YEAR(date)=%s AND MONTH(date)=%s AND date < CURDATE()
-        ORDER BY day DESC""", [year, month])
-        s = AvailableReportsDaySerializer(data, many=True)
-        return Response(s.data)
+        sql = ""
+        FIRST_DAY = 1
+        LAST_DAY = calendar.monthrange(year, month)[1]
+        for i in reversed(range(FIRST_DAY, LAST_DAY+1)):
+            lower = datetime.datetime(year, month, i, 0, 0, 0, 0)
+            upper = datetime.datetime(year, month, i, 23, 59, 59, 9999)
+            if i != LAST_DAY:
+                sql += " UNION "
+            sql += f"""
+            (SELECT 
+                DAY(date) as day, MONTH(date) as month, 
+                YEAR(date) as year 
+            FROM trade
+            WHERE 
+                date>='{lower}' AND date<='{upper}'
+            LIMIT 1)"""
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            data = raw_dictfetchall(cursor)
+        return Response(data)
 
 class Combine(object):
     def __len__(self):
@@ -54,40 +95,175 @@ class Combine(object):
         self.num_of_edited_trades = len(edited)
         self.deleted_trades = deleted
         self.num_of_deleted_trades = len(deleted)
-        self.date = date
-        self.created = datetime.datetime(*date)
+        self.date_of_report = datetime.datetime(*date)
+        self.created = datetime.datetime(*date) + timedelta(days=1)
+
+
+def revert_dictfetchall(cursor, lower, upper):
+    columns = [col[0] for col in cursor.description]
+    vals = []
+    for row in cursor.fetchall():
+        trade = dict(zip(columns, row))
+        with connection.cursor() as cursor2:
+            cursor2.execute("""
+            SELECT * FROM edited_trade WHERE trade_id_id=%s and edit_date>%s
+            ORDER BY edit_date ASC
+            """, [trade['id'], upper])
+            post_edits = raw_dictfetchall(cursor2)
+
+        revert = []
+        for i in [EditedTrade(**x) for x in post_edits]:
+            edit = i.get_attribute_edited_display()
+            if edit not in revert:
+                revert.append(edit)
+                trade[edit] = i.old_value
+        vals.append(trade)
+    return vals
+        
+
+
+def fetch_edits(cursor, lower, upper):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    vals = []
+    for row in cursor.fetchall():
+        trade = dict(zip(columns, row))
+        with connection.cursor() as cursor2:
+            cursor2.execute("""
+            SELECT * FROM edited_trade WHERE trade_id_id=%s and edit_date>%s
+            ORDER BY edit_date ASC
+            """, [trade['id'], upper])
+            post_edits = raw_dictfetchall(cursor2)
+        
+        revert = []
+        for i in [EditedTrade(**x) for x in post_edits]:
+            edit = i.get_attribute_edited_display()
+            if edit not in revert:
+                revert.append(edit)
+                trade[edit] = i.old_value
+                
+
+        with connection.cursor() as cursor3:
+            cursor3.execute("""
+            SELECT * FROM edited_trade WHERE trade_id_id=%s AND 
+            edit_date>=%s AND edit_date<=%s
+            """, [trade['id'], lower, upper])
+            edits = raw_dictfetchall(cursor3)
+
+        new = {'trade' : trade, 'num_of_edits' : len(edits), 'edits' : edits}
+        vals.append(new)
+
+    return vals
+
 
 class Report(APIView, PageNumberPagination):
+
     def get(self, request, year, month, day):
-        if datetime.datetime.today() > datetime.datetime(year, month, day):
+        if datetime.datetime.today() >= datetime.datetime(year, month, day):
             lower = datetime.datetime(year, month, day, 0, 0, 0, 0)
             upper = datetime.datetime(year, month, day, 23, 59, 59, 9999)
-            
-            trades = Trade.objects.filter(date__range=[lower, upper]).order_by('date')
-            edits = Trade.objects.raw("""
-            SELECT * FROM 
-            trade WHERE ID IN (
-                SELECT trade_id_id FROM 
-                edited_trade WHERE YEAR(edit_date)=%s AND MONTH(edit_date)=%s 
-                    AND DAY(edit_date)=%s ORDER BY edit_date DESC)
-            """, [year, month, day])
+            with connection.cursor() as cursor:
+                # Get the new trades
+                cursor.execute("""
+                SELECT 
+                    T.id, T.date, T.notional_amount, T.quantity, 
+                    T.maturity_date, T.underlying_price, T.strike_price, 
+                    P.name as product, BP.name as buying_party, 
+                    SP.name as selling_party, 
+                    T.underlying_currency_id as underlying_currency, 
+                    T.notional_currency_id as notional_currency 
+                FROM trade T 
+                INNER JOIN 
+                    (SELECT * FROM product) P 
+                ON P.id = T.product_id
+                INNER JOIN 
+                    (SELECT * FROM company) BP
+                ON BP.id = T.buying_party_id
+                INNER JOIN
+                    (SELECT * FROM company) SP
+                ON SP.id = T.selling_party_id
+                LEFT JOIN
+                    (SELECT trade_id_id FROM deleted_trade) DT
+                ON DT.trade_id_id = T.id
+                WHERE 
+                    DT.trade_id_id IS NULL and T.date>=%s and T.date<=%s 
+                ORDER BY T.date DESC
+                """, [lower, upper])
+                trades = revert_dictfetchall(cursor, lower, upper)
+                
+                # Get the edits
+                cursor.execute("""
+                SELECT 
+                    T.id, T.date, T.notional_amount, T.quantity, 
+                    T.maturity_date, T.underlying_price, T.strike_price, 
+                    P.name as product, BP.name as buying_party,
+                    SP.name as selling_party, 
+                    T.underlying_currency_id as underlying_currency, 
+                    T.notional_currency_id as notional_currency, ET.edit_date 
+                FROM trade T 
+                INNER JOIN 
+                    (SELECT * FROM product) P 
+                ON P.id = T.product_id
+                INNER JOIN 
+                    (SELECT * FROM company) BP
+                ON BP.id = T.buying_party_id
+                INNER JOIN
+                    (SELECT * FROM company) SP
+                ON SP.id = T.selling_party_id
+                INNER JOIN 
+                    (SELECT 
+                        trade_id_id, edit_date 
+                    FROM edited_trade 
+                    WHERE 
+                        edit_date>=%s and edit_date<=%s) ET
+                ON ET.trade_id_id = T.id
+                LEFT JOIN
+                    (SELECT trade_id_id FROM deleted_trade) DT
+                ON DT.trade_id_id = T.id
+                WHERE 
+                    DT.trade_id_id IS NULL
+                GROUP BY 
+                    T.id, T.date, T.notional_amount, T.quantity, 
+                    T.maturity_date, 
+                    T.underlying_price, T.strike_price, product, buying_party, 
+                    selling_party, underlying_currency, notional_currency,
+                    ET.edit_date
+                ORDER BY ET.edit_date DESC
+                """, [lower, upper])
+                edits = fetch_edits(cursor, lower, upper)
 
-            deletes = Trade.objects.raw("""
-            SELECT * FROM 
-            trade WHERE ID IN (
-                SELECT trade_id_id FROM 
-                deleted_trade WHERE YEAR(deleted_at)=%s AND MONTH(deleted_at)=%s 
-                    AND DAY(deleted_at)=%s ORDER BY deleted_at DESC)
-            """, [year, month, day])
-
-            date = (year, month, day)
-            combined = Combine(trades, edits, deletes, date)
-            s = ReportSerializer(combined, many=False)
+                # Get the deletions
+                cursor.execute("""
+                SELECT 
+                    T.id, T.date, T.notional_amount, T.quantity, 
+                    T.maturity_date, T.underlying_price, T.strike_price, 
+                    P.name as product, BP.name as buying_party, 
+                    SP.name as selling_party, 
+                    T.underlying_currency_id as underlying_currency, 
+                    T.notional_currency_id as notional_currency,
+                    DT.id as delete_id, DT.deleted_at 
+                FROM trade T 
+                INNER JOIN 
+                    (SELECT * FROM product) P 
+                ON P.id = T.product_id
+                INNER JOIN 
+                    (SELECT * FROM company) BP
+                ON BP.id = T.buying_party_id
+                INNER JOIN
+                    (SELECT * FROM company) SP
+                ON SP.id = T.selling_party_id
+                INNER JOIN
+                    (SELECT * FROM deleted_trade WHERE deleted_at>=%s
+                    and deleted_at<=%s) DT
+                ON DT.trade_id_id = T.id
+                ORDER BY DT.deleted_at DESC
+                """, [lower, upper])
+                deleted = revert_dictfetchall(cursor, lower, upper)
+                date = (year, month, day)
+                combined = Combine(trades, edits, deleted, date)
+                s = ReportSerializer(combined, many=False)
             
-            # page_size = self.request.query_params.get("page_size", 25)
-            # paginator = Paginator(tuple(s.data.items()), page_size)
-            # page_number = self.request.query_params.get("page_number", 1)
-            # data = paginator.page(page_number)
+                return Response(s.data)
 
             if len(s.data) > 0:
                 return Response(s.data)

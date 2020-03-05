@@ -116,6 +116,7 @@ class CreateDerivativeTrade(APIView):
             strike_price=trade_data["strike_price"]
         )
         new_trade.save()
+        trade_id = new_trade.id
 
         scanTradeForErrors(new_trade)
 
