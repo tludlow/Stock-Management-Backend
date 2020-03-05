@@ -14,13 +14,7 @@ search: true
 ---
 # Introduction
 
-Primitive API documentation for group project.
-
-<aside class="warning">Check usage & required credits of using slate before final submission.</aside>
-
-# Authentication
-
-No authentication is currently required.
+Group 23's API documentation for their [CS261](https://www.warwick.ac.uk/cs261) group project.
 
 # Currency
 
@@ -49,8 +43,6 @@ This endpoint to return all supported currencies.
 ### HTTP Request
 
 `GET https://group23.dcs.warwick.ac.uk/api/currency/list/`
-
-<aside class="warning">For the moment, queries made must be exact - both case and format (ensure backslash at end of request)</aside>
 
 ## All Currency Prices
 
@@ -274,13 +266,13 @@ curl "https://group23.dcs.warwick.ac.uk/api/company/list/"
 ```json
 [
   {
-    "id": "AGBH66",
-    "name": "Cyberbiotics"
+    "id": 1,
+    "name": "Blue Sun Corporation"
   },
   ...,
   {
-    "id": "ZXVX98",
-    "name": "The Noah Family"
+    "id": 202,
+    "name": "Passione"
   }
 ]
 ```
@@ -294,7 +286,7 @@ This endpoint retrieves all companies.
 ## By ID
 
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/company/id=AGBH66/"
+curl "https://group23.dcs.warwick.ac.uk/api/company/id=1/"
 ```
 
 > The above command returns JSON structured like this:
@@ -302,8 +294,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/company/id=AGBH66/"
 ```json
 [
   {
-    "id": "AGBH66",
-    "name": "Cyberbiotics"
+    "id": 1,
+    "name": "Blue Sun Corporation"
   }
 ]
 ```
@@ -323,7 +315,7 @@ ID | ID of the company to retrieve
 ## By Name
 
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/company/name=Cyberbiotics/"
+curl "https://group23.dcs.warwick.ac.uk/api/company/name=Blue%20Sun%20Corporation/"
 ```
 
 > The above command returns JSON structured like this:
@@ -331,8 +323,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/company/name=Cyberbiotics/"
 ```json
 [
   {
-    "id": "AGBH66",
-    "name": "Cyberbiotics"
+    "id": 1,
+    "name": "Blue Sun Corporation"
   }
 ]
 ```
@@ -443,7 +435,7 @@ NAME | Name of the product to retrieve
 ## Sold By
 
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/product/soldby/company_id=RFZG50/"
+curl "https://group23.dcs.warwick.ac.uk/api/product/soldby/company_id=102/"
 ```
 
 > The above command returns JSON structured like this:
@@ -453,13 +445,13 @@ curl "https://group23.dcs.warwick.ac.uk/api/product/soldby/company_id=RFZG50/"
   {
     "id":305, 
     "product_id":305,
-    "company_id":"RFZG50",
+    "company_id":102,
     "name":"Elven Boots"
   },
   {
     "id":307,
     "product_id":307,
-    "company_id":"RFZG50",
+    "company_id":102,
     "name":"Mystic Keys"
   }
 ]
@@ -490,12 +482,12 @@ curl "https://group23.dcs.warwick.ac.uk/api/seller/list/"
 [
   {
     "product": 2,
-    "company": "QETH27"
+    "company": 1
   },
   ...
   {
     "product": 606,
-    "company": "DILF10"
+    "company": 202
   }
 ]
 ```
@@ -509,7 +501,7 @@ This endpoint retrieves a list of all product seller pairs.
 ## By Company
 
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/seller/company=QETH27/"
+curl "https://group23.dcs.warwick.ac.uk/api/seller/company=1/"
 ```
 
 > The above command returns JSON structured like this:
@@ -518,12 +510,12 @@ curl "https://group23.dcs.warwick.ac.uk/api/seller/company=QETH27/"
 [
   {
     "product": 2,
-    "company": "QETH27"
+    "company": 1
   },
   ...
   {
     "product": 4,
-    "company": "QETH27"
+    "company": 1
   }
 ]
 ```
@@ -550,7 +542,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/seller/product=1/"
 [
   {
     "product": 2,
-    "company": "QETH27"
+    "company": 1
   }
 ]
 ```
@@ -569,7 +561,7 @@ PRODUCT | Product ID
 
 ## All Stock Prices
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/stock/"
+curl "https://group23.dcs.warwick.ac.uk/api/stock/list/"
 ```
 
 > The above command returns JSON structured like this:
@@ -577,13 +569,13 @@ curl "https://group23.dcs.warwick.ac.uk/api/stock/"
 ```json
 [
   {
-    "company": "QETH27", 
+    "company": 1, 
     "date": "2019-01-01", 
     "value": 1.48
   },
   ...
   {
-    "company": "DILF10", 
+    "company": 202, 
     "date": "2019-12-31", 
     "value": 289.62
   }
@@ -594,14 +586,14 @@ This endpoint retrieves a list of all stock prices.
 
 ### HTTP Request
 
-`GET https://group23.dcs.warwick.ac.uk/api/stock/`
+`GET https://group23.dcs.warwick.ac.uk/api/stock/list/`
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 
 ## By Company
 
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02/"
+curl "https://group23.dcs.warwick.ac.uk/api/stock/company=133/"
 ```
 
 > The above command returns JSON structured like this:
@@ -609,13 +601,13 @@ curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02/"
 ```json
 [
   {
-    "company": "NCCX02", 
+    "company": 133, 
     "date": "2019-01-01", 
     "value": 797.0
   }
   ...
   {
-    "company": "NCCX02", 
+    "company": 133, 
     "date": "2019-12-31", 
     "value": 1221.27
   }
@@ -635,7 +627,7 @@ COMPANY | Company ID
 ## By Year (Company)
 
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019/"
+curl "https://group23.dcs.warwick.ac.uk/api/stock/company=133&year=2019/"
 ```
 
 > The above command returns JSON structured like this:
@@ -643,13 +635,13 @@ curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019/"
 ```json
 [
   {
-    "company": "NCCX02", 
+    "company": 133, 
     "date": "2019-01-01", 
     "value": 797.0
   }
   ...
   {
-    "company": "NCCX02", 
+    "company": 133, 
     "date": "2019-12-31", 
     "value": 1221.27
   }
@@ -670,7 +662,7 @@ YEAR | Year of data to be returned
 ## By Month (Company)
 
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019&month=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/stock/company=133&year=2019&month=01/"
 ```
 
 > The above command returns JSON structured like this:
@@ -678,13 +670,13 @@ curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019&month
 ```json
 [
   {
-    "company": "NCCX02", 
+    "company": 133, 
     "date": "2019-01-01", 
     "value": 797.0
   }
   ...
   {
-    "company": "NCCX02", 
+    "company": 133, 
     "date": "2019-01-31", 
     "value": 869.27
   }
@@ -706,7 +698,7 @@ MONTH | Month of data to be returned
 ## By Day (Company)
 
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019&month=01&day=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/stock/company=133&year=2019&month=01&day=01/"
 ```
 
 > The above command returns JSON structured like this:
@@ -714,7 +706,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/stock/company=NCCX02&year=2019&month
 ```json
 [
   {
-    "company": "NCCX02", 
+    "company": 133, 
     "date": "2019-01-01", 
     "value": 797.0
   }
@@ -738,7 +730,7 @@ DAY | Day of data to be returned
 
 ## Create Trade
 ```shell
-curl -d 'selling_party=DJNE62&buying_party=RQGG65&product=58&quantity=100&maturity_date=2020-02-29&underlying_currency=USD&notional_currency=USD&strike_price=6.0&underlying_price=2.0' -X POST "https://group23.dcs.warwick.ac.uk/api/trade/create/"
+curl -d 'selling_party=26&buying_party=160&product=58&quantity=100&maturity_date=2020-04-03&underlying_currency=USD&notional_currency=USD&strike_price=6.0&underlying_price=2.0' -X POST "https://group23.dcs.warwick.ac.uk/api/trade/create/"
 ```
 
 > The above command returns JSON structured like this:
@@ -746,13 +738,13 @@ curl -d 'selling_party=DJNE62&buying_party=RQGG65&product=58&quantity=100&maturi
 ```json
 [
   {
-    "trade_id": "OLKRFDAH55872205", 
+    "trade_id": 2360717, 
     "data": {
-        "selling_party": "DJNE62", 
-        "buying_party": "RQGG65", 
+        "selling_party": 26, 
+        "buying_party": 160, 
         "product": "58",
         "quantity": "100", 
-        "maturity_date": "2020-02-29", 
+        "maturity_date": "2020-04-03", 
         "underlying_currency": "USD",
         "notional_currency": "USD", 
         "strike_price": "6.0",
@@ -784,7 +776,7 @@ UNDERLYING_PRICE | Underlying price of trade
 
 ## Edit Trade
 ```shell
-curl -d 'trade_id=OLKRFDAH55872205&product=57&underlying_price=3' -X POST "http://group23.dcs.warwick.ac.uk/api/trade/edit/"
+curl -d 'trade_id=2360717&product=57&underlying_price=3' -X POST "https://group23.dcs.warwick.ac.uk/api/trade/edit/"
 ```
 
 > The above command returns JSON structured like this:
@@ -800,16 +792,16 @@ curl -d 'trade_id=OLKRFDAH55872205&product=57&underlying_price=3' -X POST "http:
     }, 
     "trade": [
         {
-            "id": "OLKRFDAH55872205", 
-            "date": "2020-02-28T19:59:30.224397Z", 
+            "id": "2360717", 
+            "date": "2020-03-03T19:59:30.224397Z", 
             "notional_amount": 100.0, 
             "quantity": 100, 
-            "maturity_date": "2020-02-29", 
+            "maturity_date": "2020-04-03", 
             "underlying_price": 3.0, 
             "strike_price": 6.0, 
             "product": 57, 
-            "buying_party": "RQGG65", 
-            "selling_party": "DJNE62", 
+            "buying_party": 160, 
+            "selling_party": 26, 
             "notional_currency": "USD", 
             "underlying_currency": "USD"
         }
@@ -840,9 +832,9 @@ UNDERLYING_PRICE | Underlying price of trade
 
 `POST https://group23.dcs.warwick.ac.uk/api/trade/edit/`
 
-## Deletion 
+## Delete Trade 
 ```shell
-curl -d 'trade_id=OLKRFDAH55872205&product=57' -X POST "http://group23.dcs.warwick.ac.uk/api/trade/delete/"
+curl -d 'trade_id=2360717' -X POST "https://group23.dcs.warwick.ac.uk/api/trade/delete/"
 ```
 ```json
 [
@@ -864,7 +856,7 @@ TRADE_ID | ID of the trade to edit
 
 ## All Trades
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/trade/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/list/"
 ```
 
 > The above command returns JSON structured like this:
@@ -872,7 +864,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/"
 ```json
 [
   {
-    "id": "PASYTZVI53631072",
+    "id": 1,
     "date": "2019-01-01T00:00:00Z",
     "notional_amount": 369300.0,
     "quantity": 2000,
@@ -880,14 +872,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": 1,
-    "buying_party": "FORM54",
-    "selling_party": "ISWT83",
+    "buying_party": 22,
+    "selling_party": 174,
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
   ...
   {
-    "id": "ZTLGMVSN76336825",
+    "id": 2360716,
     "date": "2019-12-31T11:59:00Z",
     "notional_amount": 4396800.0,
     "quantity": 80000,
@@ -895,8 +887,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/"
     "underlying_price": 54.96,
     "strike_price": 50.24,
     "product": 1,
-    "buying_party": "SWGF93",
-    "selling_party": "ESPL27",
+    "buying_party": 8,
+    "selling_party": 178,
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -907,13 +899,13 @@ This endpoint retrieves a list of all trades.
 
 ### HTTP Request
 
-`GET https://group23.dcs.warwick.ac.uk/api/trade/`
+`GET https://group23.dcs.warwick.ac.uk/api/trade/list/`
 
 <aside class="warning">This will return a huge amount of data; be wary with usage!</aside>
 
-## By ID 
+## Recent
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/trade/id=PASYTZVI53631072/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/recent/"
 ```
 
 > The above command returns JSON structured like this:
@@ -921,7 +913,96 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/id=PASYTZVI53631072/"
 ```json
 [
   {
-    "id": "PASYTZVI53631072",
+    "id": 2360720,
+    "date": "2020-03-03T18:37:03.859802Z",
+    "product_id": 57,
+    "buying_party_id": 160,
+    "selling_party_id": 26,
+    "notional_amount": 100.0,
+    "notional_currency_id": "USD",
+    "quantity": 100,
+    "maturity_date": "2020-04-03",
+    "underlying_price": 3.0,
+    "underlying_currency_id": "USD",
+    "strike_price": 6.0,
+    "buying_company": "FOX",
+    "selling_company": "Atlas Corp.",
+    "product": "Cell Cells"
+  },
+  {
+      "id": 289262,
+      "date": "2019-12-31T11:59:00Z",
+      "product_id": 1,
+      "buying_party_id": 71,
+      "selling_party_id": 145,
+      "notional_amount": 5355.0,
+      "notional_currency_id": "USD",
+      "quantity": 500,
+      "maturity_date": "2021-12-06",
+      "underlying_price": 10.71,
+      "underlying_currency_id": "USD",
+      "strike_price": 9.36,
+      "buying_company": "Gekko and Co.",
+      "selling_company": "Okama",
+      "product": "Stocks"
+  },
+  ...
+}
+]
+```
+This endpoint retrieves a list of all trades descending order by date.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/trade/id=<ID>/`
+
+## Recent Trades By Company For Product
+```shell
+curl "https://group23.dcs.warwick.ac.uk/api/trade/product=1&buyer=1/"
+```
+> The above command returns JSON structured like this:
+```json
+[
+  {
+    "id": 289225,
+    "date": "2019-12-31T11:48:00Z",
+    "notional_amount": 160920.0,
+    "quantity": 9000,
+    "maturity_date": "2024-09-12",
+    "underlying_price": 191.58,
+    "strike_price": 15.21,
+    "product": 1,
+    "buying_party": 1,
+    "selling_party": 150,
+    "notional_currency": "USD",
+    "underlying_currency": "GMD"
+  }
+  ...
+]
+```
+This endpoint retrieves all trades with a giveen product and buyer.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/trade/product=<PRODUCT>&buyer=<BUYER>/`
+
+Parameter | Description
+--------- | -----------
+PRODUCT | Product in the trade
+BUYER | Buyer in the trade
+
+
+## By ID 
+```shell
+curl "https://group23.dcs.warwick.ac.uk/api/trade/id=1/"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": 1,
     "date": "2019-01-01T00:00:00Z",
     "notional_amount": 369300.0,
     "quantity": 2000,
@@ -929,15 +1010,15 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/id=PASYTZVI53631072/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": 1,
-    "buying_party": "FORM54",
-    "selling_party": "ISWT83",
+    "buying_party": 22,
+    "selling_party": 174,
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   }
 ]
 ```
 
-This endpoint retrieves a list of the trade with the given ID.
+This endpoint retrieves the trade with the given ID.
 
 ### HTTP Request
 
@@ -950,7 +1031,7 @@ ID | iD of the trade to be returned
 ## By Buyer
 
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=FORM54/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=22/"
 ```
 
 > The above command returns JSON structured like this:
@@ -958,7 +1039,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=FORM54/"
 ```json
 [
   {
-    "id": "PASYTZVI53631072",
+    "id": 1,
     "date": "2019-01-01T00:00:00Z",
     "notional_amount": 369300.0,
     "quantity": 2000,
@@ -966,14 +1047,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=FORM54/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": 1,
-    "buying_party": "FORM54",
-    "selling_party": "ISWT83",
+    "buying_party": 22,
+    "selling_party": 174,
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
   ...
   {
-    "id": "UDXTYEZM95287495",
+    "id": 2360627,
     "date": "2019-12-31T11:58:00Z",
     "notional_amount": 8995.0,
     "quantity": 500,
@@ -981,8 +1062,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=FORM54/"
     "underlying_price": 17.99,
     "strike_price": 17.6,
     "product": 1,
-    "buying_party": "FORM54",
-    "selling_party": "WIZJ73",
+    "buying_party": 22,
+    "selling_party": 24,
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1001,7 +1082,7 @@ BUYER | Buyer in the trade
 
 ## By Seller
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=WIZJ73/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=24/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1009,7 +1090,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=WIZJ73/"
 ```json
 [
   {
-    "id": "RAKMTSOF05364150",
+    "id": 67,
     "date": "2019-01-01T02:50:00Z",
     "notional_amount": 16243.02,
     "quantity": 500,
@@ -1017,14 +1098,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=WIZJ73/"
     "underlying_price": 93.19,
     "strike_price": 28.46,
     "product": 73,
-    "buying_party": "CVMG22",
-    "selling_party": "WIZJ73",
+    "buying_party": 75,
+    "selling_party": 24,
     "notional_currency": "BND",
     "underlying_currency": "USD"
   },
   ...
   {
-    "id": "UDXTYEZM95287495",
+    "id": 2360627,
     "date": "2019-12-31T11:58:00Z",
     "notional_amount": 8995.0,
     "quantity": 500,
@@ -1032,8 +1113,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=WIZJ73/"
     "underlying_price": 17.99,
     "strike_price": 17.6,
     "product": 1,
-    "buying_party": "FORM54",
-    "selling_party": "WIZJ73",
+    "buying_party": 22,
+    "selling_party": 24,
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1060,7 +1141,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019/"
 ```json
 [
   {
-    "id": "PASYTZVI53631072",
+    "id": 1,
     "date": "2019-01-01T00:00:00Z",
     "notional_amount": 369300.0,
     "quantity": 2000,
@@ -1068,14 +1149,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": 1,
-    "buying_party": "FORM54",
-    "selling_party": "ISWT83",
+    "buying_party": 22,
+    "selling_party": 174,
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
   ...
   {
-    "id": "ZTLGMVSN76336825",
+    "id": 2360716,
     "date": "2019-12-31T11:59:00Z",
     "notional_amount": 4396800.0,
     "quantity": 80000,
@@ -1083,8 +1164,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019/"
     "underlying_price": 54.96,
     "strike_price": 50.24,
     "product": 1,
-    "buying_party": "SWGF93",
-    "selling_party": "ESPL27",
+    "buying_party": 8,
+    "selling_party": 179,
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1112,7 +1193,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01/"
 ```json
 [
   {
-    "id": "PASYTZVI53631072",
+    "id": 1,
     "date": "2019-01-01T00:00:00Z",
     "notional_amount": 369300.0,
     "quantity": 2000,
@@ -1120,14 +1201,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": 1,
-    "buying_party": "FORM54",
-    "selling_party": "ISWT83",
+    "buying_party": 22,
+    "selling_party": 174,
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
   ...
   {
-    "id": "VRAOOOSE39397903",
+    "id": 1967264,
     "date": "2019-01-31T11:59:00Z",
     "notional_amount": 502400.0,
     "quantity": 80000,
@@ -1135,8 +1216,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01/"
     "underlying_price": 51.04,
     "strike_price": 5.75,
     "product": 1,
-    "buying_party": "CBOX52",
-    "selling_party": "MEOQ86",
+    "buying_party": 86,
+    "selling_party": 58,
     "notional_currency": "USD",
     "underlying_currency": "BZD"
   }
@@ -1164,7 +1245,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01&day=01/"
 ```json
 [
   {
-    "id": "PASYTZVI53631072",
+    "id": 1,
     "date": "2019-01-01T00:00:00Z",
     "notional_amount": 369300.0,
     "quantity": 2000,
@@ -1172,14 +1253,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01&day=01/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": 1,
-    "buying_party": "FORM54",
-    "selling_party": "ISWT83",
+    "buying_party": 22,
+    "selling_party": 174,
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
   ...
   {
-    "id": "CQHJKYMA90014810",
+    "id": 646771,
     "date": "2019-01-01T11:59:00Z",
     "notional_amount": 54290.0,
     "quantity": 400,
@@ -1187,8 +1268,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01&day=01/"
     "underlying_price": 135.74,
     "strike_price": 151.79,
     "product": 1,
-    "buying_party": "DNIL23",
-    "selling_party": "PKBF70",
+    "buying_party": 84,
+    "selling_party": 38,
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1217,7 +1298,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024/"
 ```json
 [
   {
-    "id": "JZXTBWMB27877603",
+    "id": 646001,
     "date": "2019-01-01T00:51:00Z",
     "notional_amount": 19976400.0,
     "quantity": 90000,
@@ -1225,14 +1306,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024/"
     "underlying_price": 2761.52,
     "strike_price": 248.17,
     "product": 427,
-    "buying_party": "HHOA99",
-    "selling_party": "PQSW95",
+    "buying_party": 190,
+    "selling_party": 143,
     "notional_currency": "USD",
     "underlying_currency": "PAB"
   },
   ...
   {
-    "id": "KSLSFRZA92830687",
+    "id": 2330714,
     "date": "2019-12-30T11:54:00Z",
     "notional_amount": 3770500.0,
     "quantity": 50000,
@@ -1240,8 +1321,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024/"
     "underlying_price": 75.41,
     "strike_price": 59.87,
     "product": 1,
-    "buying_party": "SRYE59",
-    "selling_party": "VKMV12",
+    "buying_party": 164,
+    "selling_party": 180,
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1269,7 +1350,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
 ```json
 [
   {
-    "id": "JZXTBWMB27877603",
+    "id": 646001,
     "date": "2019-01-01T00:51:00Z",
     "notional_amount": 19976400.0,
     "quantity": 90000,
@@ -1277,14 +1358,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "underlying_price": 2761.52,
     "strike_price": 248.17,
     "product": 427,
-    "buying_party": "HHOA99",
-    "selling_party": "PQSW95",
+    "buying_party": 190,
+    "selling_party": 143,
     "notional_currency": "USD",
     "underlying_currency": "PAB"
   },
   ...
   {
-    "id": "RIIIHLYF92433894",
+    "id": 2360019,
     "date": "2019-12-31T04:39:00Z",
     "notional_amount": 474500.0,
     "quantity": 50000,
@@ -1292,8 +1373,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "underlying_price": 9.49,
     "strike_price": 10.65,
     "product": 1,
-    "buying_party": "FGQR22",
-    "selling_party": "PJKH65",
+    "buying_party": 138,
+    "selling_party": 13,
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1321,7 +1402,7 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
 ```json
 [
   {
-    "id": "JZXTBWMB27877603",
+    "id": 646001,
     "date": "2019-01-01T00:51:00Z",
     "notional_amount": 19976400.0,
     "quantity": 90000,
@@ -1329,14 +1410,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "underlying_price": 2761.52,
     "strike_price": 248.17,
     "product": 427,
-    "buying_party": "HHOA99",
-    "selling_party": "PQSW95",
+    "buying_party": 190,
+    "selling_party": 143,
     "notional_currency": "USD",
     "underlying_currency": "PAB"
   },
   ...
   {
-    "id": "TBHUTJXH45919615",
+    "id": 2320014,
     "date": "2019-12-31T06:51:00Z",
     "notional_amount": 14310.0,
     "quantity": 3000,
@@ -1344,8 +1425,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "underlying_price": 4.77,
     "strike_price": 4.15,
     "product": 1,
-    "buying_party": "PQSW95",
-    "selling_party": "OKYS51",
+    "buying_party": 143,
+    "selling_party": 65,
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1373,54 +1454,82 @@ curl "https://group23.dcs.warwick.ac.uk/api/report/year=2018&month=01&day=01/"
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": "BBILNMOD82695232",
-    "date": "2018-01-31T00:00:00Z",
-    "notional_amount": 75879.0,
-    "quantity": 900,
-    "maturity_date": "2022-11-13",
-    "underlying_price": 366.31,
-    "strike_price": 72.31,
-    "product": 1,
-    "buying_party": "RFZG50",
-    "selling_party": "DJNE62",
-    "notional_currency": "USD",
-    "underlying_currency": "LRD",
-    "edits": [
+{
+    "date_of_report": "2020-03-04T00:00:00Z",
+    "created": "2020-03-05T00:00:00Z",
+    "num_of_new_trades": 1,
+    "created_trades": [
         {
-            "id": 1,
-            "attribute_edited": "buying party",
-            "edit_date": "2018-02-01T00:00:00Z",
-            "old_value": "DJNE62",
-            "new_value": "RFZG50",
+            "id": 2360718, 
+            "date": "2020-03-03T19:59:30.224397Z", 
+            "notional_amount": 100.0, 
+            "quantity": 100, 
+            "maturity_date": "2020-04-03", 
+            "underlying_price": 3.0, 
+            "strike_price": 6.0, 
+            "product": 57, 
+            "buying_party": 160, 
+            "selling_party": 26, 
+            "notional_currency": "USD", 
+            "underlying_currency": "USD"
         }
     ],
-    "deleted": [
+    "num_of_edited_trades": 1,
+    "edited_trades": [
         {
-            "id": 1,
-            "deleted_at": "2020-12-12T00:00:00Z",
+            "trade": {
+                "id": 2130102, 
+                "date": "2020-02-01T14:51:11.215319Z", 
+                "notional_amount": 31.0, 
+                "quantity": 230, 
+                "maturity_date": "2021-12-01", 
+                "underlying_price": 1.0, 
+                "strike_price": 2.0, 
+                "product": "Stocks", 
+                "buying_party": "New York Inquirer", 
+                "selling_party": "International Data Corporation", 
+                "notional_currency": "USD", 
+                "underlying_currency": "USD"
+            },
+            "num_of_edits": 2,
+            "edits": [
+                {
+                    "id": 1,
+                    "attribute_edited": "product",
+                    "edit_date": "2020-03-03T20:00:03Z",
+                    "old_value": "Rings of Teleportation", 
+                    "new_value": "Stocks", 
+                },
+                {
+                    "id": 2,
+                    "attribute_edited": "underlying_price",
+                    "edit_date": "2020-03-03T22:42:20Z",
+                    "old_value": "420",
+                    "new_value": "1"
+                }
+            ]
+        }
+    ],
+    "num_of_deleted_trades": 1,
+    "deleted_trades": [
+        {
+            "id": 2360715, 
+            "date": "2020-03-03T21:01:11.394367Z", 
+            "notional_amount": 89.0, 
+            "quantity": 100000, 
+            "maturity_date": "2022-11-01", 
+            "underlying_price": 10.0, 
+            "strike_price": 60.0, 
+            "product": "Stocks", 
+            "buying_party": "Tokra Electronics", 
+            "selling_party": "Wario Ware Inc.", 
+            "notional_currency": "USD", 
+            "underlying_currency": "USD"
+            "delete_id": 1,
+            "deleted_at": "2020-03-01T23:19:51Z"
         }
     ]
-  },
-  ...
-  {
-    "id": "TBHUTJXH45919615",
-    "date": "2019-12-31T06:51:00Z",
-    "notional_amount": 14310.0,
-    "quantity": 3000,
-    "maturity_date": "2024-01-01",
-    "underlying_price": 4.77,
-    "strike_price": 4.15,
-    "product": 1,
-    "buying_party": "PQSW95",
-    "selling_party": "OKYS51",
-    "notional_currency": "USD",
-    "underlying_currency": "USD"
-    "edits": [],
-    "deleted": []
-  }
-]
+}
 ```
 
 This endpoint retrieves a report for the given date.

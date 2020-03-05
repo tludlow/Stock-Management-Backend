@@ -24,7 +24,9 @@ class TradeRecentList(APIView):
         page_number = int(self.request.query_params.get("page_number", 1))
         page_size = int(self.request.query_params.get("page_size", 12))
 
-        data = Trade.objects.all().order_by('-date')[(page_number-1)*page_size : page_number*page_size]
+        trades = Trade.objects.all().order_by('-date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
         trade_data = data.values()
         
         for idx, trade in enumerate(trade_data):
@@ -49,8 +51,6 @@ class TradeRecentList(APIView):
             product_s = ProductSerializer(product_data)
 
             trade_data[idx]["product"] = product_s.data.get("name")
-
-            #print(str(idx) + ":  " + str(trade), end="\n\n")
 
         #Modified the structure of a trade, will need to use a custom serializer.
         return Response(trade_data)
@@ -146,13 +146,10 @@ class ProductsForSellers(APIView):
         product_data = products_sold.values()
         
         for idx, trade in enumerate(product_data):
-            print(trade)
             #Take the product_id and append meaningful data about this product to the trade
             product_id = trade.get("product_id")
             product_data_inner = Product.objects.get(id=product_id)
             product_s = ProductSerializer(product_data_inner)
-            print(product_s.data)
-
             product_data[idx]["name"] = product_s.data.get("name")
 
         return Response(product_data)
@@ -226,9 +223,6 @@ class CurrencyChanges(APIView):
             start_value = currency_rows[currency][0]
             end_value = currency_rows[currency][-1]
             change = round(end_value / start_value, 3)
-            # print(str(currency) + ": " + str(currency_rows[currency]))
-            # print("Start: " + str(start_value) + "   |   End: " + str(end_value))
-            # print("Change: " + str(change), end="\n\n")
             percentage_change[currency] = change
 
         #Sort the currencies by their change, this allows us to get the largest appreciation and depreciation
@@ -250,8 +244,6 @@ class CurrencyChanges(APIView):
             depreciation_dict[index]["currency"] = currency
             depreciation_dict[index]["change"] = str(round(1 - percentage_change[currency], 3)) + "%"
             depreciation_dict[index]["values"] = currency_rows[currency]
-
-        print(largest_appreciations)
 
         return JsonResponse(status=200, data={
             "day_one": day_one,
@@ -342,7 +334,6 @@ class DeleteCorrection(APIView):
 
 class CreateCorrection(APIView):
     def post(self, request):
-        print(request.data)
 
         #Get the error referenced in the correction
         error = ErroneousTradeAttribute.objects.filter(id=request.data["errorID"])[0]
