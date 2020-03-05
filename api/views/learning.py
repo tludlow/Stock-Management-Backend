@@ -15,12 +15,14 @@ import pandas as pd
 import os
 import sklearn
 import numpy
+import importlib
 from sklearn import preprocessing
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import KNeighborsRegressor
 import pickle
 import matplotlib.pyplot as pyplot
 from matplotlib import style
+from django.test import RequestFactory
 
 # import warnings filter
 from warnings import simplefilter
@@ -51,9 +53,12 @@ def scanTradeForErrors(trade):
     sellingCompany = trade_data["selling_party"]
 
     # Get the data to compare against
-    getBuyerProduct = requests.get(
-        "http://localhost:8000/api/trade/product={0}&buyer={1}&seller={2}/".format(boughtProduct, buyingCompany,
-                                                                                   sellingCompany))
+    rf = RequestFactory()
+    getBuyerProduct = rf.get(
+        f"""http://localhost:8000/api/trade/product={boughtProduct}&
+            buyer={buyingCompany}&seller={sellingCompany}/
+            """)
+    
 
     data = pd.read_json(StringIO(getBuyerProduct.text))  # convert the trade data into text to be analysed
 
