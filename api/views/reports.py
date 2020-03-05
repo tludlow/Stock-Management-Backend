@@ -18,6 +18,7 @@ from django.db import connection
 import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
+import calendar
 #You will need to create new models and a migration for the editedtrade table
 #and deletedtrades table.
 
@@ -52,36 +53,62 @@ class AvailableReportsYearList(APIView):
             if i != CURRENT_YEAR:
                 sql += " UNION "
             sql += f"""
-            (SELECT YEAR(date) as year FROM trade
+            (SELECT 
+                YEAR(date) as year 
+            FROM trade
             WHERE 
                 date>='{lower}' AND date<='{upper}'
             LIMIT 1)"""
-        print(sql)
         with connection.cursor() as cursor:
             cursor.execute(sql)
             data = raw_dictfetchall(cursor)
-        print(data)
-        # s = AvailableReportsYearSerializer(data, many=True)
         return Response(data)
 
 class AvailableReportsMonthList(APIView):
     def get(self, request, year):
-        data = Trade.objects.raw("""
-        SELECT DISTINCT 1 as id, YEAR(date) as year, MONTH(date) as month
-        FROM trade WHERE YEAR(date)=%s
-        ORDER BY month DESC""", [year])
-        s = AvailableReportsMonthSerializer(data, many=True)
-        return Response(s.data)
+        sql = ""
+        FIRST_MONTH = 1
+        LAST_MONTH = 12
+        for i in reversed(range(FIRST_MONTH, LAST_MONTH+1)):
+            days = calendar.monthrange(year, i)[1]
+            lower = datetime.datetime(year, i, 1, 0, 0, 0, 0)
+            upper = datetime.datetime(year, i, days, 23, 59, 59, 9999)
+            if i != LAST_MONTH:
+                sql += " UNION "
+            sql += f"""
+            (SELECT 
+                MONTH(date) as month, YEAR(date) as year 
+            FROM trade
+            WHERE 
+                date>='{lower}' AND date<='{upper}'
+            LIMIT 1)"""
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            data = raw_dictfetchall(cursor)
+        return Response(data)
 
 class AvailableReportsDayList(APIView):
     def get(self, request, year, month):
-        data = Trade.objects.raw("""
-        SELECT DISTINCT 1 as id, YEAR(date) as year, MONTH(date) as month,
-        DAY(date) as day
-        FROM trade WHERE YEAR(date)=%s AND MONTH(date)=%s AND date < CURDATE()
-        ORDER BY day DESC""", [year, month])
-        s = AvailableReportsDaySerializer(data, many=True)
-        return Response(s.data)
+        sql = ""
+        FIRST_DAY = 1
+        LAST_DAY = calendar.monthrange(year, month)[1]
+        for i in reversed(range(FIRST_DAY, LAST_DAY+1)):
+            lower = datetime.datetime(year, month, i, 0, 0, 0, 0)
+            upper = datetime.datetime(year, month, i, 23, 59, 59, 9999)
+            if i != LAST_DAY:
+                sql += " UNION "
+            sql += f"""
+            (SELECT 
+                DAY(date) as day, MONTH(date) as month, 
+                YEAR(date) as year 
+            FROM trade
+            WHERE 
+                date>='{lower}' AND date<='{upper}'
+            LIMIT 1)"""
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            data = raw_dictfetchall(cursor)
+        return Response(data)
 
 class Combine(object):
     def __len__(self):
