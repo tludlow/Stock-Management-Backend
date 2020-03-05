@@ -9,4 +9,7 @@
 /cache/*
 .env
 /.env
+
+/backend/learning/*.pickle
 /api/migrations
+*.pickle

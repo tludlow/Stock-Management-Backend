@@ -156,3 +156,15 @@ class AvailableReportsDaySerializer(serializers.Serializer):
     year = serializers.CharField(max_length=4)
     month = serializers.CharField(max_length=2)
     day = serializers.CharField(max_length=2)
+
+class ErroneousAttributeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ErroneousTradeAttribute
+        fields = '__all__'
+
+
+class CorrectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FieldCorrection
+        fields = '__all__'
+

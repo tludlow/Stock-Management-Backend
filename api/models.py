@@ -137,3 +137,40 @@ class EditedTrade(models.Model):
     old_value = models.CharField(max_length=32)
     new_value = models.CharField(max_length=32)
 
+class ErroneousTradeAttribute(models.Model):
+    class Meta():
+        db_table = "erroneous_trade_attribute"
+
+    EDITABlE_FIELDS = [
+        ('QT', 'quantity'),
+        ('UP', 'underlying price'),
+        ('ST', 'strike price')
+    ]
+
+    id = models.AutoField(primary_key=True)
+    trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="erroneous_trade")
+    erroneous_attribute = models.CharField(max_length=2, choices=EDITABlE_FIELDS)
+    erroneous_value = models.CharField(max_length=20)
+    date = models.DateTimeField()
+
+class FieldCorrection(models.Model):
+    class Meta():
+        db_table = "attribute_correction"
+
+    EDITABlE_FIELDS = [
+        ('QT', 'quantity'),
+        ('UP', 'underlying price'),
+        ('ST', 'strike price')
+    ]
+
+    CHANGE_TYPES = [
+        ('USER', 'user'),
+        ('SYTM', 'system'),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    error = models.ForeignKey(ErroneousTradeAttribute, on_delete=models.CASCADE, related_name="error_reference")
+    old_value = models.CharField(max_length=32)
+    new_value = models.CharField(max_length=32)
+    change_type = models.CharField(max_length=5, choices=CHANGE_TYPES)
+    date = models.DateTimeField()

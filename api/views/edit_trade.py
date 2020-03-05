@@ -69,7 +69,8 @@ class EditDerivativeTrade(APIView):
         allowed_fields = ["trade_id", "product", "buying_party", 
                     "selling_party", "notional_currency", 
                     "quantity",  "maturity_date", "underlying_price", 
-                    "underlying_currency", "strike_price"]
+                    "underlying_currency", "strike_price", "id", "date",
+                    "notional_amount"]
         #Makes sure we have all the data we should in the request
         if "trade_id" not in trade_data.keys():
             return JsonResponse(status=400, data={"error": "No trade id provided."})
