@@ -57,15 +57,41 @@ class TradeRecentList(APIView):
         #Modified the structure of a trade, will need to use a custom serializer.
         return Response(trade_data)
 
+
+class TotalTrades(APIView):
+    def get(self, request):
+        total_trades = Trade.objects.all().count()
+
+        return JsonResponse(status=200, data={
+            "total_trades": total_trades
+        })
+
 class RecentTradesByCompanyForProduct(APIView):
-    def get(self, request, buyer, product):
+    def get(self, request, buyer, product, seller):
         #Get pagination data before the request so that it saves memory and is quicker to query.
         page_number = int(self.request.query_params.get("page_number", 1))
         page_size = int(self.request.query_params.get("page_size", 150))
 
+<<<<<<< HEAD
         trades = Trade.objects.filter(buying_party=buyer, product_id=product).order_by('-date')
         deleted = DeletedTrade.objects.all().values('trade_id')
         data = trades.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
+=======
+        erroneous = DeletedTrade.objects.all().values('trade_id')
+        deleted = ErroneousTradeAttribute.objects.all().values('trade_id')
+
+
+        #If the product is stocks we need more limitations on the data returned
+        data = None
+        if product == "1":
+            trades = Trade.objects.filter(buying_party=buyer, selling_party=seller, product_id=product).order_by('-date')
+            dataFirst = trades.exclude(id__in = erroneous)
+            data = dataFirst.exclude(id__in = deleted)
+        else:
+            trades = Trade.objects.filter(buying_party=buyer, product_id=product).order_by('-date')
+            dataFirst = trades.exclude(id__in = erroneous)
+            data = dataFirst.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
+>>>>>>> 55ae167d13c8e2e15e970e6f0d91d74e4b8a1e56
 
         s = TradeSerializer(data, many=True)
         return Response(s.data)
@@ -139,4 +165,205 @@ class ProductsForSellers(APIView):
 
         return Response(product_data)
 
+class CurrencyValuesPastMonth(APIView):
+    def get(self, request, currency):
+        data = CurrencyPrice.objects.filter(currency_id=currency).order_by("-date")[:30]
+        s = CurrencyPriceSerializer(data, many=True)
+        return Response(s.data)
 
+class TotalActionsOnDay(APIView):
+    def get(self, request):
+        now = datetime.now()
+        lower = datetime(now.year, now.month, now.day, 0, 0, 0, 0)
+        upper = datetime(now.year, now.month, now.day, 23, 59, 59, 9999)
+
+        creation_count = Trade.objects.filter(date__range=[lower, upper]).count()
+        edit_count = EditedTrade.objects.filter(edit_date__range=[lower, upper]).distinct().count()
+        delete_count = DeletedTrade.objects.filter(deleted_at__range=[lower, upper]).count()
+        erroneous_count = ErroneousTradeAttribute.objects.filter(date__range=[lower, upper]).count()
+        correction_count = FieldCorrection.objects.filter(date__range=[lower, upper]).count()
+
+        return JsonResponse(status=200, data={
+            "creation_count": creation_count,
+            "edit_count": edit_count,
+            "delete_count": delete_count,
+            "erroneous_fields": erroneous_count,
+            "corrections": correction_count
+        })
+
+class CurrencyChanges(APIView):
+    def get(self, request):
+        currency_rows = dict()
+        percentage_change = dict()
+        day_one = None
+        day_two = None
+        day_three = None
+        day_four = None
+        day_five = None
+        day_six = None
+        day_seven = None
+
+        for row in Trade.objects.raw("""
+        SELECT id, currency_id, value, 
+        (SELECT MAX(DATE) FROM currency_price) AS day_seven, 
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 2 DAY)) AS day_six,
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 3 DAY)) AS day_five,
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 4 DAY)) AS day_four,
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 5 DAY)) AS day_three,
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 6 DAY)) AS day_two,
+        (DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 7 DAY)) AS day_one
+        FROM currency_price 
+        WHERE DATE BETWEEN DATE_SUB((SELECT MAX(DATE) FROM currency_price), INTERVAL 7 DAY) AND (SELECT MAX(DATE) FROM currency_price) 
+        ORDER BY currency_id, DATE DESC;
+        """):
+            day_one = row.day_one
+            day_two = row.day_two
+            day_three = row.day_three
+            day_four = row.day_four
+            day_five = row.day_five
+            day_six = row.day_six
+            day_seven = row.day_seven
+            if row.currency_id not in currency_rows.keys():
+                currency_rows[row.currency_id] = list()
+                percentage_change[row.currency_id] = 0
+
+            currency_rows[row.currency_id].append(row.value)
+
+        #Calculate the change in value of the currencies compared to the start of the week and now.
+        for currency in currency_rows:
+            start_value = currency_rows[currency][0]
+            end_value = currency_rows[currency][-1]
+            change = round(end_value / start_value, 3)
+            # print(str(currency) + ": " + str(currency_rows[currency]))
+            # print("Start: " + str(start_value) + "   |   End: " + str(end_value))
+            # print("Change: " + str(change), end="\n\n")
+            percentage_change[currency] = change
+
+        #Sort the currencies by their change, this allows us to get the largest appreciation and depreciation
+        percentage_sorted = list({k: v for k, v in sorted(percentage_change.items(), key=lambda item: -item[1])})
+        largest_appreciations = percentage_sorted[:3]
+        largest_depreciations = percentage_sorted[-3:]
+    
+        appreciation_dict = list()
+        depreciation_dict = list()
+
+        #Format the data so its suitable to be returned as json.
+        for index, currency in enumerate(largest_appreciations):
+            appreciation_dict.append(dict())
+            appreciation_dict[index]["currency"] = currency
+            appreciation_dict[index]["change"] = str(percentage_change[currency]) + "%"
+            appreciation_dict[index]["values"] = currency_rows[currency]
+        for index, currency in enumerate(reversed(largest_depreciations)):
+            depreciation_dict.append(dict())
+            depreciation_dict[index]["currency"] = currency
+            depreciation_dict[index]["change"] = str(round(1 - percentage_change[currency], 3)) + "%"
+            depreciation_dict[index]["values"] = currency_rows[currency]
+
+        print(largest_appreciations)
+
+        return JsonResponse(status=200, data={
+            "day_one": day_one,
+            "day_two": day_two,
+            "day_three": day_three,
+            "day_four": day_four,
+            "day_five": day_five,
+            "day_six": day_six,
+            "day_seven": day_seven,
+            "largest_appreciations": appreciation_dict,
+            "largest_depreciations": depreciation_dict})
+
+
+class ErrorsAndCorrections(APIView):
+    def getErrorsForTrade(self, tradeID, errors):
+        returnList = []
+        for error in errors:
+            if error["trade_id"] == tradeID:
+                returnList.append(error)
+        return returnList
+
+    def getCorrectionsForError(self, tradeID, errors, corrections):
+        returnList = []
+        for error in errors:
+            if error["trade_id"] == tradeID:
+                for correction in corrections:
+                    if correction["error"] == error["id"]:
+                        returnList.append(correction)
+        return returnList
+
+
+    def get(self, request):
+        #Get all errors ordered by date
+        errors = ErroneousTradeAttribute.objects.all().order_by("-date")
+        corrections = FieldCorrection.objects.all()
+
+        errors_s = ErroneousAttributeSerializer(errors, many=True)
+        corrections_s = CorrectionSerializer(corrections, many=True)
+
+        trades = []
+        formatted_errors = []
+        formatted_corrections = []
+
+        for error in errors_s.data:
+            formatted_errors.append(dict(error))
+
+        for correction in corrections_s.data:
+            formatted_corrections.append(dict(correction))
+
+        for error in formatted_errors:
+            if error["trade_id"] not in trades:
+                trades.append(error["trade_id"])
+    
+        #Convert to nested trades with errors and corrections included
+        finalList = []
+        for trade in trades:
+            errors = self.getErrorsForTrade(trade, formatted_errors)
+            corrections = self.getCorrectionsForError(trade, formatted_errors, formatted_corrections)
+
+            correction_count = 0
+
+            for error in errors:
+                foundCorrection = False
+                if foundCorrection == True:
+                    continue
+
+                for correction in corrections:
+                    if correction["error"] == error["id"]:
+                        error["correction"] = correction
+                        correction_count += 1
+                        foundCorrection = True
+                if foundCorrection == False:
+                    error["correction"] = "null"
+
+
+            finalList.append({"id": trade, "correction_count": correction_count, "errors": errors})
+            
+        return JsonResponse(status=200, data={"errors_and_corrections": finalList}, safe=False)
+
+class DeleteCorrection(APIView):
+    def post(self, request):
+        cid = request.data["correctionID"]
+
+        correction = FieldCorrection.objects.filter(id=cid)[0]
+        correction.delete()
+
+        return JsonResponse(status=200, data={"success": "Correction has been deleted."})
+
+class CreateCorrection(APIView):
+    def post(self, request):
+        print(request.data)
+
+        #Get the error referenced in the correction
+        error = ErroneousTradeAttribute.objects.filter(id=request.data["errorID"])[0]
+        error_s = ErroneousAttributeSerializer(error)
+
+        #Create new correction
+        new_correction = FieldCorrection(
+            error = error,
+            old_value = error_s.data["erroneous_value"],
+            new_value = request.data["new_value"],
+            change_type = "USER",
+            date = datetime.now()
+        )
+        new_correction.save()
+
+        return JsonResponse(status=200, data={"success": "Correction has been applied."})

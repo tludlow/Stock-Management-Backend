@@ -20,6 +20,8 @@ urlpatterns = [
     path('currency/currency=<str:currency>&year=<int:year>&month=<int:month>&day=<int:day>/', views.CurrencyDayList.as_view()),
     path('currency/currency=<str:currency>/', views.CurrencyList.as_view()),
     path('currency/conversion/latest/from=<str:from_currency>&to=<str:to_currency>/', views.CurrencyConversionLatest.as_view(), name="latest_currency_conversion"),
+    path('currency/report/currency=<str:currency>/', views.CurrencyValuesPastMonth.as_view()),
+    path('currency/report/changes', views.CurrencyChanges.as_view()),
     path('seller/list/', views.SellerList.as_view()),
     path('stock/company=<str:company>&year=<int:year>/', views.StockYearList.as_view()),
     path('stock/company=<str:company>&year=<int:year>&month=<int:month>/', views.StockMonthList.as_view()),
@@ -38,8 +40,9 @@ urlpatterns = [
     path('trade/maturity_year=<int:year>&maturity_month=<int:month>/', views.TradeMaturityMonthList.as_view()),
     path('trade/maturity_year=<int:year>&maturity_month=<int:month>&maturity_day=<int:day>/', views.TradeMaturityDayList.as_view()),
     path('trade/list/', views.TradeList.as_view()),
+    path('trade/total/', views.TotalTrades.as_view()),
     path('trade/recent/', views.TradeRecentList.as_view(), name="recent_trades"),
-    path('trade/product=<str:product>&buyer=<str:buyer>/', views.RecentTradesByCompanyForProduct.as_view(), name="recent_product_for_company"),
+    path('trade/product=<str:product>&buyer=<str:buyer>&seller=<str:seller>/', views.RecentTradesByCompanyForProduct.as_view(), name="recent_product_for_company"),
     path('trade/create/', views.CreateDerivativeTrade.as_view(), name="create_trade"),
     path('trade/delete/', views.DeleteDerivativeTrade.as_view(), name="delete_trade"),
     path('trade/edit/', views.EditDerivativeTrade.as_view(), name="edit_trade"),
@@ -47,4 +50,8 @@ urlpatterns = [
     path('report/available/', views.AvailableReportsYearList.as_view()),
     path('report/available/year=<int:year>&month=<int:month>/', views.AvailableReportsDayList.as_view()),
     path('report/available/year=<int:year>/', views.AvailableReportsMonthList.as_view()),
+    path('report/actions/today/', views.TotalActionsOnDay.as_view()),
+    path('errorsandcorrections/', views.ErrorsAndCorrections.as_view()),
+    path('correction/delete/', views.DeleteCorrection.as_view()),
+    path('correction/apply', views.CreateCorrection.as_view())
 ]
