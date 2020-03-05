@@ -1462,14 +1462,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/report/year=2020&month=03&day=04/"
         {
             "id": 2360718, 
             "date": "2020-03-03T19:59:30.224397Z", 
-            "notional_amount": 100.0, 
-            "quantity": 100, 
-            "maturity_date": "2020-04-03", 
-            "underlying_price": 3.0, 
-            "strike_price": 6.0, 
+            "notional_amount": 31.0, 
+            "quantity": 230, 
+            "maturity_date": "2021-12-01", 
+            "underlying_price": 1.0, 
+            "strike_price": 2.0, 
             "product": "Stocks", 
-            "buying_party": "Com Tron Industries", 
-            "selling_party": "Wax Masons", 
+            "buying_party": "Insuricare", 
+            "selling_party": "Quark Industries", 
             "notional_currency": "USD", 
             "underlying_currency": "USD"
         }
@@ -1559,8 +1559,8 @@ curl "https://group23.dcs.warwick.ac.uk/api/report/year=2020&month=03&day=04&que
     "num_of_new_trades": 1,
     "created_trades": [
         {
-            "id": 2130102, 
-            "date": "2020-02-01T14:51:11.215319Z", 
+            "id": 2360718, 
+            "date": "2020-03-03T19:59:30.224397Z", 
             "notional_amount": 31.0, 
             "quantity": 230, 
             "maturity_date": "2021-12-01", 
