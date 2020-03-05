@@ -200,7 +200,7 @@ class Report(APIView, PageNumberPagination):
                     SP.name as selling_party, 
                     T.underlying_currency_id as underlying_currency, 
                     T.notional_currency_id as notional_currency 
-                FROM Trade T 
+                FROM trade T 
                 INNER JOIN 
                     (SELECT * FROM product) P 
                 ON P.id = T.product_id
@@ -228,7 +228,7 @@ class Report(APIView, PageNumberPagination):
                     SP.name as selling_party, 
                     T.underlying_currency_id as underlying_currency, 
                     T.notional_currency_id as notional_currency, ET.edit_date 
-                FROM Trade T 
+                FROM trade T 
                 INNER JOIN 
                     (SELECT * FROM product) P 
                 ON P.id = T.product_id
@@ -270,7 +270,7 @@ class Report(APIView, PageNumberPagination):
                     T.underlying_currency_id as underlying_currency, 
                     T.notional_currency_id as notional_currency,
                     DT.id as delete_id, DT.deleted_at 
-                FROM Trade T 
+                FROM trade T 
                 INNER JOIN 
                     (SELECT * FROM product) P 
                 ON P.id = T.product_id
