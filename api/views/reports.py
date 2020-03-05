@@ -166,7 +166,6 @@ def fetch_edits(cursor, lower, upper):
             edit = i.get_attribute_edited_display()
             if edit not in revert:
                 revert.append(edit)
-                print("Changed", edit, "from", trade[edit], "to", i.old_value)
                 trade[edit] = i.old_value
                 
 
@@ -179,7 +178,6 @@ def fetch_edits(cursor, lower, upper):
 
         new = {'trade' : trade, 'num_of_edits' : len(edits), 'edits' : edits}
         vals.append(new)
-    print(vals)
 
     return vals
 
