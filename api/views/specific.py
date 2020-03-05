@@ -336,14 +336,29 @@ class DeleteCorrection(APIView):
         cid = request.data["correctionID"]
 
         correction = FieldCorrection.objects.filter(id=cid)[0]
+        correction_s = CorrectionSerializer(correction)
+
+        #Get the trade being corrected and revert the correction
+        trade = trade = Trade.objects.filter(id=request.data["tradeID"])[0]
+        old_value = correction_s.data["old_value"]
+        field = request.data["field_type"]
+
+        if field == "QT":
+            trade.quantity = old_value
+        if field == "SP":
+            trade.strike_price = old_value
+        if field == "UP":
+            trade.underlying_price = old_value
+        trade.save()
+
         correction.delete()
 
         return JsonResponse(status=200, data={"success": "Correction has been deleted."})
 
 class CreateCorrection(APIView):
     def post(self, request):
-        print(request.data)
 
+        print(request.data)
         #Get the error referenced in the correction
         error = ErroneousTradeAttribute.objects.filter(id=request.data["errorID"])[0]
         error_s = ErroneousAttributeSerializer(error)
@@ -357,5 +372,19 @@ class CreateCorrection(APIView):
             date = datetime.now()
         )
         new_correction.save()
+
+        #Get the trade being corrected
+        trade = Trade.objects.filter(id=request.data["tradeID"])[0]
+        
+        field = request.data["field_type"]
+        new_value = request.data["new_value"]
+        if field == "QT":
+            trade.quantity = new_value
+        if field == "SP":
+            trade.strike_price = new_value
+        if field == "UP":
+            trade.underlying_price = new_value
+
+        trade.save()
 
         return JsonResponse(status=200, data={"success": "Correction has been applied."})
