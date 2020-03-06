@@ -58,6 +58,20 @@ class AvailableReportsYearList(APIView):
             FROM trade
             WHERE 
                 date>='{lower}' AND date<='{upper}'
+            LIMIT 1)
+            UNION
+            (SELECT 
+                YEAR(edit_date) as year 
+            FROM edited_trade
+            WHERE 
+                edit_date>='{lower}' AND edit_date<='{upper}'
+            LIMIT 1)
+            UNION
+            (SELECT 
+                YEAR(deleted_at) as year 
+            FROM deleted_trade
+            WHERE 
+                deleted_at>='{lower}' AND deleted_at<='{upper}'
             LIMIT 1)"""
         with connection.cursor() as cursor:
             cursor.execute(sql)
@@ -77,10 +91,27 @@ class AvailableReportsMonthList(APIView):
                 sql += " UNION "
             sql += f"""
             (SELECT 
-                MONTH(date) as month, YEAR(date) as year 
+                MONTH(date) as month, 
+                YEAR(date) as year 
             FROM trade
             WHERE 
                 date>='{lower}' AND date<='{upper}'
+            LIMIT 1)
+            UNION
+            (SELECT 
+                MONTH(edit_date) as month, 
+                YEAR(edit_date) as year 
+            FROM edited_trade
+            WHERE 
+                edit_date>='{lower}' AND edit_date<='{upper}'
+            LIMIT 1)
+            UNION
+            (SELECT 
+                MONTH(deleted_at) as month, 
+                YEAR(deleted_at) as year 
+            FROM deleted_trade
+            WHERE 
+                deleted_at>='{lower}' AND deleted_at<='{upper}'
             LIMIT 1)"""
         with connection.cursor() as cursor:
             cursor.execute(sql)
@@ -104,7 +135,24 @@ class AvailableReportsDayList(APIView):
             FROM trade
             WHERE 
                 date>='{lower}' AND date<='{upper}'
+            LIMIT 1)
+            UNION
+            (SELECT 
+                DAY(edit_date) as day, MONTH(edit_date) as month, 
+                YEAR(edit_date) as year 
+            FROM edited_trade
+            WHERE 
+                edit_date>='{lower}' AND edit_date<='{upper}'
+            LIMIT 1)
+            UNION
+            (SELECT 
+                DAY(deleted_at) as day, MONTH(deleted_at) as month, 
+                YEAR(deleted_at) as year 
+            FROM deleted_trade
+            WHERE 
+                deleted_at>='{lower}' AND deleted_at<='{upper}'
             LIMIT 1)"""
+        sql += ""
         with connection.cursor() as cursor:
             cursor.execute(sql)
             data = raw_dictfetchall(cursor)
