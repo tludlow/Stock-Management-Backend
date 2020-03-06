@@ -120,7 +120,6 @@ class AvailableReportsMonthList(APIView):
 
 class AvailableReportsDayList(APIView):
     def get(self, request, year, month):
-        # sql = "SELECT DISTINCT T.day, T.month, T.year FROM ("
         sql = ""
         FIRST_DAY = 1
         LAST_DAY = calendar.monthrange(year, month)[1]
