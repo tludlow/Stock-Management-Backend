@@ -22,7 +22,7 @@ class EditDerivativeTrade(APIView):
     # Given dictionaries containing the updated and original attributes 
     # respectively, as well as a trade object, updates the trade, creates new  
     # EditedTrade tuples for each edited attribute and returns the differences
-    def update(self, updated, original, obj):
+    def update(self, updated, original, obj, edit_date=datetime.now()):
         # Tags for the DB
         tags = {'product' : 'PR', 'buying_party' : 'BP',
                 'selling_party' : 'SP', 
@@ -53,7 +53,7 @@ class EditDerivativeTrade(APIView):
             if new[item] != original[item]:
                 new_edit = EditedTrade(
                     trade_id=obj,
-                    edit_date=datetime.now(),
+                    edit_date=edit_date,
                     attribute_edited=tags[item],
                     old_value=str(original[item]),
                     new_value=str(new[item])
@@ -70,7 +70,9 @@ class EditDerivativeTrade(APIView):
                     "selling_party", "notional_currency", 
                     "quantity",  "maturity_date", "underlying_price", 
                     "underlying_currency", "strike_price", "id", "date",
-                    "notional_amount"]
+                    "notional_amount", 
+                    # REMOVE 
+                    "edit_date"]
         #Makes sure we have all the data we should in the request
         if "trade_id" not in trade_data.keys():
             return JsonResponse(status=400, data={"error": "No trade id provided."})
@@ -80,7 +82,7 @@ class EditDerivativeTrade(APIView):
             for param in trade_data.keys():
                 if param not in allowed_fields:
                     return JsonResponse(status=400, data={"error": "Field '" + param + "' is not permitted."})
-                elif param!="trade_id":
+                elif param!="trade_id" or param!="edit_date": ## REMOVE
                     edits.append(param)
 
         #Get the trade being edited's database values
@@ -115,8 +117,11 @@ class EditDerivativeTrade(APIView):
         updated = {}
         for i in allowed_fields[1:]:
             updated[i] = trade_data.get(i, trade_obj_s.data[i])
-        
-        return_info = self.update(updated, trade_obj_s.data, trade_obj)
+        given_date = trade_data.get('edit_date', None)
+        if given_date == None:
+            return_info = self.update(updated, trade_obj_s.data, trade_obj)
+        else:
+            return_info = self.update(updated, trade_obj_s.data, trade_obj, edit_date=given_date)
         if len(return_info) < 2:
             return JsonResponse(status=200, data={"message": "No need to edit, all fields the same"})
         else:

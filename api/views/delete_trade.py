@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, timezone, date
 class DeleteDerivativeTrade(APIView):
     def post(self, request):
         trade_data = request.data
-        requiredFields = ["trade_id"]
+        requiredFields = ["trade_id", "delete_date"]
         for field in requiredFields:
             if field not in trade_data.keys():
                 return JsonResponse(status=400, data={"error": "Missing the field '" + field + "' in the form."})
@@ -55,7 +55,7 @@ class DeleteDerivativeTrade(APIView):
         #Create a new entry into the deleted trades table before we delete from trades
         new_deleted_trade = DeletedTrade(
             trade_id=found_trade[0],
-            deleted_at=now,
+            deleted_at=delete_date#now,
         )
         new_deleted_trade.save()
         
