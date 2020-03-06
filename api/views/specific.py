@@ -24,7 +24,14 @@ class TradeRecentList(APIView):
         page_number = int(self.request.query_params.get("page_number", 1))
         page_size = int(self.request.query_params.get("page_size", 12))
 
-        data = Trade.objects.all().order_by('-date')[(page_number-1)*page_size : page_number*page_size]
+        trades = Trade.objects.all().order_by('-date')
+
+        #Get all deleted trades so we can exclude these
+        deleted = DeletedTrade.objects.all().values_list("trade_id", flat=True)
+
+        data = trades.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
+
+
         trade_data = data.values()
         
         for idx, trade in enumerate(trade_data):

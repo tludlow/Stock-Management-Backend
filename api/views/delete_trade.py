@@ -58,6 +58,9 @@ class DeleteDerivativeTrade(APIView):
             deleted_at=now,
         )
         new_deleted_trade.save()
-        
+
+        #Delete all erroneous data and corrections referncing this trade
+        errors = ErroneousTradeAttribute.objects.filter(trade_id=trade_data["trade_id"])
+        errors.delete()
 
         return JsonResponse(status=200, data={"success": "Trade has been deleted."})
