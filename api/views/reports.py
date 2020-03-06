@@ -89,6 +89,7 @@ class AvailableReportsMonthList(APIView):
 
 class AvailableReportsDayList(APIView):
     def get(self, request, year, month):
+        # sql = "SELECT DISTINCT T.day, T.month, T.year FROM ("
         sql = ""
         FIRST_DAY = 1
         LAST_DAY = calendar.monthrange(year, month)[1]
@@ -104,7 +105,24 @@ class AvailableReportsDayList(APIView):
             FROM trade
             WHERE 
                 date>='{lower}' AND date<='{upper}'
+            LIMIT 1)
+            UNION
+            (SELECT 
+                DAY(edit_date) as day, MONTH(edit_date) as month, 
+                YEAR(edit_date) as year 
+            FROM edited_trade
+            WHERE 
+                edit_date>='{lower}' AND edit_date<='{upper}'
+            LIMIT 1)
+            UNION
+            (SELECT 
+                DAY(deleted_at) as day, MONTH(deleted_at) as month, 
+                YEAR(deleted_at) as year 
+            FROM deleted_trade
+            WHERE 
+                deleted_at>='{lower}' AND deleted_at<='{upper}'
             LIMIT 1)"""
+        sql += ""
         with connection.cursor() as cursor:
             cursor.execute(sql)
             data = raw_dictfetchall(cursor)
