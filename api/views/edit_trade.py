@@ -72,7 +72,7 @@ class EditDerivativeTrade(APIView):
                     "underlying_currency", "strike_price", "id", "date",
                     "notional_amount", 
                     # REMOVE 
-                    "edit_date"]
+                    "demo", "edit_date"]
         #Makes sure we have all the data we should in the request
         if "trade_id" not in trade_data.keys():
             return JsonResponse(status=400, data={"error": "No trade id provided."})
@@ -110,18 +110,21 @@ class EditDerivativeTrade(APIView):
         #Check that the trade was created within the last 3 days
         trade_created_at = dateutil.parser.isoparse(trade_obj_s.data["date"])
         date_delta = now - datetime(trade_created_at.year, trade_created_at.month, trade_created_at.day)
-        if date_delta.days > 3:
+
+        if date_delta.days > 3 and trade_data.get('demo', None) == None:
             return JsonResponse(status=400, data={"error": "Trades can only be edited within 3 days of creation"})
 
         #Compare the provided trade details with those known in the database to see if they have been edited
         updated = {}
-        for i in allowed_fields[1:]:
+        for i in [x for x in allowed_fields if x not in ['trade_id', 'edit_date', 'demo']]:
             updated[i] = trade_data.get(i, trade_obj_s.data[i])
-        given_date = trade_data.get('edit_date', None)
-        if given_date == None:
-            return_info = self.update(updated, trade_obj_s.data, trade_obj)
+
+        demo = trade_data.get('demo', None) != None
+        if demo:
+            return_info = self.update(updated, trade_obj_s.data, trade_obj, edit_date=trade_data['edit_date'])
         else:
-            return_info = self.update(updated, trade_obj_s.data, trade_obj, edit_date=given_date)
+            return_info = self.update(updated, trade_obj_s.data, trade_obj)
+
         if len(return_info) < 2:
             return JsonResponse(status=200, data={"message": "No need to edit, all fields the same"})
         else:
