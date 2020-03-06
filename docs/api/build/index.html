@@ -369,6 +369,9 @@
                     <a href="#get-report" class="toc-h2 toc-link" data-title="Get Report">Get Report</a>
                   </li>
                   <li>
+                    <a href="#search-report" class="toc-h2 toc-link" data-title="Search Report">Search Report</a>
+                  </li>
+                  <li>
                     <a href="#available-by-year" class="toc-h2 toc-link" data-title="Available by Year">Available by Year</a>
                   </li>
                   <li>
@@ -1854,7 +1857,7 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 <td>Maturity day of data to be returned</td>
 </tr>
 </tbody></table>
-<h1 id='report'>Report</h1><h2 id='get-report'>Get Report</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/year=2018&amp;month=01&amp;day=01/"</span>
+<h1 id='report'>Report</h1><h2 id='get-report'>Get Report</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/year=2020&amp;month=03&amp;day=04/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1867,14 +1870,14 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
         </span><span class="p">{</span><span class="w">
             </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360718</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">31.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">230</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-01"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stocks"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Insuricare"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Quark Industries"</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
         </span><span class="p">}</span><span class="w">
@@ -1959,6 +1962,64 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 <td>Day of report to be returned</td>
 </tr>
 </tbody></table>
+<h2 id='search-report'>Search Report</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/year=2020&amp;month=03&amp;day=04&amp;query=quark/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"date_of_report"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-04T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-05T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"num_of_new_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360718</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">31.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">230</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-01"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stocks"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Insuricare"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Quark Industries"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"num_of_edited_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"edited_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+    </span><span class="s2">"num_of_deleted_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"deleted_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves a report for the given date and a search term.</p>
+<h3 id='http-request-39'>HTTP Request</h3>
+<p><code>GET https://group23.dcs.warwick.ac.uk/api/report/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;&amp;day=&lt;DAY&gt;&amp;query=&lt;QUERY&gt;/</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>YEAR</td>
+<td>Year of report to be returned</td>
+</tr>
+<tr>
+<td>MONTH</td>
+<td>Month of report to be returned</td>
+</tr>
+<tr>
+<td>DAY</td>
+<td>Day of report to be returned</td>
+</tr>
+<tr>
+<td>QUERY</td>
+<td>Term to search for in the report</td>
+</tr>
+</tbody></table>
 <h2 id='available-by-year'>Available by Year</h2><pre class="highlight shell tab-shell"><code> curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/available/"</span>
 </code></pre>
 <blockquote>
@@ -1975,7 +2036,7 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the years that reports are available for.</p>
-<h3 id='http-request-39'>HTTP Request</h3>
+<h3 id='http-request-40'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/</code></p>
 <h2 id='available-by-month'>Available by Month</h2><pre class="highlight shell tab-shell"><code> curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/available/year=2019/"</span>
 </code></pre>
@@ -1995,7 +2056,7 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the months that reports are available for given a year.</p>
-<h3 id='http-request-40'>HTTP Request</h3>
+<h3 id='http-request-41'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/year=&lt;YEAR&gt;/</code></p>
 
 <table><thead>
@@ -2029,7 +2090,7 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the days that reports are available for given a year and month.</p>
-<h3 id='http-request-41'>HTTP Request</h3>
+<h3 id='http-request-42'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;/</code></p>
 
 <table><thead>

@@ -1448,7 +1448,7 @@ MATURITY_DAY | Maturity day of data to be returned
 # Report
 ## Get Report
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/report/year=2018&month=01&day=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/report/year=2020&month=03&day=04/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1462,14 +1462,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/report/year=2018&month=01&day=01/"
         {
             "id": 2360718, 
             "date": "2020-03-03T19:59:30.224397Z", 
-            "notional_amount": 100.0, 
-            "quantity": 100, 
-            "maturity_date": "2020-04-03", 
-            "underlying_price": 3.0, 
-            "strike_price": 6.0, 
-            "product": 57, 
-            "buying_party": 160, 
-            "selling_party": 26, 
+            "notional_amount": 31.0, 
+            "quantity": 230, 
+            "maturity_date": "2021-12-01", 
+            "underlying_price": 1.0, 
+            "strike_price": 2.0, 
+            "product": "Stocks", 
+            "buying_party": "Insuricare", 
+            "selling_party": "Quark Industries", 
             "notional_currency": "USD", 
             "underlying_currency": "USD"
         }
@@ -1543,6 +1543,55 @@ Parameter | Description
 YEAR | Year of report to be returned
 MONTH | Month of report to be returned
 DAY | Day of report to be returned
+
+## Search Report
+
+```shell
+curl "https://group23.dcs.warwick.ac.uk/api/report/year=2020&month=03&day=04&query=quark/"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "date_of_report": "2020-03-04T00:00:00Z",
+    "created": "2020-03-05T00:00:00Z",
+    "num_of_new_trades": 1,
+    "created_trades": [
+        {
+            "id": 2360718, 
+            "date": "2020-03-03T19:59:30.224397Z", 
+            "notional_amount": 31.0, 
+            "quantity": 230, 
+            "maturity_date": "2021-12-01", 
+            "underlying_price": 1.0, 
+            "strike_price": 2.0, 
+            "product": "Stocks", 
+            "buying_party": "Insuricare", 
+            "selling_party": "Quark Industries", 
+            "notional_currency": "USD", 
+            "underlying_currency": "USD"
+        }
+    ],
+    "num_of_edited_trades": 1,
+    "edited_trades": [],
+    "num_of_deleted_trades": 1,
+    "deleted_trades": []
+}
+```
+
+This endpoint retrieves a report for the given date and a search term.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/report/year=<YEAR>&month=<MONTH>&day=<DAY>&query=<QUERY>/`
+
+Parameter | Description
+--------- | -----------
+YEAR | Year of report to be returned
+MONTH | Month of report to be returned
+DAY | Day of report to be returned
+QUERY | Term to search for in the report
 
 ## Available by Year
  ```shell
