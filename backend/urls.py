@@ -17,4 +17,4 @@ urlpatterns = [
     path('docs/', RedirectView.as_view(url='/docs/index.html'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
   + static(settings.DOCS_URL, document_root=settings.DOCS_ROOT) \
-  + [re_path(r'^.*', Frontend.as_view())]
+  # + [re_path(r'^.*', Frontend.as_view())]

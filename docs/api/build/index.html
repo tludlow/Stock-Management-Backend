@@ -1080,15 +1080,21 @@ You may specify the page you would like to request with the URL:
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"trade_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360717</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
-        </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
-        </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"58"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100"</span><span class="p">,</span><span class="w"> 
-        </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
-        </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
-        </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6.0"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360717</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:58:00Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">8995.0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-01-19"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.99</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rings of Gain Constitution"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">89</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">322</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tallian League"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
     </span><span class="p">},</span><span class="w"> 
     </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1149,25 +1155,27 @@ You may specify the page you would like to request with the URL:
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"changes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"old_product"</span><span class="p">:</span><span class="w"> </span><span class="mi">58</span><span class="p">,</span><span class="w"> 
-        </span><span class="s2">"new_product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
-        </span><span class="s2">"old_underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> 
-        </span><span class="s2">"new_underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="w">
+
+        </span><span class="s2">"old_underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.1</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"new_underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.99</span><span class="w">
     </span><span class="p">},</span><span class="w"> 
     </span><span class="s2">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2360717"</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360627</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:58:00Z"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">8995.0</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-01-19"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.99</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.6</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rings of Gain Constitution"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">89</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">322</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tallian League"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1263,23 +1271,29 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blood Dregs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
     </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w">
     </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initech"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360716</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:59:00Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">4396800.0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">80000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-05-16"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">54.96</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.24</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold Dust"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Assegai Developments"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Atlas Corp."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360627</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:58:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">8995.0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-01-19"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.99</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.6</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rings of Gain Constitution"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">89</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">322</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tallian League"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1314,21 +1328,21 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cell Cells"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">289262</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:59:00Z"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">71</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">145</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">5355.0</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"notional_currency_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-06"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.71</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"underlying_currency_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">9.36</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"buying_company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gekko and Co."</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"selling_company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Okama"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stocks"</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">289262</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:59:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">71</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">145</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">5355.0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notional_currency_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-06"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.71</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_currency_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">9.36</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gekko and Co."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Okama"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stocks"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -1632,7 +1646,12 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Altimit Corporation"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
     </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Serano Genomics Inc."</span><span class="p">,</span><span class="w">
-=======
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BZD"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
 <p>This endpoint retrieves all trades for the given year and month.</p>
 <h3 id='http-request-33'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;/</code></p>
@@ -1689,7 +1708,12 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Insuricare"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">55</span><span class="w">
     </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cyberdyne Systems Corporation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
 <p>This endpoint retrieves all trades for the given year, month and day.</p>
 <h3 id='http-request-34'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;&amp;day=&lt;DAY&gt;/</code></p>
@@ -1746,10 +1770,20 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">75.41</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">59.87</span><span class="p">,</span><span class="w">
     </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Holy Bones"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">89</span><span class="p">,</span><span class="w">
     </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FEISAR"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w">
     </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Weyland-Yutani"</span><span class="p">,</span><span class="w">
-=======
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves a list of all trades with the given maturity year.</p>
+<h3 id='http-request-35'>HTTP Request</h3>
+<p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=&lt;MATURITY_YEAR&gt;/</code></p>
+
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1860,7 +1894,12 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">423</span><span class="p">,</span><span class="w">
     </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sterling Cooper"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Displace Internation"</span><span class="p">,</span><span class="w">
-=======
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">645</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
 <p>This endpoint retrieves a list of all trades with the given maturity day.</p>
 <h3 id='http-request-37'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=&lt;MATURITY_YEAR&gt;&amp;maturity_month=&lt;MATURITY_MONTH&gt;&amp;maturity_day=&lt;MATURITY_DAY&gt;/</code></p>
