@@ -19,6 +19,7 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 import calendar
+
 #You will need to create new models and a migration for the editedtrade table
 #and deletedtrades table.
 
@@ -238,8 +239,9 @@ def report_data(year, month, day):
         SELECT 
             T.id, T.date, T.notional_amount, T.quantity, 
             T.maturity_date, T.underlying_price, T.strike_price, 
-            P.name as product, BP.name as buying_party, 
-            SP.name as selling_party, 
+            P.name as product, T.product_id, T.buying_party_id, 
+            BP.name as buying_party, 
+            T.selling_party_id, SP.name as selling_party, 
             T.underlying_currency_id as underlying_currency, 
             T.notional_currency_id as notional_currency 
         FROM trade T 
@@ -266,8 +268,9 @@ def report_data(year, month, day):
         SELECT 
             T.id, T.date, T.notional_amount, T.quantity, 
             T.maturity_date, T.underlying_price, T.strike_price, 
-            P.name as product, BP.name as buying_party,
-            SP.name as selling_party, 
+            P.name as product, T.product_id, T.buying_party_id, 
+            BP.name as buying_party, 
+            T.selling_party_id, SP.name as selling_party, 
             T.underlying_currency_id as underlying_currency, 
             T.notional_currency_id as notional_currency, ET.edit_date 
         FROM trade T 
@@ -307,8 +310,9 @@ def report_data(year, month, day):
         SELECT 
             T.id, T.date, T.notional_amount, T.quantity, 
             T.maturity_date, T.underlying_price, T.strike_price, 
-            P.name as product, BP.name as buying_party, 
-            SP.name as selling_party, 
+            P.name as product, T.product_id, T.buying_party_id, 
+            BP.name as buying_party, 
+            T.selling_party_id, SP.name as selling_party, 
             T.underlying_currency_id as underlying_currency, 
             T.notional_currency_id as notional_currency,
             DT.id as delete_id, DT.deleted_at 
