@@ -172,8 +172,9 @@ class TradeList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
@@ -204,8 +205,9 @@ class TradeIDList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
@@ -237,8 +239,9 @@ class TradeYearList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
@@ -271,8 +274,9 @@ class TradeMonthList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
@@ -305,8 +309,9 @@ class TradeDayList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
@@ -339,8 +344,9 @@ class TradeMaturityYearList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
@@ -373,8 +379,9 @@ class TradeMaturityMonthList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
@@ -407,8 +414,9 @@ class TradeMaturityDayList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
@@ -439,8 +447,9 @@ class TradeBuyerList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
@@ -471,8 +480,9 @@ class TradeSellerList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
@@ -503,8 +513,9 @@ class TradeBuyerSellerList(APIView):
             SELECT 
                 T.id, T.date, T.notional_amount, T.quantity, 
                 T.maturity_date, T.underlying_price, T.strike_price, 
-                P.name as product, BP.name as buying_party, 
-                SP.name as selling_party, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
                 T.underlying_currency_id as underlying_currency, 
                 T.notional_currency_id as notional_currency 
             FROM trade T 
