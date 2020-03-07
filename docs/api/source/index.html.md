@@ -1747,4 +1747,3 @@ Parameter | Description
 --------- | -----------
 YEAR | Year of report
 MONTH | Month of report
-
