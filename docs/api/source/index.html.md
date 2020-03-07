@@ -961,6 +961,7 @@ This endpoint retrieves a list of all trades descending order by date.
 curl "https://group23.dcs.warwick.ac.uk/api/trade/product=Sorceror%20Stones&buyer=Hooli/"
 ```
 > The above command returns JSON structured like this:
+
 ```json
 [
   {
@@ -973,7 +974,13 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/product=Sorceror%20Stones&buye
     "strike_price": 15.21,
     "product": "Sorceror Stones",
     "buying_party": "Hooli",
+<<<<<<< HEAD
+    "buying_party_id": 12,
     "selling_party": "Hudsucker Industries",
+    "selling_party_id": 132,
+=======
+    "selling_party": "Hudsucker Industries",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GMD"
   }
@@ -1010,8 +1017,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/id=1/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": "Blood Dregs",
+<<<<<<< HEAD
+    "product_id": 100,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 101,
+    "selling_party": "Initech",
+    "selling_party_id": 12,
+=======
     "buying_party": "Shadaloo",
     "selling_party": "Initech",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   }
@@ -1047,8 +1062,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=Shadaloo/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": "Blood Dregs",
+<<<<<<< HEAD
+    "product_id": 100,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 101,
+    "selling_party": "Initech",
+    "selling_party_id": 12,
+=======
     "buying_party": "Shadaloo",
     "selling_party": "Initech",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
@@ -1062,8 +1085,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=Shadaloo/"
     "underlying_price": 17.99,
     "strike_price": 17.6,
     "product": "Rings of Gain Constitution",
+<<<<<<< HEAD
+    "product_id": 89,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 322,
+    "selling_party": "Tallian League",
+    "selling_party_id": 133,
+=======
     "buying_party": "Shadaloo",
     "selling_party": "Tallian League",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1098,8 +1129,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=Damage%20Control/"
     "underlying_price": 93.19,
     "strike_price": 28.46,
     "product": "Doodle Disks",
+<<<<<<< HEAD
+    "product_id": 22,
+    "buying_party": "Spectacular Optical",
+    "buying_party_id": 155,
+    "selling_party": "Damage Control",
+    "selling_party_id": 98,
+=======
     "buying_party": "Spectacular Optical",
     "selling_party": "Damage Control",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "BND",
     "underlying_currency": "USD"
   },
@@ -1113,8 +1152,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=Damage%20Control/"
     "underlying_price": 17.99,
     "strike_price": 17.6,
     "product": "Lightning Barrels",
+<<<<<<< HEAD
+    "product_id": 123,
+    "buying_party": "Montana Management",
+    "buying_party_id": 21,
+    "selling_party": "Damage Control",
+    "selling_party_id": 2,
+=======
     "buying_party": "Montana Management",
     "selling_party": "Damage Control",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1149,8 +1196,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": "Blood Dregs",
+<<<<<<< HEAD
+    "product_id": 100,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 101,
+    "selling_party": "Initech",
+    "selling_party_id": 12,
+=======
     "buying_party": "Shadaloo",
     "selling_party": "Initech",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
@@ -1164,8 +1219,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019/"
     "underlying_price": 54.96,
     "strike_price": 50.24,
     "product": "Vampire Fangs",
+<<<<<<< HEAD
+    "product_id": 2,
+    "buying_party": "Wesayso Development Corporation",
+    "buying_party_id": 65,
+    "selling_party": "Bug's Construction",
+    "selling_party_id": 23,
+=======
     "buying_party": "Wesayso Development Corporation",
     "selling_party": "Bug's Construction",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1201,8 +1264,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": "Blood Dregs",
+<<<<<<< HEAD
+    "product_id": 100,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 101,
+    "selling_party": "Initech",
+    "selling_party_id": 12,
+=======
     "buying_party": "Shadaloo",
     "selling_party": "Initech",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
@@ -1216,8 +1287,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01/"
     "underlying_price": 51.04,
     "strike_price": 5.75,
     "product": "Dire Rat Tails",
+<<<<<<< HEAD
+    "product_id": 45,
+    "buying_party": "Altimit Corporation",
+    "buying_party_id": 4,
+    "selling_party": "Serano Genomics Inc.",
+    "selling_party_id": 7,
+=======
     "buying_party": "Altimit Corporation",
     "selling_party": "Serano Genomics Inc.",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "BZD"
   }
@@ -1253,8 +1332,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01&day=01/"
     "underlying_price": 1289.6,
     "strike_price": 186.12,
     "product": "Blood Dregs",
+<<<<<<< HEAD
+    "product_id": 100,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 101,
+    "selling_party": "Initech",
+    "selling_party_id": 12,
+=======
     "buying_party": "Shadaloo",
     "selling_party": "Initech",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
@@ -1268,8 +1355,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01&day=01/"
     "underlying_price": 135.74,
     "strike_price": 151.79,
     "product": "Golden Ink Pots",
+<<<<<<< HEAD
+    "product_id": 33,
+    "buying_party": "Insuricare",
+    "buying_party_id": 55
+    "selling_party": "Cyberdyne Systems Corporation",
+    "selling_party_id": 34,
+=======
     "buying_party": "Insuricare",
     "selling_party": "Cyberdyne Systems Corporation",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1306,8 +1401,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024/"
     "underlying_price": 2761.52,
     "strike_price": 248.17,
     "product": "Focus Bands",
+<<<<<<< HEAD
+    "product_id": 53,
+    "buying_party": "Prestige Worldwide",
+    "buying_party_id": 234,
+    "selling_party": "International Data Corporation",
+    "selling_party_id": 666,
+=======
     "buying_party": "Prestige Worldwide",
     "selling_party": "International Data Corporation",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "PAB"
   },
@@ -1321,8 +1424,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024/"
     "underlying_price": 75.41,
     "strike_price": 59.87,
     "product": "Holy Bones",
+<<<<<<< HEAD
+    "product_id": 89,
+    "buying_party": "FEISAR",
+    "buying_party_id": 34,
+    "selling_party": "Weyland-Yutani",
+    "selling_party_id": 16,
+=======
     "buying_party": "FEISAR",
     "selling_party": "Weyland-Yutani",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1358,8 +1469,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "underlying_price": 2761.52,
     "strike_price": 248.17,
     "product": "Focus Bands",
+<<<<<<< HEAD
+    "product_id": 53,
+    "buying_party": "Prestige Worldwide",
+    "buying_party_id": 234,
+    "selling_party": "International Data Corporation",
+    "selling_party_id": 666,
+=======
     "buying_party": "Prestige Worldwide",
     "selling_party": "International Data Corporation",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "PAB"
   },
@@ -1373,8 +1492,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "underlying_price": 9.49,
     "strike_price": 10.65,
     "product": "Flubbers"
+<<<<<<< HEAD
+    "product_id": 4,
+    "buying_party": "Heartland Play Systems",
+    "buying_party_id": 34,
+    "selling_party": "Cobra",
+    "selling_party_id": 42,
+=======
     "buying_party": "Heartland Play Systems",
     "selling_party": "Cobra",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1410,8 +1537,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "underlying_price": 2761.52,
     "strike_price": 248.17,
     "product": "Focus Bands",
+<<<<<<< HEAD
+    "product_id": 53,
+    "buying_party": "Prestige Worldwide",
+    "buying_party_id": 234,
+    "selling_party": "International Data Corporation",
+    "selling_party_id": 666,
+=======
     "buying_party": "Prestige Worldwide",
     "selling_party": "International Data Corporation",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "PAB"
   },
@@ -1425,8 +1560,16 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "underlying_price": 4.77,
     "strike_price": 4.15,
     "product": "Primordial Flames"
+<<<<<<< HEAD
+    "product_id": 78,
+    "buying_party_id": 423,
     "buying_party": "Sterling Cooper",
     "selling_party": "Displace Internation",
+    "selling_party_id": 645,
+=======
+    "buying_party": "Sterling Cooper",
+    "selling_party": "Displace Internation",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
