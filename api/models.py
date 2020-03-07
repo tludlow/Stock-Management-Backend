@@ -110,7 +110,7 @@ class DeletedTrade(models.Model):
 
     id = models.AutoField(primary_key=True)
     trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="deleted_trade")
-    deleted_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField()
 
 class EditedTrade(models.Model):
     

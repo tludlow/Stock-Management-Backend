@@ -76,8 +76,11 @@ class JoinedTradeSerializer(serializers.Serializer):
     underlying_price = serializers.FloatField()
     strike_price = serializers.FloatField()
     product = serializers.CharField()
+    product_id = serializers.IntegerField()
     buying_party = serializers.CharField()
+    buying_party_id = serializers.IntegerField()
     selling_party = serializers.CharField()
+    selling_party_id = serializers.IntegerField()
     notional_currency = serializers.CharField()
     underlying_currency = serializers.CharField()
 

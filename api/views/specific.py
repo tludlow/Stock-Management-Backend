@@ -223,6 +223,9 @@ class CurrencyChanges(APIView):
             start_value = currency_rows[currency][0]
             end_value = currency_rows[currency][-1]
             change = round(end_value / start_value, 3)
+            # print(str(currency) + ": " + str(currency_rows[currency]))
+            # print("Start: " + str(start_value) + "   |   End: " + str(end_value))
+            # print("Change: " + str(change), end="\n\n")
             percentage_change[currency] = change
 
         #Sort the currencies by their change, this allows us to get the largest appreciation and depreciation

@@ -40,7 +40,7 @@ class DeleteDerivativeTrade(APIView):
         now = datetime.now(timezone.utc)
         date_delta = now - trade_created_at
         
-        if date_delta.days > 3:
+        if date_delta.days > 3 and trade_data.get('demo', None) == None:
             return JsonResponse(status=400, data={"error": "Trades can only be deleted within 3 days of creation"})
 
         #Check if the trade has matured
@@ -52,10 +52,19 @@ class DeleteDerivativeTrade(APIView):
 
         trade = trade_serialized[0]
 
+        if trade_data.get('demo', None) != None:
+            print("This is a demo")
+            deleted_at = trade_data['delete_date']
+        else:
+            print("THIS IS NOT A DEMO")
+            deleted_at = datetime.now()
+
+        print(deleted_at)
+
         #Create a new entry into the deleted trades table before we delete from trades
         new_deleted_trade = DeletedTrade(
             trade_id=found_trade[0],
-            deleted_at=now,
+            deleted_at=deleted_at,
         )
         new_deleted_trade.save()
         

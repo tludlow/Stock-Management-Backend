@@ -70,7 +70,6 @@ class CreateDerivativeTrade(APIView):
             trade_data["product"] = 1
 
         #Check that the discrete values of the trade exist.
-        
         #Buying party
         buying_company_data = self.getCompany(trade_data["buying_party"])
         if len(buying_company_data) == 0:
@@ -101,9 +100,13 @@ class CreateDerivativeTrade(APIView):
         notional_instance = Currency.objects.filter(currency=trade_data["notional_currency"])[0]
         underlying_instance = Currency.objects.filter(currency=trade_data["underlying_currency"])[0]
 
+        if trade_data.get('demo', None) != None:
+            date_of_trade = trade_data['date']
+        else:
+            date_of_trade = datetime.now()
         #Create the trade
         new_trade = Trade(
-            date=datetime.now(),
+            date=date_of_trade,
             product=product_instance,
             buying_party=buying_instance,
             selling_party=selling_instance,
@@ -115,9 +118,10 @@ class CreateDerivativeTrade(APIView):
             underlying_currency=underlying_instance,
             strike_price=trade_data["strike_price"]
         )
+
         new_trade.save()
         trade_id = new_trade.id
 
-        scanTradeForErrors(new_trade)
+        # scanTradeForErrors(new_trade) - causing errors
 
         return JsonResponse(status=200, data={"trade_id": new_trade.id, "data": trade_data, "notional_amount": notional_amount})

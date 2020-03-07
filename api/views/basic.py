@@ -16,6 +16,15 @@ import random, string
 from django.core.paginator import Paginator
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django.db import connection
+
+def raw_dictfetchall(cursor):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
 
 @method_decorator(cache_page(20), name='dispatch')
 class CompanyList(APIView):
@@ -158,96 +167,374 @@ class StockDayList(APIView):
 
 class TradeList(APIView):
     def get(self, request):
-        trades = Trade.objects.all()
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                DT.trade_id_id IS NULL
+            ORDER BY T.date DESC
+            """)
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
 class TradeIDList(APIView):
 
     def get(self, request, id):
-        trades = Trade.objects.filter(id=id).order_by('date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                T.id=%s AND DT.trade_id_id IS NULL
+            ORDER BY T.date DESC
+            """, [id])
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
-
 class TradeYearList(APIView):
     def get(self, request, year):
-        trades = Trade.objects.filter(date__year=year).order_by('date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        lower = datetime.datetime(year, 1, 1, 0, 0, 0, 0)
+        upper = datetime.datetime(year, 12, 31, 23, 59, 59, 9999)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                DT.trade_id_id IS NULL and T.date>=%s and T.date<=%s 
+            ORDER BY T.date DESC
+            """, [lower, upper])
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
 class TradeMonthList(APIView):
     def get(self, request, year, month):
-        lower = datetime.date(year, month, 1)
-        days = monthrange(year, month)
-        upper = lower + datetime.timedelta(days=days[1]-1)
-        trades = Trade.objects.filter(date__range=[lower, upper]).order_by('date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        days = calendar.monthrange(year, month)[1]
+        lower = datetime.datetime(year, month, 1, 0, 0, 0, 0)
+        upper = datetime.datetime(year, month, days, 23, 59, 59, 9999)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                DT.trade_id_id IS NULL and T.date>=%s and T.date<=%s 
+            ORDER BY T.date DESC
+            """, [lower, upper])
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeDayList(APIView):
     def get(self, request, year, month, day):
         lower = datetime.datetime(year, month, day, 0, 0, 0, 0)
         upper = datetime.datetime(year, month, day, 23, 59, 59, 9999)
-        trades = Trade.objects.filter(date__range=[lower, upper]).order_by('date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                DT.trade_id_id IS NULL and T.date>=%s and T.date<=%s 
+            ORDER BY T.date DESC
+            """, [lower, upper])
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeMaturityYearList(APIView):
     def get(self, request, year):
-        trades = Trade.objects.filter(maturity_date__year=year).order_by('date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        lower = datetime.datetime(year, 1, 1, 0, 0, 0, 0)
+        upper = datetime.datetime(year, 12, 31, 23, 59, 59, 9999)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                DT.trade_id_id IS NULL and T.maturity_date>=%s and T.maturity_date<=%s 
+            ORDER BY T.date DESC
+            """, [lower, upper])
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
 class TradeMaturityMonthList(APIView):
     def get(self, request, year, month):
-        lower = datetime.date(year, month, 1)
-        days = monthrange(year, month)
-        upper = lower + datetime.timedelta(days=days[1]-1)
-        trades = Trade.objects.filter(maturity_date__range=[lower, upper]).order_by('date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        days = calendar.monthrange(year, month)[1]
+        lower = datetime.datetime(year, month, 1, 0, 0, 0, 0)
+        upper = datetime.datetime(year, month, days, 23, 59, 59, 9999)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                DT.trade_id_id IS NULL and T.maturity_date>=%s and T.maturity_date<=%s 
+            ORDER BY T.date DESC
+            """, [lower, upper])
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeMaturityDayList(APIView):
     def get(self, request, year, month, day):
         lower = datetime.datetime(year, month, day, 0, 0, 0, 0)
         upper = datetime.datetime(year, month, day, 23, 59, 59, 9999)
-        trades = Trade.objects.filter(maturity_date__range=[lower, upper]).order_by('date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                DT.trade_id_id IS NULL and T.maturity_date>=%s and T.maturity_date<=%s 
+            ORDER BY T.date DESC
+            """, [lower, upper])
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeBuyerList(APIView):
     def get(self, request, buyer):
-        trades = Trade.objects.filter(buying_party=buyer).order_by('date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                BP.name=%s AND DT.trade_id_id IS NULL
+            ORDER BY T.date DESC
+            """, [buyer])
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeSellerList(APIView):
     def get(self, request, seller):
-        trades = Trade.objects.filter(selling_party=seller).order_by('date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                SP.name=%s AND DT.trade_id_id IS NULL
+            ORDER BY T.date DESC
+            """, [buyer])
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
 
 class TradeBuyerSellerList(APIView):
     def get(self, request, buyer, seller):
-        trades = Trade.objects.filter(buying_party=buyer, selling_party=seller).order_by('date')
-        deleted = DeletedTrade.objects.all().values('trade_id')
-        data = trades.exclude(id__in = deleted)
-        s = TradeSerializer(data, many=True)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT 
+                T.id, T.date, T.notional_amount, T.quantity, 
+                T.maturity_date, T.underlying_price, T.strike_price, 
+                P.name as product, T.product_id, T.buying_party_id, 
+                BP.name as buying_party, 
+                T.selling_party_id, SP.name as selling_party, 
+                T.underlying_currency_id as underlying_currency, 
+                T.notional_currency_id as notional_currency 
+            FROM trade T 
+            INNER JOIN 
+                (SELECT * FROM product) P 
+            ON P.id = T.product_id
+            INNER JOIN 
+                (SELECT * FROM company) BP
+            ON BP.id = T.buying_party_id
+            INNER JOIN
+                (SELECT * FROM company) SP
+            ON SP.id = T.selling_party_id
+            LEFT JOIN
+                (SELECT trade_id_id FROM deleted_trade) DT
+            ON DT.trade_id_id = T.id
+            WHERE 
+                SP.name=%s AND BP.name=%s AND DT.trade_id_id IS NULL
+            ORDER BY T.date DESC
+            """, [buyer])
+            data = raw_dictfetchall(cursor)
+        s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)

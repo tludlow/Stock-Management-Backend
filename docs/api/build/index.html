@@ -369,6 +369,9 @@
                     <a href="#get-report" class="toc-h2 toc-link" data-title="Get Report">Get Report</a>
                   </li>
                   <li>
+                    <a href="#search-report" class="toc-h2 toc-link" data-title="Search Report">Search Report</a>
+                  </li>
+                  <li>
                     <a href="#available-by-year" class="toc-h2 toc-link" data-title="Available by Year">Available by Year</a>
                   </li>
                   <li>
@@ -1259,9 +1262,9 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-12-18"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blood Dregs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initech"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1274,9 +1277,9 @@ You may specify the page you would like to request with the URL:
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-05-16"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">54.96</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.24</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">178</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold Dust"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Assegai Developments"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Atlas Corp."</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1334,31 +1337,32 @@ You may specify the page you would like to request with the URL:
 <p>This endpoint retrieves a list of all trades descending order by date.</p>
 <h3 id='http-request-27'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/id=&lt;ID&gt;/</code></p>
-<h2 id='recent-trades-by-company-for-product'>Recent Trades By Company For Product</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/product=1&amp;buyer=1/"</span>
+<h2 id='recent-trades-by-company-for-product'>Recent Trades By Company For Product</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/product=Sorceror%20Stones&amp;buyer=Hooli/"</span>
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:
-<code>json
-[
-  {
-    &quot;id&quot;: 289225,
-    &quot;date&quot;: &quot;2019-12-31T11:48:00Z&quot;,
-    &quot;notional_amount&quot;: 160920.0,
-    &quot;quantity&quot;: 9000,
-    &quot;maturity_date&quot;: &quot;2024-09-12&quot;,
-    &quot;underlying_price&quot;: 191.58,
-    &quot;strike_price&quot;: 15.21,
-    &quot;product&quot;: 1,
-    &quot;buying_party&quot;: 1,
-    &quot;selling_party&quot;: 150,
-    &quot;notional_currency&quot;: &quot;USD&quot;,
-    &quot;underlying_currency&quot;: &quot;GMD&quot;
-  }
-  ...
-]
-</code>
-This endpoint retrieves all trades with a giveen product and buyer.</p>
+<p>The above command returns JSON structured like this:</p>
 </blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">289225</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-12-31T11:48:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">160920.0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">9000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-09-12"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">191.58</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">15.21</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sorceror Stones"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hooli"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hudsucker Industries"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">132</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GMD"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves all trades with a giveen product and buyer.</p>
 <h3 id='http-request-28'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/product=&lt;PRODUCT&gt;&amp;buyer=&lt;BUYER&gt;/</code></p>
 
@@ -1391,9 +1395,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-12-18"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blood Dregs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initech"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1414,7 +1421,7 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 <td>iD of the trade to be returned</td>
 </tr>
 </tbody></table>
-<h2 id='by-buyer'>By Buyer</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/buyer=22/"</span>
+<h2 id='by-buyer'>By Buyer</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/buyer=Shadaloo/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1428,9 +1435,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-12-18"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blood Dregs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initech"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1443,9 +1453,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-01-19"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.99</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rings of Gain Constitution"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">89</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">322</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tallian League"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">133</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1466,7 +1479,7 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 <td>Buyer in the trade</td>
 </tr>
 </tbody></table>
-<h2 id='by-seller'>By Seller</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/seller=24/"</span>
+<h2 id='by-seller'>By Seller</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/trade/seller=Damage%20Control/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1480,9 +1493,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-11-11"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">93.19</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">28.46</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">73</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doodle Disks"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Spectacular Optical"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">155</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Damage Control"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">98</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BND"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1495,9 +1511,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-01-19"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.99</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lightning Barrels"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Montana Management"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Damage Control"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1532,9 +1551,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-12-18"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blood Dregs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initech"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1547,9 +1569,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-05-16"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">54.96</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.24</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">179</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Vampire Fangs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wesayso Development Corporation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bug's Construction"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1584,9 +1609,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-12-18"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blood Dregs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initech"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1599,14 +1627,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-26"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">51.04</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">5.75</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">86</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">58</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BZD"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dire Rat Tails"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Altimit Corporation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Serano Genomics Inc."</span><span class="p">,</span><span class="w">
+=======
 <p>This endpoint retrieves all trades for the given year and month.</p>
 <h3 id='http-request-33'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;/</code></p>
@@ -1640,9 +1666,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-12-18"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1289.6</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">186.12</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">174</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blood Dregs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shadaloo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initech"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHS"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1655,14 +1684,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-08-01"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">135.74</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">151.79</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">84</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Golden Ink Pots"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">33</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Insuricare"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">55</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cyberdyne Systems Corporation"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
 <p>This endpoint retrieves all trades for the given year, month and day.</p>
 <h3 id='http-request-34'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;&amp;day=&lt;DAY&gt;/</code></p>
@@ -1700,9 +1727,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-01"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2761.52</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">248.17</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">427</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">190</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">143</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Focus Bands"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">53</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Prestige Worldwide"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">234</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"International Data Corporation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">666</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PAB"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1715,18 +1745,11 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-31"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">75.41</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">59.87</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">164</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">180</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves a list of all trades with the given maturity year.</p>
-<h3 id='http-request-35'>HTTP Request</h3>
-<p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=&lt;MATURITY_YEAR&gt;/</code></p>
-
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Holy Bones"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FEISAR"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Weyland-Yutani"</span><span class="p">,</span><span class="w">
+=======
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1752,9 +1775,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-01"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2761.52</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">248.17</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">427</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">190</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">143</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Focus Bands"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">53</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Prestige Worldwide"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">234</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"International Data Corporation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">666</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PAB"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1767,9 +1793,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-31"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">9.49</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.65</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">138</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Flubbers"</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Heartland Play Systems"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cobra"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1808,9 +1837,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-01"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2761.52</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">248.17</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">427</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">190</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">143</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Focus Bands"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">53</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Prestige Worldwide"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">234</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"International Data Corporation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">666</span><span class="p">,</span><span class="w">
     </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PAB"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1823,14 +1855,12 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
     </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-01"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.77</span><span class="p">,</span><span class="w">
     </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.15</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">143</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
+    </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Primordial Flames"</span><span class="w">
+    </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">78</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">423</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sterling Cooper"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Displace Internation"</span><span class="p">,</span><span class="w">
+=======
 <p>This endpoint retrieves a list of all trades with the given maturity day.</p>
 <h3 id='http-request-37'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=&lt;MATURITY_YEAR&gt;&amp;maturity_month=&lt;MATURITY_MONTH&gt;&amp;maturity_day=&lt;MATURITY_DAY&gt;/</code></p>
@@ -1854,7 +1884,7 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 <td>Maturity day of data to be returned</td>
 </tr>
 </tbody></table>
-<h1 id='report'>Report</h1><h2 id='get-report'>Get Report</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/year=2018&amp;month=01&amp;day=01/"</span>
+<h1 id='report'>Report</h1><h2 id='get-report'>Get Report</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/year=2020&amp;month=03&amp;day=04/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1867,14 +1897,14 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
         </span><span class="p">{</span><span class="w">
             </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360718</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03"</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> 
-            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">31.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">230</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-01"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stocks"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Insuricare"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Quark Industries"</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
             </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
         </span><span class="p">}</span><span class="w">
@@ -1959,6 +1989,64 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 <td>Day of report to be returned</td>
 </tr>
 </tbody></table>
+<h2 id='search-report'>Search Report</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/year=2020&amp;month=03&amp;day=04&amp;query=quark/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"date_of_report"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-04T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-05T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"num_of_new_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2360718</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-03-03T19:59:30.224397Z"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">31.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">230</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"maturity_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-01"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"strike_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stocks"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"buying_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Insuricare"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"selling_party"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Quark Industries"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"notional_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"underlying_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"num_of_edited_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"edited_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+    </span><span class="s2">"num_of_deleted_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"deleted_trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves a report for the given date and a search term.</p>
+<h3 id='http-request-39'>HTTP Request</h3>
+<p><code>GET https://group23.dcs.warwick.ac.uk/api/report/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;&amp;day=&lt;DAY&gt;&amp;query=&lt;QUERY&gt;/</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>YEAR</td>
+<td>Year of report to be returned</td>
+</tr>
+<tr>
+<td>MONTH</td>
+<td>Month of report to be returned</td>
+</tr>
+<tr>
+<td>DAY</td>
+<td>Day of report to be returned</td>
+</tr>
+<tr>
+<td>QUERY</td>
+<td>Term to search for in the report</td>
+</tr>
+</tbody></table>
 <h2 id='available-by-year'>Available by Year</h2><pre class="highlight shell tab-shell"><code> curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/available/"</span>
 </code></pre>
 <blockquote>
@@ -1975,7 +2063,7 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the years that reports are available for.</p>
-<h3 id='http-request-39'>HTTP Request</h3>
+<h3 id='http-request-40'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/</code></p>
 <h2 id='available-by-month'>Available by Month</h2><pre class="highlight shell tab-shell"><code> curl <span class="s2">"https://group23.dcs.warwick.ac.uk/api/report/available/year=2019/"</span>
 </code></pre>
@@ -1995,7 +2083,7 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the months that reports are available for given a year.</p>
-<h3 id='http-request-40'>HTTP Request</h3>
+<h3 id='http-request-41'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/year=&lt;YEAR&gt;/</code></p>
 
 <table><thead>
@@ -2029,7 +2117,7 @@ This endpoint retrieves all trades with a giveen product and buyer.</p>
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves the days that reports are available for given a year and month.</p>
-<h3 id='http-request-41'>HTTP Request</h3>
+<h3 id='http-request-42'>HTTP Request</h3>
 <p><code>GET https://group23.dcs.warwick.ac.uk/api/report/available/year=&lt;YEAR&gt;&amp;month=&lt;MONTH&gt;/</code></p>
 
 <table><thead>

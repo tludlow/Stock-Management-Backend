@@ -871,9 +871,9 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/list/"
     "maturity_date": "2022-12-18",
     "underlying_price": 1289.6,
     "strike_price": 186.12,
-    "product": 1,
-    "buying_party": 22,
-    "selling_party": 174,
+    "product": "Blood Dregs",
+    "buying_party": "Shadaloo",
+    "selling_party": "Initech",
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
@@ -886,9 +886,9 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/list/"
     "maturity_date": "2024-05-16",
     "underlying_price": 54.96,
     "strike_price": 50.24,
-    "product": 1,
-    "buying_party": 8,
-    "selling_party": 178,
+    "product": "Gold Dust",
+    "buying_party": "Assegai Developments",
+    "selling_party": "Atlas Corp.",
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -958,9 +958,10 @@ This endpoint retrieves a list of all trades descending order by date.
 
 ## Recent Trades By Company For Product
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/trade/product=1&buyer=1/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/product=Sorceror%20Stones&buyer=Hooli/"
 ```
 > The above command returns JSON structured like this:
+
 ```json
 [
   {
@@ -971,9 +972,15 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/product=1&buyer=1/"
     "maturity_date": "2024-09-12",
     "underlying_price": 191.58,
     "strike_price": 15.21,
-    "product": 1,
-    "buying_party": 1,
-    "selling_party": 150,
+    "product": "Sorceror Stones",
+    "buying_party": "Hooli",
+<<<<<<< HEAD
+    "buying_party_id": 12,
+    "selling_party": "Hudsucker Industries",
+    "selling_party_id": 132,
+=======
+    "selling_party": "Hudsucker Industries",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GMD"
   }
@@ -1009,9 +1016,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/id=1/"
     "maturity_date": "2022-12-18",
     "underlying_price": 1289.6,
     "strike_price": 186.12,
-    "product": 1,
-    "buying_party": 22,
-    "selling_party": 174,
+    "product": "Blood Dregs",
+<<<<<<< HEAD
+    "product_id": 100,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 101,
+    "selling_party": "Initech",
+    "selling_party_id": 12,
+=======
+    "buying_party": "Shadaloo",
+    "selling_party": "Initech",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   }
@@ -1031,7 +1046,7 @@ ID | iD of the trade to be returned
 ## By Buyer
 
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=22/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=Shadaloo/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1046,9 +1061,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=22/"
     "maturity_date": "2022-12-18",
     "underlying_price": 1289.6,
     "strike_price": 186.12,
-    "product": 1,
-    "buying_party": 22,
-    "selling_party": 174,
+    "product": "Blood Dregs",
+<<<<<<< HEAD
+    "product_id": 100,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 101,
+    "selling_party": "Initech",
+    "selling_party_id": 12,
+=======
+    "buying_party": "Shadaloo",
+    "selling_party": "Initech",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
@@ -1061,9 +1084,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/buyer=22/"
     "maturity_date": "2021-01-19",
     "underlying_price": 17.99,
     "strike_price": 17.6,
-    "product": 1,
-    "buying_party": 22,
-    "selling_party": 24,
+    "product": "Rings of Gain Constitution",
+<<<<<<< HEAD
+    "product_id": 89,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 322,
+    "selling_party": "Tallian League",
+    "selling_party_id": 133,
+=======
+    "buying_party": "Shadaloo",
+    "selling_party": "Tallian League",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1082,7 +1113,7 @@ BUYER | Buyer in the trade
 
 ## By Seller
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=24/"
+curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=Damage%20Control/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1097,9 +1128,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=24/"
     "maturity_date": "2023-11-11",
     "underlying_price": 93.19,
     "strike_price": 28.46,
-    "product": 73,
-    "buying_party": 75,
-    "selling_party": 24,
+    "product": "Doodle Disks",
+<<<<<<< HEAD
+    "product_id": 22,
+    "buying_party": "Spectacular Optical",
+    "buying_party_id": 155,
+    "selling_party": "Damage Control",
+    "selling_party_id": 98,
+=======
+    "buying_party": "Spectacular Optical",
+    "selling_party": "Damage Control",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "BND",
     "underlying_currency": "USD"
   },
@@ -1112,9 +1151,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/seller=24/"
     "maturity_date": "2021-01-19",
     "underlying_price": 17.99,
     "strike_price": 17.6,
-    "product": 1,
-    "buying_party": 22,
-    "selling_party": 24,
+    "product": "Lightning Barrels",
+<<<<<<< HEAD
+    "product_id": 123,
+    "buying_party": "Montana Management",
+    "buying_party_id": 21,
+    "selling_party": "Damage Control",
+    "selling_party_id": 2,
+=======
+    "buying_party": "Montana Management",
+    "selling_party": "Damage Control",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1148,9 +1195,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019/"
     "maturity_date": "2022-12-18",
     "underlying_price": 1289.6,
     "strike_price": 186.12,
-    "product": 1,
-    "buying_party": 22,
-    "selling_party": 174,
+    "product": "Blood Dregs",
+<<<<<<< HEAD
+    "product_id": 100,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 101,
+    "selling_party": "Initech",
+    "selling_party_id": 12,
+=======
+    "buying_party": "Shadaloo",
+    "selling_party": "Initech",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
@@ -1163,9 +1218,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019/"
     "maturity_date": "2024-05-16",
     "underlying_price": 54.96,
     "strike_price": 50.24,
-    "product": 1,
-    "buying_party": 8,
-    "selling_party": 179,
+    "product": "Vampire Fangs",
+<<<<<<< HEAD
+    "product_id": 2,
+    "buying_party": "Wesayso Development Corporation",
+    "buying_party_id": 65,
+    "selling_party": "Bug's Construction",
+    "selling_party_id": 23,
+=======
+    "buying_party": "Wesayso Development Corporation",
+    "selling_party": "Bug's Construction",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1200,9 +1263,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01/"
     "maturity_date": "2022-12-18",
     "underlying_price": 1289.6,
     "strike_price": 186.12,
-    "product": 1,
-    "buying_party": 22,
-    "selling_party": 174,
+    "product": "Blood Dregs",
+<<<<<<< HEAD
+    "product_id": 100,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 101,
+    "selling_party": "Initech",
+    "selling_party_id": 12,
+=======
+    "buying_party": "Shadaloo",
+    "selling_party": "Initech",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
@@ -1215,9 +1286,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01/"
     "maturity_date": "2020-03-26",
     "underlying_price": 51.04,
     "strike_price": 5.75,
-    "product": 1,
-    "buying_party": 86,
-    "selling_party": 58,
+    "product": "Dire Rat Tails",
+<<<<<<< HEAD
+    "product_id": 45,
+    "buying_party": "Altimit Corporation",
+    "buying_party_id": 4,
+    "selling_party": "Serano Genomics Inc.",
+    "selling_party_id": 7,
+=======
+    "buying_party": "Altimit Corporation",
+    "selling_party": "Serano Genomics Inc.",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "BZD"
   }
@@ -1252,9 +1331,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01&day=01/"
     "maturity_date": "2022-12-18",
     "underlying_price": 1289.6,
     "strike_price": 186.12,
-    "product": 1,
-    "buying_party": 22,
-    "selling_party": 174,
+    "product": "Blood Dregs",
+<<<<<<< HEAD
+    "product_id": 100,
+    "buying_party": "Shadaloo",
+    "buying_party_id": 101,
+    "selling_party": "Initech",
+    "selling_party_id": 12,
+=======
+    "buying_party": "Shadaloo",
+    "selling_party": "Initech",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "GHS"
   },
@@ -1267,9 +1354,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/year=2019&month=01&day=01/"
     "maturity_date": "2021-08-01",
     "underlying_price": 135.74,
     "strike_price": 151.79,
-    "product": 1,
-    "buying_party": 84,
-    "selling_party": 38,
+    "product": "Golden Ink Pots",
+<<<<<<< HEAD
+    "product_id": 33,
+    "buying_party": "Insuricare",
+    "buying_party_id": 55
+    "selling_party": "Cyberdyne Systems Corporation",
+    "selling_party_id": 34,
+=======
+    "buying_party": "Insuricare",
+    "selling_party": "Cyberdyne Systems Corporation",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1305,9 +1400,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024/"
     "maturity_date": "2024-01-01",
     "underlying_price": 2761.52,
     "strike_price": 248.17,
-    "product": 427,
-    "buying_party": 190,
-    "selling_party": 143,
+    "product": "Focus Bands",
+<<<<<<< HEAD
+    "product_id": 53,
+    "buying_party": "Prestige Worldwide",
+    "buying_party_id": 234,
+    "selling_party": "International Data Corporation",
+    "selling_party_id": 666,
+=======
+    "buying_party": "Prestige Worldwide",
+    "selling_party": "International Data Corporation",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "PAB"
   },
@@ -1320,9 +1423,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024/"
     "maturity_date": "2024-12-31",
     "underlying_price": 75.41,
     "strike_price": 59.87,
-    "product": 1,
-    "buying_party": 164,
-    "selling_party": 180,
+    "product": "Holy Bones",
+<<<<<<< HEAD
+    "product_id": 89,
+    "buying_party": "FEISAR",
+    "buying_party_id": 34,
+    "selling_party": "Weyland-Yutani",
+    "selling_party_id": 16,
+=======
+    "buying_party": "FEISAR",
+    "selling_party": "Weyland-Yutani",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1357,9 +1468,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "maturity_date": "2024-01-01",
     "underlying_price": 2761.52,
     "strike_price": 248.17,
-    "product": 427,
-    "buying_party": 190,
-    "selling_party": 143,
+    "product": "Focus Bands",
+<<<<<<< HEAD
+    "product_id": 53,
+    "buying_party": "Prestige Worldwide",
+    "buying_party_id": 234,
+    "selling_party": "International Data Corporation",
+    "selling_party_id": 666,
+=======
+    "buying_party": "Prestige Worldwide",
+    "selling_party": "International Data Corporation",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "PAB"
   },
@@ -1372,9 +1491,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "maturity_date": "2024-01-31",
     "underlying_price": 9.49,
     "strike_price": 10.65,
-    "product": 1,
-    "buying_party": 138,
-    "selling_party": 13,
+    "product": "Flubbers"
+<<<<<<< HEAD
+    "product_id": 4,
+    "buying_party": "Heartland Play Systems",
+    "buying_party_id": 34,
+    "selling_party": "Cobra",
+    "selling_party_id": 42,
+=======
+    "buying_party": "Heartland Play Systems",
+    "selling_party": "Cobra",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1409,9 +1536,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "maturity_date": "2024-01-01",
     "underlying_price": 2761.52,
     "strike_price": 248.17,
-    "product": 427,
-    "buying_party": 190,
-    "selling_party": 143,
+    "product": "Focus Bands",
+<<<<<<< HEAD
+    "product_id": 53,
+    "buying_party": "Prestige Worldwide",
+    "buying_party_id": 234,
+    "selling_party": "International Data Corporation",
+    "selling_party_id": 666,
+=======
+    "buying_party": "Prestige Worldwide",
+    "selling_party": "International Data Corporation",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "PAB"
   },
@@ -1424,9 +1559,17 @@ curl "https://group23.dcs.warwick.ac.uk/api/trade/maturity_year=2024&maturity_mo
     "maturity_date": "2024-01-01",
     "underlying_price": 4.77,
     "strike_price": 4.15,
-    "product": 1,
-    "buying_party": 143,
-    "selling_party": 65,
+    "product": "Primordial Flames"
+<<<<<<< HEAD
+    "product_id": 78,
+    "buying_party_id": 423,
+    "buying_party": "Sterling Cooper",
+    "selling_party": "Displace Internation",
+    "selling_party_id": 645,
+=======
+    "buying_party": "Sterling Cooper",
+    "selling_party": "Displace Internation",
+>>>>>>> 768718787f983154a0f4b28fa05d13a500d741f9
     "notional_currency": "USD",
     "underlying_currency": "USD"
   }
@@ -1448,7 +1591,7 @@ MATURITY_DAY | Maturity day of data to be returned
 # Report
 ## Get Report
 ```shell
-curl "https://group23.dcs.warwick.ac.uk/api/report/year=2018&month=01&day=01/"
+curl "https://group23.dcs.warwick.ac.uk/api/report/year=2020&month=03&day=04/"
 ```
 
 > The above command returns JSON structured like this:
@@ -1462,14 +1605,14 @@ curl "https://group23.dcs.warwick.ac.uk/api/report/year=2018&month=01&day=01/"
         {
             "id": 2360718, 
             "date": "2020-03-03T19:59:30.224397Z", 
-            "notional_amount": 100.0, 
-            "quantity": 100, 
-            "maturity_date": "2020-04-03", 
-            "underlying_price": 3.0, 
-            "strike_price": 6.0, 
-            "product": 57, 
-            "buying_party": 160, 
-            "selling_party": 26, 
+            "notional_amount": 31.0, 
+            "quantity": 230, 
+            "maturity_date": "2021-12-01", 
+            "underlying_price": 1.0, 
+            "strike_price": 2.0, 
+            "product": "Stocks", 
+            "buying_party": "Insuricare", 
+            "selling_party": "Quark Industries", 
             "notional_currency": "USD", 
             "underlying_currency": "USD"
         }
@@ -1543,6 +1686,55 @@ Parameter | Description
 YEAR | Year of report to be returned
 MONTH | Month of report to be returned
 DAY | Day of report to be returned
+
+## Search Report
+
+```shell
+curl "https://group23.dcs.warwick.ac.uk/api/report/year=2020&month=03&day=04&query=quark/"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "date_of_report": "2020-03-04T00:00:00Z",
+    "created": "2020-03-05T00:00:00Z",
+    "num_of_new_trades": 1,
+    "created_trades": [
+        {
+            "id": 2360718, 
+            "date": "2020-03-03T19:59:30.224397Z", 
+            "notional_amount": 31.0, 
+            "quantity": 230, 
+            "maturity_date": "2021-12-01", 
+            "underlying_price": 1.0, 
+            "strike_price": 2.0, 
+            "product": "Stocks", 
+            "buying_party": "Insuricare", 
+            "selling_party": "Quark Industries", 
+            "notional_currency": "USD", 
+            "underlying_currency": "USD"
+        }
+    ],
+    "num_of_edited_trades": 1,
+    "edited_trades": [],
+    "num_of_deleted_trades": 1,
+    "deleted_trades": []
+}
+```
+
+This endpoint retrieves a report for the given date and a search term.
+
+### HTTP Request
+
+`GET https://group23.dcs.warwick.ac.uk/api/report/year=<YEAR>&month=<MONTH>&day=<DAY>&query=<QUERY>/`
+
+Parameter | Description
+--------- | -----------
+YEAR | Year of report to be returned
+MONTH | Month of report to be returned
+DAY | Day of report to be returned
+QUERY | Term to search for in the report
 
 ## Available by Year
  ```shell
