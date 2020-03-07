@@ -86,7 +86,6 @@ class Trade(models.Model):
         
 
     id = models.AutoField(primary_key=True)
-    # models.CharField(max_length=16, primary_key=True)
     date = models.DateTimeField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="trade_product")
     buying_party = models.ForeignKey(Company, on_delete=models.CASCADE, 
@@ -111,7 +110,7 @@ class DeletedTrade(models.Model):
 
     id = models.AutoField(primary_key=True)
     trade_id = models.ForeignKey(Trade, on_delete=models.CASCADE, related_name="deleted_trade")
-    deleted_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField()
 
 class EditedTrade(models.Model):
     
