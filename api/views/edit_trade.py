@@ -16,7 +16,15 @@ from random import randint
 import dateutil.parser
 import datetime
 from datetime import datetime, timedelta, timezone, date
+from django.db import connection
 
+def raw_dictfetchall(cursor):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
 class EditDerivativeTrade(APIView):
     
     # Given dictionaries containing the updated and original attributes 
@@ -67,7 +75,7 @@ class EditDerivativeTrade(APIView):
         trade_data = request.data
         edits = []
         allowed_fields = ["trade_id", "product", "buying_party", 
-                    "selling_party", "notional_currency", 
+                    "selling_party", "product_id", "buying_party_id", "selling_party_id", "notional_currency", 
                     "quantity",  "maturity_date", "underlying_price", 
                     "underlying_currency", "strike_price", "id", "date",
                     "notional_amount", 
@@ -128,6 +136,33 @@ class EditDerivativeTrade(APIView):
         if len(return_info) < 2:
             return JsonResponse(status=200, data={"message": "No need to edit, all fields the same"})
         else:
-            return_trade = Trade.objects.filter(id=trade_data["trade_id"])
-            return_s = TradeSerializer(return_trade, many=True)
-            return JsonResponse(status=200, data={"changes": return_info, "trade": return_s.data})
+            with connection.cursor() as cursor:
+                cursor.execute("""
+                SELECT 
+                    T.id, T.date, T.notional_amount, T.quantity, 
+                    T.maturity_date, T.underlying_price, T.strike_price, 
+                    P.name as product, T.product_id, T.buying_party_id, 
+                    BP.name as buying_party, 
+                    T.selling_party_id, SP.name as selling_party, 
+                    T.underlying_currency_id as underlying_currency, 
+                    T.notional_currency_id as notional_currency 
+                FROM trade T 
+                INNER JOIN 
+                    (SELECT * FROM product) P 
+                ON P.id = T.product_id
+                INNER JOIN 
+                    (SELECT * FROM company) BP
+                ON BP.id = T.buying_party_id
+                INNER JOIN
+                    (SELECT * FROM company) SP
+                ON SP.id = T.selling_party_id
+                LEFT JOIN
+                    (SELECT trade_id_id FROM deleted_trade) DT
+                ON DT.trade_id_id = T.id
+                WHERE 
+                    T.id=%s AND DT.trade_id_id IS NULL
+                ORDER BY T.date DESC
+                """, [trade_data["trade_id"]])
+                data = raw_dictfetchall(cursor)
+            s = JoinedTradeSerializer(data, many=True)
+            return JsonResponse(status=200, data={"changes": return_info, "trade": s.data})
