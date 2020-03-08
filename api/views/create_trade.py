@@ -48,7 +48,7 @@ class CreateDerivativeTrade(APIView):
         converted_rate = round(notional_value / underlying_value, 2)
 
         #Overall value represented (value * quantity)
-        return converted_rate * int(amount)
+        return round(converted_rate * int(amount), 2)
 
 
     def post(self, request):
