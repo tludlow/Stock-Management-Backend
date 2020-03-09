@@ -5,3 +5,4 @@ from .edit_trade import *
 from .specific import *
 from .reports import *
 from .learning import *
+from .frontend import *

@@ -13,6 +13,3 @@ mysqlclient
 django-cors-headers
 python-dotenv
 numpy==1.18.1
-sklearn
-matplotlib
-pandas==1.0.0
