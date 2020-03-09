@@ -159,6 +159,25 @@ class IntegrationTests(TestCase):
         # Ensure trade creation was successful
         return data.status_code == 200
 
+    def generate_report(self, year, month, day):
+        """Deletes a trade with the gives trade ID.
+
+        Args:
+            trade_id (int): ID of the trade.
+        
+        Returns:
+            bool: If the trade is successfully deleted
+
+        Raises:
+            AssertionError: If the trade wasn't successfully deleted
+        """
+        # Request the trade using the trade id
+        report_url = self.url(f"api/report/year={year}&month={month}&day={day}")
+        data = requests.request("POST", report_url, headers=headers, data=args)
+
+        # Ensure trade creation was successful
+        return data.status_code == 200
+
     def number_of_trades(self):
         """Returns the total number of trades
 
@@ -195,7 +214,7 @@ class IntegrationTests(TestCase):
                    '51', '17.21']
         return self.create_trade(invalid)
 
-    def test_trade_creation_and_retrieval(self):
+    def test_trade_creation(self):
         """Tests trades are successfully created.
 
         Raises:
@@ -296,6 +315,25 @@ class IntegrationTests(TestCase):
                                         "maturity_date" : maturity})
         assert not invalid_edit, \
             "Invalid edit was successfully made"
+
+        # Edit a deleted trade
+        success, data = self.create_valid_trade()
+        trade_id, _ = data
+
+        self.delete_trade(trade_id)
+
+        valid_edit = self.edit_trade({"trade_id" : trade_id, 
+                                      "quantity" : 100})
+        assert not valid_edit, \
+            "Edit occured on deleted trade"
+
+    def test_trade_reports(self):
+        """Tests whether reports are returned successfully
+
+        Raises:
+            AssertionError: If a specific test fails
+        """
+
 
     def tearDown(self):
         self.__connection.close()

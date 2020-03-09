@@ -74,7 +74,7 @@ class EditDerivativeTrade(APIView):
     def post(self, request):
         trade_data = request.data
         edits = []
-        allowed_fields = ["trade_id", "product", "buying_party", 
+        allowed_fields = ["trade_id", "product_id", "buying_party", 
                     "selling_party", "notional_currency", 
                     "quantity",  "maturity_date", "underlying_price", 
                     "underlying_currency", "strike_price", "id", "date",
@@ -121,8 +121,9 @@ class EditDerivativeTrade(APIView):
             return JsonResponse(status=400, data={"error": "Trades can only be edited within 3 days of creation"})
 
         #Compare the provided trade details with those known in the database to see if they have been edited
-        updated = {}
-        for i in [x for x in allowed_fields if x not in ['trade_id', 'edit_date', 'demo']]:
+        updated = trade_obj_s.data
+        for i in [x for x in allowed_fields if x not in ['trade_id', 'product_id']]:
+            print(i)
             updated[i] = trade_data.get(i, trade_obj_s.data[i])
 
         if datetime.strptime(updated['maturity_date'], '%Y-%m-%d').date() < now.date():
