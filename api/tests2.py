@@ -56,6 +56,7 @@ class IntegrationTests(TestCase):
 
         # Ensure a trade id was returned
         trade_id = json.get('trade_id', None)
+        print(data.content.decode('utf-8'))
         if trade_id is None:
             return False, None
 
@@ -171,12 +172,15 @@ class IntegrationTests(TestCase):
         Raises:
             AssertionError: If the trade wasn't successfully deleted
         """
-        # Request the trade using the trade id
+        # Request the report using the date
         report_url = self.url(f"api/report/year={year}&month={month}&day={day}")
-        data = requests.request("POST", report_url, headers=headers, data=args)
+        data = requests.get(report_url)
 
-        # Ensure trade creation was successful
-        return data.status_code == 200
+        # Ensure report was successfully returned
+        if data.status_code != 200:
+            return False, None
+        else: 
+            return True, data.json()
 
     def number_of_trades(self):
         """Returns the total number of trades
@@ -333,6 +337,19 @@ class IntegrationTests(TestCase):
         Raises:
             AssertionError: If a specific test fails
         """
+        # Create new trade
+        _, (trade_id, _) = self.create_valid_trade()
+        # trade_id, _ = data
+
+        # _, data = self.create_valid_trade()
+        # trade_id, _ = data
+
+        # _, data = self.create_valid_trade()
+        # trade_id, _ = data
+
+        # _, data = self.create_valid_trade()
+        # trade_id, _ = data
+
 
 
     def tearDown(self):
