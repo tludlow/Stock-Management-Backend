@@ -75,13 +75,11 @@ class EditDerivativeTrade(APIView):
         trade_data = request.data
         print(trade_data)
         edits = []
-        allowed_fields = ["trade_id", "product", "buying_party", 
-                    "selling_party", "product_id", "buying_party_id", "selling_party_id", "notional_currency", 
+        allowed_fields = ["trade_id", "product_id", "buying_party", 
+                    "selling_party", "notional_currency", 
                     "quantity",  "maturity_date", "underlying_price", 
                     "underlying_currency", "strike_price", "id", "date",
-                    "notional_amount", 
-                    # REMOVE 
-                    "demo", "edit_date"]
+                    "notional_amount"]
         #Makes sure we have all the data we should in the request
         if "trade_id" not in trade_data.keys():
             return JsonResponse(status=400, data={"error": "No trade id provided."})
@@ -120,7 +118,7 @@ class EditDerivativeTrade(APIView):
         trade_created_at = dateutil.parser.isoparse(trade_obj_s.data["date"])
         date_delta = now - datetime(trade_created_at.year, trade_created_at.month, trade_created_at.day)
 
-        if date_delta.days > 3 and trade_data.get('demo', None) == None:
+        if date_delta.days > 3:
             return JsonResponse(status=400, data={"error": "Trades can only be edited within 3 days of creation"})
 
         #Compare the provided trade details with those known in the database to see if they have been edited
@@ -129,11 +127,10 @@ class EditDerivativeTrade(APIView):
             print(i)
             updated[i] = trade_data.get(i, trade_obj_s.data[i])
 
-        demo = trade_data.get('demo', None) != None
-        if demo:
-            return_info = self.update(updated, trade_obj_s.data, trade_obj, edit_date=trade_data['edit_date'])
-        else:
-            return_info = self.update(updated, trade_obj_s.data, trade_obj)
+        if datetime.strptime(updated['maturity_date'], '%Y-%m-%d').date() < now.date():
+            return JsonResponse(status=400, data={"error": "Maturity date can't be set to the past"})
+
+        return_info = self.update(updated, trade_obj_s.data, trade_obj)
 
         if len(return_info) < 2:
             return JsonResponse(status=200, data={"message": "No need to edit, all fields the same"})
