@@ -59,8 +59,6 @@ class DeleteDerivativeTrade(APIView):
             print("THIS IS NOT A DEMO")
             deleted_at = datetime.now()
 
-        print(deleted_at)
-
         #Create a new entry into the deleted trades table before we delete from trades
         new_deleted_trade = DeletedTrade(
             trade_id=found_trade[0],

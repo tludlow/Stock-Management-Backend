@@ -63,6 +63,9 @@ class CreateDerivativeTrade(APIView):
             if field not in trade_data.keys():
                 return JsonResponse(status=400, data={"error": "Missing the field '" + field + "' in the form."})
 
+        if datetime.strptime(trade_data["maturity_date"], '%Y-%m-%d').date() < datetime.now().date():
+            return JsonResponse(status=400, 
+                data={"error": "You cannot have a maturity date in the past"})
 
         if int(trade_data["quantity"]) <= 0:
             return JsonResponse(status=400, 
@@ -88,11 +91,6 @@ class CreateDerivativeTrade(APIView):
         selling_company_data = self.getCompany(trade_data["selling_party"])
         if len(selling_company_data) == 0:
             return JsonResponse(status=400, data={"error": "The selling party does not exist."})
-
-        #Generate a random trade ID 16 characters long. 8 letters followed by 8 numbers
-        letters = ''.join(random.choice(string.ascii_letters).upper() for x in range(8))
-        nums = ''.join(["{}".format(randint(0, 9)) for num in range(0, 8)])
-        trade_id = letters+nums
 
         #Compute the notional amount, this is the underlying_price converted to the notional_price
         #which you then multiply by the quantity of the trade.

@@ -255,13 +255,13 @@ def report_data(year, month, day):
             (SELECT * FROM company) SP
         ON SP.id = T.selling_party_id
         LEFT JOIN
-            (SELECT trade_id_id FROM deleted_trade) DT
+            (SELECT trade_id_id FROM deleted_trade WHERE deleted_at < %s) DT
         ON DT.trade_id_id = T.id
         WHERE 
             DT.trade_id_id IS NULL and T.date>=%s and T.date<=%s 
         ORDER BY T.date DESC
         """, [lower, upper])
-        trades = revert_dictfetchall(cursor, lower, upper)
+        trades = revert_dictfetchall(cursor, upper, lower, upper)
         
         # Get the edits
         cursor.execute("""
@@ -291,7 +291,7 @@ def report_data(year, month, day):
                 edit_date>=%s and edit_date<=%s) ET
         ON ET.trade_id_id = T.id
         LEFT JOIN
-            (SELECT trade_id_id FROM deleted_trade) DT
+            (SELECT trade_id_id FROM deleted_trade WHERE deleted_at < %s) DT
         ON DT.trade_id_id = T.id
         WHERE 
             DT.trade_id_id IS NULL
@@ -303,7 +303,7 @@ def report_data(year, month, day):
             ET.edit_date
         ORDER BY ET.edit_date DESC
         """, [lower, upper])
-        edits = fetch_edits(cursor, lower, upper)
+        edits = fetch_edits(cursor, lower, upper, upper)
 
         # Get the deletions
         cursor.execute("""
