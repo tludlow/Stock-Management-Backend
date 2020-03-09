@@ -55,7 +55,7 @@ def removeOutliers(x, outlierConstant):
     
     return result.tolist()
 
-def scanTradeForErrors(trade):
+def scanTradeForErrors(trade, tid):
     # Going to need to pass the information below to the AI to scan for the errors.
     # Strike Price
     # Quantity
@@ -78,11 +78,11 @@ def scanTradeForErrors(trade):
 
     data = None
     if trade_data["product"] == "1":
-        trades = Trade.objects.filter(buying_party=trade_data["buying_party"], selling_party=trade_data["selling_party"], product_id=trade_data["product"]).order_by('-date')
+        trades = Trade.objects.filter(buying_party=trade_data["buying_party"], selling_party=trade_data["selling_party"], product_id=trade_data["product"]).exclude(id=tid).order_by('-date')
         dataFirst = trades.exclude(id__in = erroneous)
         data = dataFirst.exclude(id__in = deleted)[0:150]
     else:
-        trades = Trade.objects.filter(buying_party=trade_data["buying_party"], product_id=trade_data["product"]).order_by('-date')
+        trades = Trade.objects.filter(buying_party=trade_data["buying_party"], product_id=trade_data["product"]).exclude(id=tid).order_by('-date')
         dataFirst = trades.exclude(id__in = erroneous)
         data = dataFirst.exclude(id__in = deleted)[0 : 150]
 
@@ -95,49 +95,79 @@ def scanTradeForErrors(trade):
         #Not enough data to perform realistic comparisons...
         return -1
 
+    #Need to add a new field to all of the trades which have the same underlying and strike price as the new trade
+    new_trade_underlying = trade_data["underlying_currency"]
+    print("LENGTH IS: " + str(len(listed_data)))
     for idx, trade in enumerate(listed_data):
-            #Need to convert all of the strike prices and underlying prices into USD
-            underlying_currency = trade["underlying_currency"]
-            underlying_price = trade["underlying_price"]
-            strike_price = trade["strike_price"]
-            date = trade["date"]
-            formatted_date = date.split("T")[0]
-            
-            print("At date: " + str(formatted_date) + " Converting to USD from " + underlying_currency + " at a rate of 1:" + str(convertCurrencyAtDate("USD", underlying_currency, 1, formatted_date)))
+        #Converted underlying
+        converted_underlying = convertCurrencyAtDate(new_trade_underlying, trade["underlying_currency"], trade["underlying_price"], datetime.today().strftime('%Y-%m-%d'))
+        print("[UNDERLYING] " + str(new_trade_underlying) + " to " + str(trade["underlying_currency"]) + " is: " + str(converted_underlying) + " from " + str(trade["underlying_price"]))
 
-            current_value_of_underlying = convertCurrencyAtDate("USD", underlying_currency, underlying_price, datetime.today().strftime('%Y-%m-%d'))
-            current_value_of_strike = convertCurrencyAtDate("USD", underlying_currency, strike_price, datetime.today().strftime('%Y-%m-%d'))
+        #Converted strike
+        converted_strike = convertCurrencyAtDate(new_trade_underlying, trade["underlying_currency"], trade["strike_price"], datetime.today().strftime('%Y-%m-%d'))
 
-            trade["underlying_current_usd"] = current_value_of_underlying
-            trade["strike_current_usd"] = current_value_of_strike
-            listed_data[idx] = trade
-            print(trade, end="\n\n")
-            # print("UNDERLYING= " + str(underlying_value_at_date_in_base) + "  |  " + "STRIKE= " + str(strike_value_at_date_in_base))
-            # print(trade, end="\n\n")
+        trade["current_underlying"] = converted_underlying
+        trade["current_strike"] = converted_strike
+        listed_data[idx] = trade
+
+        print(trade, end="\n\n")
         
-
     quantities = []
-    usd_underlyings = []
-    usd_strikes = []
+    underlying = []
+    strike = []
 
     for trade in listed_data:
         quantities.append(trade["quantity"])
-        usd_underlyings.append(trade["underlying_current_usd"])
-        usd_strikes.append(trade["strike_current_usd"])
+        underlying.append(trade["current_underlying"])
+        strike.append(trade["current_strike"])
 
     quantities = sorted(quantities)
-    usd_underlyings = sorted(usd_underlyings)
-    usd_strikes = sorted(usd_strikes)
+    underlying = sorted(underlying)
+    strike = sorted(strike)
 
-    print("QUANTITIES: " + str(quantities), end="\n\n")
-    print("UNDERLYINGS: " + str(usd_underlyings), end="\n\n")
-    print("STRIKES: " + str(usd_strikes), end="\n\n")
+    print("Quantity")
+    print(quantities)
+    print("\n\n")
+
+    print("Underlying")
+    print(underlying)
+    print("\n\n")
+
+    print("Strike")
+    print(strike)
+    print("\n\n")
+
+    #Get our new trade
+    trade_new = Trade.objects.filter(id=tid)[0]
+    print(trade_data)
 
     if trade_data["quantity"] > quantities[-1] or trade_data["quantity"] < quantities[0]:
-        #possible error, quantity out of bounds.
-        print("quantity error")
+        new_error_field = ErroneousTradeAttribute(
+                trade_id=trade_new,
+                erroneous_attribute="QT",
+                erroneous_value=str(trade_data["quantity"]),
+                date=datetime.now()
+            )
+        new_error_field.save()
 
-    # print(removeOutliers(quantities, 1))
+    if trade_data["underlying_price"] > underlying[-1] or trade_data["underlying_price"] < underlying[0]:
+        new_error_field = ErroneousTradeAttribute(
+                trade_id=trade_new,
+                erroneous_attribute="UP",
+                erroneous_value=str(trade_data["underlying_price"]),
+                date=datetime.now()
+            )
+        new_error_field.save()
+
+    if trade_data["strike_price"] > strike[-1] or trade_data["strike_price"] < strike[0]:
+        new_error_field = ErroneousTradeAttribute(
+                trade_id=trade_new,
+                erroneous_attribute="ST",
+                erroneous_value=str(trade_data["strike_price"]),
+                date=datetime.now()
+            )
+        new_error_field.save()
+
     
     
 class RecommendedRange(APIView):
@@ -191,9 +221,17 @@ class RecommendedRange(APIView):
             usd_underlyings.append(trade["underlying_current_usd"])
             usd_strikes.append(trade["strike_current_usd"])
 
+        print("Quantities:")
         quantities = sorted(quantities)
+        print("\n")
+
+        print("Underlying:")
         usd_underlyings = sorted(usd_underlyings)
+        print("\n")
+
+        print("Strike:")
         usd_strikes = sorted(usd_strikes)
+        print("\n")
 
         print(quantities)
 

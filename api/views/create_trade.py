@@ -108,8 +108,16 @@ class CreateDerivativeTrade(APIView):
             date_of_trade = trade_data['date']
         else:
             date_of_trade = datetime.now()
+
+        #Get the id of the last created trade
+        foundID = Trade.objects.all().order_by("-date")[0]
+        found_s = TradeSerializer(foundID)
+        print("FOUND")
+        print(found_s.data)
+
         #Create the trade
         new_trade = Trade(
+            id=found_s.data["id"]+1,
             date=date_of_trade,
             product=product_instance,
             buying_party=buying_instance,
@@ -127,11 +135,12 @@ class CreateDerivativeTrade(APIView):
         new_trade_s = TradeSerializer(new_trade)
         new_trade_dict = new_trade_s.data
 
-        #Scan the trade for errors
-        scanTradeForErrors(new_trade_dict)
-        
         new_trade.save()
         trade_id = new_trade.id
+
+        #Scan the trade for errors
+        scanTradeForErrors(new_trade_dict, trade_id)
+
 
         #We need to add the usd underlying and strike as values to the trade
         usd_underlying = self.convertCurrency("USD", trade_data["underlying_currency"], trade_data["underlying_price"])
