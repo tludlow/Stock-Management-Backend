@@ -119,8 +119,8 @@ class EditDerivativeTrade(APIView):
         trade_created_at = dateutil.parser.isoparse(trade_obj_s.data["date"])
         date_delta = now - datetime(trade_created_at.year, trade_created_at.month, trade_created_at.day)
 
-        if date_delta.days > 3:
-            return JsonResponse(status=400, data={"error": "Trades can only be edited within 3 days of creation"})
+        # if date_delta.days > 3:
+        #     return JsonResponse(status=400, data={"error": "Trades can only be edited within 3 days of creation"})
 
         #Compare the provided trade details with those known in the database to see if they have been edited
         updated = trade_obj_s.data
