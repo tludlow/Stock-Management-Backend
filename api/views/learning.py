@@ -11,29 +11,49 @@ from ..serializers import *
 from datetime import datetime, timedelta, timezone, date
 import requests
 from io import StringIO
-import pandas as pd
 import os
-import sklearn
-import numpy
-import importlib
-from sklearn import preprocessing
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.neighbors import KNeighborsRegressor
-import pickle
-import matplotlib.pyplot as pyplot
-from matplotlib import style
-from django.test import RequestFactory
-
-# import warnings filter
-from warnings import simplefilter
-
-# ignore all future warnings
-simplefilter(action='ignore', category=FutureWarning)
-le = preprocessing.LabelEncoder()  # used to encode/convert dataproduct = le.fit_transform(list(userQuantity))
+from django.db import connection
+import numpy as np
 
 # +- value we allow for it to be considered correct
 percentage = 20
 
+def raw_dictfetchall(cursor):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+
+def convertCurrencyAtDate(underlying, notional, amount, date):
+    with connection.cursor() as cursor:
+            cursor.execute("""
+            SELECT VALUE 
+            FROM currency_price 
+            WHERE currency_id=%s 
+            ORDER BY DATE DESC
+            LIMIT 1
+            """, [notional])
+            notional_data = raw_dictfetchall(cursor)
+
+    #The conversion goes through the base currency of dollars.
+    converted_rate = 1 / notional_data[0]["VALUE"]
+
+    # #Overall value represented (value * quantity)
+    return round(converted_rate * amount, 2)
+
+#CODE FROM HERE: https://gist.github.com/vishalkuo/f4aec300cf6252ed28d3
+def removeOutliers(x, outlierConstant):
+    a = np.array(x)
+    upper_quartile = np.percentile(a, 75)
+    lower_quartile = np.percentile(a, 25)
+    IQR = (upper_quartile - lower_quartile) * outlierConstant
+    quartileSet = (lower_quartile - IQR, upper_quartile + IQR)
+    
+    result = a[np.where((a >= quartileSet[0]) & (a <= quartileSet[1]))]
+    
+    return result.tolist()
 
 def scanTradeForErrors(trade):
     # Going to need to pass the information below to the AI to scan for the errors.
@@ -41,11 +61,7 @@ def scanTradeForErrors(trade):
     # Quantity
     # Underlying Price
 
-    predictMode = 0
-
-    trade_s = TradeSerializer(trade)
-    trade_data = trade_s.data
-
+    trade_data = trade
     print(trade_data)
 
     boughtProduct = trade_data["product"]
@@ -53,206 +69,148 @@ def scanTradeForErrors(trade):
     sellingCompany = trade_data["selling_party"]
 
     # Get the data to compare against
-    rf = RequestFactory()
-    getBuyerProduct = rf.get(
-        f"""http://localhost:8000/api/trade/product={boughtProduct}&
-            buyer={buyingCompany}&seller={sellingCompany}/
-            """)
-    
+    # getBuyerProduct = requests.get(
+    #     "http://localhost:8000/api/trade/product={0}&buyer={1}&seller={2}/".format(boughtProduct, buyingCompany,
+    #                                                                                sellingCompany))
 
-    data = pd.read_json(StringIO(getBuyerProduct.text))  # convert the trade data into text to be analysed
+    erroneous = DeletedTrade.objects.all().values('trade_id')
+    deleted = ErroneousTradeAttribute.objects.all().values('trade_id')
 
-    # parse the data
-    data = data[["buying_party", "selling_party", "maturity_date", "date",
-                 "product", "strike_price", "underlying_price", "notional_amount", "quantity"]]
+    data = None
+    if trade_data["product"] == "1":
+        trades = Trade.objects.filter(buying_party=trade_data["buying_party"], selling_party=trade_data["selling_party"], product_id=trade_data["product"]).order_by('-date')
+        dataFirst = trades.exclude(id__in = erroneous)
+        data = dataFirst.exclude(id__in = deleted)[0:150]
+    else:
+        trades = Trade.objects.filter(buying_party=trade_data["buying_party"], product_id=trade_data["product"]).order_by('-date')
+        dataFirst = trades.exclude(id__in = erroneous)
+        data = dataFirst.exclude(id__in = deleted)[0 : 150]
 
-    product = list(data["product"])
-    strike = list(data["strike_price"])
-    underlying = list(data["underlying_price"])
-    notional = list(data["notional_amount"])
-    quantity = list(data["quantity"])
-    buy = list(data["buying_party"])
-    sell = list(data["selling_party"])
-    mature = list(data["maturity_date"])
-    date = list(data["date"])
+    trades_s = TradeSerializer(data, many=True)
+    listed_data = []
+    for trade in trades_s.data:
+        listed_data.append(dict(trade))
 
-    predict = "quantity"  # element to be predicted
-
-    userQuantity = [trade_data["quantity"]]
-    userSelling = [trade_data["selling_party"]]
-    userProduct = [trade_data["product"]]
-    userStrike = [trade_data["strike_price"]]
-    userUnderlying = [trade_data["underlying_price"]]
-
-
-    # separate the data into 2 parts
-    X_1 = list(zip(product, sell, strike, underlying))  # data to be analysed to make predictions
-    y_1 = list(zip(quantity))  # data to be predicted
-    X_2 = list(zip(product, sell, quantity, underlying))  # data to be analysed to make predictions
-    y_2 = list(zip(strike))  # data to be predicted
-    X_3 = list(zip(product, sell, strike, quantity))  # data to be analysed to make predictions
-    y_3 = list(zip(underlying))  # data to be predicted
-
-    nonUserValues_1 = list(zip(userProduct, userSelling, userStrike, userUnderlying))
-    userInput_1 = list(zip(userQuantity))
-    nonUserValues_2 = list(zip(userProduct, userSelling, userQuantity, userUnderlying))
-    userInput_2 = list(zip(userStrike))
-    nonUserValues_3 = list(zip(userProduct, userSelling, userStrike, userQuantity))
-    userInput_3 = list(zip(userUnderlying))
-
-    totalTrades = round(len(y_1) * 0.9) - 2
-    K = totalTrades // 10
-    if K == 0:
-        K = 1
-
-    # Cant predict confidently when there are minimal trades
-    if totalTrades < 6:
-        print("Not running the AI, dont have enough confidence")
+    if len(listed_data) < 8:
+        #Not enough data to perform realistic comparisons...
         return -1
 
-    # We need to run the AI on the quantity
-    trainData(1, boughtProduct, buyingCompany, totalTrades, K, X_1, y_1)
-    testData("quantity", trade_data["id"], buyingCompany, boughtProduct, totalTrades, K, userInput_1, nonUserValues_1, X_1, y_1)
+    for idx, trade in enumerate(listed_data):
+            #Need to convert all of the strike prices and underlying prices into USD
+            underlying_currency = trade["underlying_currency"]
+            underlying_price = trade["underlying_price"]
+            strike_price = trade["strike_price"]
+            date = trade["date"]
+            formatted_date = date.split("T")[0]
+            
+            print("At date: " + str(formatted_date) + " Converting to USD from " + underlying_currency + " at a rate of 1:" + str(convertCurrencyAtDate("USD", underlying_currency, 1, formatted_date)))
+
+            current_value_of_underlying = convertCurrencyAtDate("USD", underlying_currency, underlying_price, datetime.today().strftime('%Y-%m-%d'))
+            current_value_of_strike = convertCurrencyAtDate("USD", underlying_currency, strike_price, datetime.today().strftime('%Y-%m-%d'))
+
+            trade["underlying_current_usd"] = current_value_of_underlying
+            trade["strike_current_usd"] = current_value_of_strike
+            listed_data[idx] = trade
+            print(trade, end="\n\n")
+            # print("UNDERLYING= " + str(underlying_value_at_date_in_base) + "  |  " + "STRIKE= " + str(strike_value_at_date_in_base))
+            # print(trade, end="\n\n")
+        
+
+    quantities = []
+    usd_underlyings = []
+    usd_strikes = []
+
+    for trade in listed_data:
+        quantities.append(trade["quantity"])
+        usd_underlyings.append(trade["underlying_current_usd"])
+        usd_strikes.append(trade["strike_current_usd"])
+
+    quantities = sorted(quantities)
+    usd_underlyings = sorted(usd_underlyings)
+    usd_strikes = sorted(usd_strikes)
+
+    print("QUANTITIES: " + str(quantities), end="\n\n")
+    print("UNDERLYINGS: " + str(usd_underlyings), end="\n\n")
+    print("STRIKES: " + str(usd_strikes), end="\n\n")
+
+    if trade_data["quantity"] > quantities[-1] or trade_data["quantity"] < quantities[0]:
+        #possible error, quantity out of bounds.
+        print("quantity error")
+
+    # print(removeOutliers(quantities, 1))
     
-    # Make it run for strike price
-    trainData(1, boughtProduct, buyingCompany, totalTrades, K, X_2, y_2)
-    testData("strike_price", trade_data["id"], buyingCompany, boughtProduct, totalTrades, K, userInput_2, nonUserValues_1, X_2, y_2)
-
-    # Make it run for underlying_price
-    trainData(1, boughtProduct, buyingCompany, totalTrades, K, X_3, y_3)
-    testData("underlying_price", trade_data["id"], buyingCompany, boughtProduct, totalTrades, K, userInput_3, nonUserValues_3, X_3, y_3)
-
-    # debug = True
-    # if debug:
-    #     #         # plot the graph
-    #     compare = "underlying_price"  # value to be compared against predicted data
-    #     style.use("ggplot")
-    #     pyplot.scatter(data[compare], data[predict])
-    #     pyplot.xlabel(predict)  # plot the predicted value on the x
-    #     pyplot.ylabel(compare)  # plot the compared value on the y
-    #     pyplot.show()
+    
+class RecommendedRange(APIView):
+    def get(self, request, currency, product, buyer, seller):
 
 
-############################################
-# ACTUAL MACHINE LEARNING / AI CODE BELOW
-############################################
-def trainData(n, p, b, totalTrades, K, X, y):
-    x_train = y_train = 0  # initialise model values
-    best = 0  # the best test data set to be used in the future
+        # Get the data to compare against
+        # getBuyerProduct = requests.get(
+        #     "http://localhost:8000/api/trade/product={0}&buyer={1}&seller={2}/".format(boughtProduct, buyingCompany,
+        #                                                                                sellingCompany))
 
-    # divide the data into test data and practice data and loop over 100 times until best data set is found
-    for _ in range(n):
-        x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1)  # split data
-        modelTest = KNeighborsRegressor(n_neighbors=K)  # use K-Neighbours Regression model for K neighbours
+        erroneous = DeletedTrade.objects.all().values('trade_id')
+        deleted = ErroneousTradeAttribute.objects.all().values('trade_id')
 
-        modelTest.fit(x_train, y_train)  # fit the model
+        data = None
+        if product == "1":
+            trades = Trade.objects.filter(buying_party=buyer, selling_party=seller, product_id=product).order_by('-date')
+            dataFirst = trades.exclude(id__in = erroneous)
+            data = dataFirst.exclude(id__in = deleted)[0:150]
+        else:
+            trades = Trade.objects.filter(buying_party=buyer, product_id=product).order_by('-date')
+            dataFirst = trades.exclude(id__in = erroneous)
+            data = dataFirst.exclude(id__in = deleted)[0 : 150]
 
-        if totalTrades <= 19:
-            with open("tradeModel_{0}_{1}.pickle".format(b, p), "wb") as f:
-                pickle.dump(modelTest, f)  # save the test data set
-            break
-        acc = modelTest.score(x_test, y_test)  # accuracy of predictions
+        trades_s = TradeSerializer(data, many=True)
+        listed_data = []
+        for trade in trades_s.data:
+            listed_data.append(dict(trade))
 
-        # if accuracy is higher than best recorded accuracy
-        if acc > best:
-            best = acc  # new accuracy is best accuracy
-            with open("tradeModel_{0}_{1}.pickle".format(b, p), "wb") as f:
-                pickle.dump(modelTest, f)  # save the test data set
+        for idx, trade in enumerate(listed_data):
+            print(trade, end="\n\n")
+            #Need to convert all of the strike prices and underlying prices into USD
+            underlying_currency = trade["underlying_currency"]
+            underlying_price = trade["underlying_price"]
+            strike_price = trade["strike_price"]
+            
+            current_value_of_underlying = convertCurrencyAtDate("USD", underlying_currency, underlying_price, datetime.today().strftime('%Y-%m-%d'))
+            current_value_of_strike = convertCurrencyAtDate("USD", underlying_currency, strike_price, datetime.today().strftime('%Y-%m-%d'))
 
-    modelTrade = KNeighborsRegressor(
-        n_neighbors=totalTrades)  # use K-Neighbours Regression model for totalTrades neighbours
-    modelTrade.fit(x_train, y_train)  # fit the model
-    trades = modelTrade.kneighbors(n_neighbors=totalTrades)  # get the distance of each trade in the KNN model
-    tradeDistance = 0  # initiate variable to store total distances of all trades
+            trade["underlying_current_usd"] = current_value_of_underlying
+            trade["strike_current_usd"] = current_value_of_strike
+            listed_data[idx] = trade
+            
 
-    # loop over all trades and add their distance into tradeDistance
-    for u in range(totalTrades):
-        for v in range(len(trades)):
-            tradeDistance += trades[0][u][v]
+        quantities = []
+        usd_underlyings = []
+        usd_strikes = []
 
-    average = tradeDistance / totalTrades  # get the average distance of all trades
-    with open("tradeDistance_{0}_{1}.pickle".format(b, p), "wb") as f:
-        pickle.dump(average, f)  # save the average distance for that model
+        for trade in listed_data:
+            quantities.append(trade["quantity"])
+            usd_underlyings.append(trade["underlying_current_usd"])
+            usd_strikes.append(trade["strike_current_usd"])
+
+        quantities = sorted(quantities)
+        usd_underlyings = sorted(usd_underlyings)
+        usd_strikes = sorted(usd_strikes)
+
+        print(quantities)
+
+        #Convert the currencies back to the underlying from usd
+        min_underlying_revert = convertCurrencyAtDate(underlying_currency, "USD", usd_underlyings[0], datetime.today().strftime('%Y-%m-%d'))
+        max_underlying_revert = convertCurrencyAtDate(underlying_currency, "USD", usd_underlyings[-1], datetime.today().strftime('%Y-%m-%d'))
+        min_strike_revert = convertCurrencyAtDate(underlying_currency, "USD", usd_strikes[0], datetime.today().strftime('%Y-%m-%d'))
+        max_strike_revert = convertCurrencyAtDate(underlying_currency, "USD", usd_strikes[-1], datetime.today().strftime('%Y-%m-%d'))
 
 
-def testData(predicting, tradeID, buyingCompany, boughtProduct, totalTrades, K, userInput, nonUserValues, X, y):
-    model = pickle.load(
-        open("tradeModel_{0}_{1}.pickle".format(buyingCompany, boughtProduct), "rb"))  # load in latest saved model
-    tradeDistanceAverage = pickle.load(open("tradeDistance_{0}_{1}.pickle".format(buyingCompany, boughtProduct),
-                                            "rb"))  # load in saved average trade distances
+        return JsonResponse(status=200, data={
+            "min_quantity": quantities[0],
+            "max_quantity": quantities[-1],
+            "min_underlying": min_underlying_revert,
+            "max_underlying": max_underlying_revert,
+            "min_strike": min_strike_revert,
+            "max_strikes": max_strike_revert
+        })
 
-    model.fit(X, y)  # fit the model using X as training data and y as target values
-    predictions = model.predict(nonUserValues)
-    # print("nonUserValues:", nonUserValues[0])
-    # print("userInput:", userInput[0][0])
-    # print("prediction:", predictions[0][0])
-    # print("")
-
-    neighbours = model.kneighbors(n_neighbors=K)  # get the distance of each neighbour analyzed in the KNN model
-    neighbourDistance = 0  # initialize total neighbour distances
-    # loop over all neighbours and add their distance into neighbourDistance
-    for i in range(K):
-        for j in range(len(neighbours) - 1):
-            neighbourDistance += neighbours[0][i][j]
-
-    neighbourDistanceAverage = neighbourDistance / K  # get the average distance of all neighbours
-
-    compareDifference = tradeDistanceAverage * (percentage / 100)  # get the range percentage of the trade average
-    # print("neighbourDistanceAverage:", neighbourDistanceAverage)
-    # print("tradeDistanceAverage:", tradeDistanceAverage)
-    # print("compareDifference: +-", compareDifference)
-
-    # if the neighbours average is greater than the trade average+percentage or less then trade average-percentage (i.e. out of range)
-    if neighbourDistanceAverage > tradeDistanceAverage + compareDifference or neighbourDistanceAverage < tradeDistanceAverage - compareDifference:
-        print("ERROR DETECTED!!!!")
-        #Get the trade we are using
-        trade = Trade.objects.filter(id=tradeID)[0]
-        if predicting == "quantity":
-            new_error_field = ErroneousTradeAttribute(
-                trade_id = trade,
-                erroneous_attribute = "QT",
-                erroneous_value = str(userInput[0][0]),
-                date=datetime.now()
-            )
-            new_error_field.save()
-
-        if predicting == "strike_price":
-            new_error_field = ErroneousTradeAttribute(
-                trade_id = trade,
-                erroneous_attribute = "ST",
-                erroneous_value = str(userInput[0][0]),
-                date=datetime.now()
-            )
-            new_error_field.save()
-        if predicting == "underlying_price":
-            new_error_field = ErroneousTradeAttribute(
-                trade_id = trade,
-                erroneous_attribute = "UP",
-                erroneous_value = str(userInput[0][0]),
-                date=datetime.now()
-            )
-            new_error_field.save()
-
-# def main():
-#     if totalTrades <= 5:
-#         print("!!! WARNING: not enough trades for accurate predictions !!!")
-#         print("Number of trades:", totalTrades)
-#         print("")
-#     trainData(1, boughtProduct, buyingCompany)
-#     # if not os.path.isfile("tradeModel_{0}_{1}.pickle".format(boughtProduct, buyingCompany)):
-#     #     trainData(100, boughtProduct, buyingCompany, X, y)
-#     testData()
-
-#     debug = True
-
-#     if debug:
-#         # plot the graph
-#         compare = "underlying_price"  # value to be compared against predicted data
-#         style.use("ggplot")
-#         pyplot.scatter(data[compare], data[predict])
-#         pyplot.xlabel(predict)  # plot the predicted value on the x
-#         pyplot.ylabel(compare)  # plot the compared value on the y
-#         pyplot.show()
-
-# if __name__ == "__main__":
-#     main()
+        

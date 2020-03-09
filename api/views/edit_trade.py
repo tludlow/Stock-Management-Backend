@@ -73,6 +73,7 @@ class EditDerivativeTrade(APIView):
 
     def post(self, request):
         trade_data = request.data
+        print(trade_data)
         edits = []
         allowed_fields = ["trade_id", "product", "buying_party", 
                     "selling_party", "product_id", "buying_party_id", "selling_party_id", "notional_currency", 
@@ -124,7 +125,7 @@ class EditDerivativeTrade(APIView):
 
         #Compare the provided trade details with those known in the database to see if they have been edited
         updated = {}
-        for i in [x for x in allowed_fields if x not in ['trade_id', 'edit_date', 'demo']]:
+        for i in [x for x in allowed_fields if x not in ['trade_id', 'product_id']]:
             updated[i] = trade_data.get(i, trade_obj_s.data[i])
 
         demo = trade_data.get('demo', None) != None

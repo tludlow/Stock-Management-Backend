@@ -104,19 +104,12 @@ class RecentTradesByCompanyForProduct(APIView):
             dataFirst = trades.exclude(id__in = erroneous)
             data = dataFirst.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
 
-        listed_data = []
-        for trade in list(trades):
-            listed_data.append(trade.__dict__)
-
         trades_s = TradeSerializer(trades, many=True)
         listed_data = []
         for trade in trades_s.data:
             listed_data.append(dict(trade))
 
-        print(listed_data)
-
         for idx, trade in enumerate(listed_data):
-            print(type(trade))
             #Need to convert all of the strike prices and underlying prices into USD
             underlying_currency = trade["underlying_currency"]
             underlying_price = trade["underlying_price"]
@@ -129,10 +122,9 @@ class RecentTradesByCompanyForProduct(APIView):
             trade["usd_underlying"] = underlying_value_at_date_in_base
             trade["usd_strike"] = strike_value_at_date_in_base
             listed_data[idx] = trade
-            print("UNDERLYING= " + str(underlying_value_at_date_in_base) + "  |  " + "STRIKE= " + str(strike_value_at_date_in_base))
-            print(trade, end="\n\n")
+            # print("UNDERLYING= " + str(underlying_value_at_date_in_base) + "  |  " + "STRIKE= " + str(strike_value_at_date_in_base))
+            # print(trade, end="\n\n")
 
-        print(listed_data)
         return JsonResponse(status=200, data=listed_data, safe=False)
 
 #Converts a currency from one type, into another at the latest exchange rate
@@ -430,3 +422,13 @@ class CreateCorrection(APIView):
         trade.save()
 
         return JsonResponse(status=200, data={"success": "Correction has been applied."})
+
+
+class ErrorIgnore(APIView):
+    def post(self, request):
+        error_id = request.data["errorID"]
+
+        found_error = ErroneousTradeAttribute.objects.filter(id=request.data["errorID"])[0]
+        found_error.delete()
+
+        return JsonResponse(status=200, data={"success": "Ignored the error"})
