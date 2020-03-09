@@ -63,6 +63,9 @@ class CreateDerivativeTrade(APIView):
             if field not in trade_data.keys():
                 return JsonResponse(status=400, data={"error": "Missing the field '" + field + "' in the form."})
 
+        if datetime.strptime(trade_data["maturity_date"], '%Y-%m-%d').date() < datetime.now().date():
+            return JsonResponse(status=400, 
+                data={"error": "You cannot have a maturity date in the past"})
 
         if int(trade_data["quantity"]) <= 0:
             return JsonResponse(status=400, 
