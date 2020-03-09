@@ -105,12 +105,6 @@ class CreateDerivativeTrade(APIView):
         else:
             date_of_trade = datetime.now()
 
-        #Get the id of the last created trade
-        foundID = Trade.objects.all().order_by("-date")[0]
-        found_s = TradeSerializer(foundID)
-        print("FOUND")
-        print(found_s.data)
-
         #Create the trade
         new_trade = Trade(
             date=date_of_trade,

@@ -423,7 +423,6 @@ class CreateCorrection(APIView):
 
         return JsonResponse(status=200, data={"success": "Correction has been applied."})
 
-
 class ErrorIgnore(APIView):
     def post(self, request):
         error_id = request.data["errorID"]
