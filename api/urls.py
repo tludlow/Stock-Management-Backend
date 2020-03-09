@@ -56,5 +56,6 @@ urlpatterns = [
     path('correction/delete/', views.DeleteCorrection.as_view()),
     path('correction/apply', views.CreateCorrection.as_view()),
     path('error/ignore', views.ErrorIgnore.as_view()),
+    path('error/check/id=<str:id>', views.CheckForErrors.as_view()),
     path('learning/recommendedrange/currency=<str:currency>&product=<str:product>&buyer=<str:buyer>&seller=<str:seller>/', views.RecommendedRange.as_view())
 ]

@@ -260,8 +260,8 @@ def report_data(year, month, day):
         WHERE 
             DT.trade_id_id IS NULL and T.date>=%s and T.date<=%s 
         ORDER BY T.date DESC
-        """, [lower, upper])
-        trades = revert_dictfetchall(cursor, upper, lower, upper)
+        """, [upper, lower, upper])
+        trades = revert_dictfetchall(cursor, lower, upper)
         
         # Get the edits
         cursor.execute("""
@@ -302,8 +302,8 @@ def report_data(year, month, day):
             selling_party, underlying_currency, notional_currency,
             ET.edit_date
         ORDER BY ET.edit_date DESC
-        """, [lower, upper])
-        edits = fetch_edits(cursor, lower, upper, upper)
+        """, [lower, upper, upper])
+        edits = fetch_edits(cursor, lower, upper)
 
         # Get the deletions
         cursor.execute("""
