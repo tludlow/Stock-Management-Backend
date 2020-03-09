@@ -72,25 +72,26 @@ class EditDerivativeTrade(APIView):
         return return_info
 
     def post(self, request):
-        trade_data = request.data
-        print(trade_data)
-        edits = []
-        allowed_fields = ["trade_id", "product_id", "buying_party", 
-                    "selling_party", "notional_currency", 
-                    "quantity",  "maturity_date", "underlying_price", 
-                    "underlying_currency", "strike_price", "id", "date",
-                    "notional_amount"]
+        raw_trade_data = request.data
+        print(raw_trade_data)
+        trade_data = {}
+        allowed_fields = ["trade_id", "quantity",  "maturity_date", 
+                         "underlying_price", "strike_price"]
+        extra_fields = ['id', 'date', 'notional_amount', 'quantity', 'maturity_date', 'underlying_price', 'strike_price', 'product', 'product_id', 'buying_party', 'buying_party_id', 'selling_party', 'selling_party_id', 'notional_currency', 'underlying_currency', 'trade_id']
         #Makes sure we have all the data we should in the request
-        if "trade_id" not in trade_data.keys():
+        if "trade_id" not in raw_trade_data.keys():
             return JsonResponse(status=400, data={"error": "No trade id provided."})
-        elif len(trade_data.keys()) <= 1:
+        elif len(raw_trade_data.keys()) <= 1:
             return JsonResponse(status=400, data={"error": "Too few attributes provided."})
         else:
-            for param in trade_data.keys():
-                if param not in allowed_fields:
+            for param in raw_trade_data.keys():
+                print("param", param, "is in", extra_fields, "truth:", param in extra_fields)
+                if param not in allowed_fields and param not in extra_fields:
+                    print("param", param, "is in", extra_fields, "truth:", param in extra_fields)
                     return JsonResponse(status=400, data={"error": "Field '" + param + "' is not permitted."})
-                elif param!="trade_id" or param!="edit_date": ## REMOVE
-                    edits.append(param)
+                elif param in allowed_fields:
+                    print("ADDING", param)
+                    trade_data[param] = raw_trade_data[param]
 
         #Get the trade being edited's database values
         trades = Trade.objects.filter(id=trade_data["trade_id"])
