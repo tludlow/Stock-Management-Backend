@@ -48,7 +48,7 @@ class CreateDerivativeTrade(APIView):
         converted_rate = round(notional_value / underlying_value, 2)
 
         #Overall value represented (value * quantity)
-        return converted_rate * int(amount)
+        return round(converted_rate * float(amount), 2)
 
 
     def post(self, request):
@@ -63,6 +63,9 @@ class CreateDerivativeTrade(APIView):
             if field not in trade_data.keys():
                 return JsonResponse(status=400, data={"error": "Missing the field '" + field + "' in the form."})
 
+        if datetime.strptime(trade_data["maturity_date"], '%Y-%m-%d').date() < datetime.now().date():
+            return JsonResponse(status=400, 
+                data={"error": "You cannot have a maturity date in the past"})
 
         if int(trade_data["quantity"]) <= 0:
             return JsonResponse(status=400, 
@@ -89,11 +92,6 @@ class CreateDerivativeTrade(APIView):
         if len(selling_company_data) == 0:
             return JsonResponse(status=400, data={"error": "The selling party does not exist."})
 
-        #Generate a random trade ID 16 characters long. 8 letters followed by 8 numbers
-        letters = ''.join(random.choice(string.ascii_letters).upper() for x in range(8))
-        nums = ''.join(["{}".format(randint(0, 9)) for num in range(0, 8)])
-        trade_id = letters+nums
-
         #Compute the notional amount, this is the underlying_price converted to the notional_price
         #which you then multiply by the quantity of the trade.
         notional_amount = round(self.convertCurrency(trade_data["underlying_currency"], trade_data["notional_currency"], trade_data["quantity"]), 2)
@@ -113,8 +111,16 @@ class CreateDerivativeTrade(APIView):
             date_of_trade = trade_data['date']
         else:
             date_of_trade = datetime.now()
+
+        #Get the id of the last created trade
+        foundID = Trade.objects.all().order_by("-date")[0]
+        found_s = TradeSerializer(foundID)
+        print("FOUND")
+        print(found_s.data)
+
         #Create the trade
         new_trade = Trade(
+            id=found_s.data["id"]+1,
             date=date_of_trade,
             product=product_instance,
             buying_party=buying_instance,
@@ -128,10 +134,25 @@ class CreateDerivativeTrade(APIView):
             strike_price=trade_data["strike_price"]
         )
 
+        #Serialize the new trade:
+        new_trade_s = TradeSerializer(new_trade)
+        new_trade_dict = new_trade_s.data
+
         new_trade.save()
         trade_id = new_trade.id
 
-        # scanTradeForErrors(new_trade) - causing errors
+        #Scan the trade for errors
+        scanTradeForErrors(new_trade_dict, trade_id)
+
+
+        #We need to add the usd underlying and strike as values to the trade
+        usd_underlying = self.convertCurrency("USD", trade_data["underlying_currency"], trade_data["underlying_price"])
+        usd_strike = self.convertCurrency("USD", trade_data["underlying_currency"], trade_data["strike_price"])
+
+        new_trade_dict["usd_underlying"] = usd_underlying
+        new_trade_dict["usd_strike"] = usd_strike
+        print("NEW TRADE: " + str(new_trade_dict))
+
         with connection.cursor() as cursor:
             cursor.execute("""
             SELECT 
@@ -161,5 +182,7 @@ class CreateDerivativeTrade(APIView):
             """, [trade_id])
             data = raw_dictfetchall(cursor)
         s = JoinedTradeSerializer(data, many=True)
+
+        #product = 168, buyer=8 and seller=56
 
         return JsonResponse(status=200, data={"trade_id": new_trade.id, "data": s.data, "notional_amount": notional_amount})

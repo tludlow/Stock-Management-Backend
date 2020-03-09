@@ -59,8 +59,6 @@ class DeleteDerivativeTrade(APIView):
             print("THIS IS NOT A DEMO")
             deleted_at = datetime.now()
 
-        print(deleted_at)
-
         #Create a new entry into the deleted trades table before we delete from trades
         new_deleted_trade = DeletedTrade(
             trade_id=found_trade[0],
@@ -68,5 +66,9 @@ class DeleteDerivativeTrade(APIView):
         )
         new_deleted_trade.save()
         
+
+        #Delete all erroneous data and corrections referncing this trade
+        errors = ErroneousTradeAttribute.objects.filter(trade_id=trade_data["trade_id"])
+        errors.delete()
 
         return JsonResponse(status=200, data={"success": "Trade has been deleted."})
