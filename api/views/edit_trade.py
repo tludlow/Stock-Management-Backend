@@ -73,6 +73,7 @@ class EditDerivativeTrade(APIView):
 
     def post(self, request):
         trade_data = request.data
+        print(trade_data)
         edits = []
         allowed_fields = ["trade_id", "product_id", "buying_party", 
                     "selling_party", "notional_currency", 

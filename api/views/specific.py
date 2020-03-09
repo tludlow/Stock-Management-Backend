@@ -65,6 +65,25 @@ class TotalTrades(APIView):
         })
 
 class RecentTradesByCompanyForProduct(APIView):
+    def convertCurrencyAtDate(self, underlying, notional, amount, date):
+        #Most recent value of the underlying currency
+        underlying = CurrencyPrice.objects.filter(currency_id=underlying).order_by("-date")[0]
+        underlying_s = CurrencyPriceSerializer(underlying, many=False)
+
+        #Most recent value of the notional currency
+        notional = CurrencyPrice.objects.filter(currency_id=notional).order_by("-date")[0]
+        notional_s = CurrencyPriceSerializer(notional, many=False)
+
+        #Conversion rate, what does 1 underlying_value get you in notional_value
+        underlying_value = underlying_s.data["value"]
+        notional_value = notional_s.data["value"]
+
+        #The conversion goes through the base currency of dollars.
+        converted_rate = round(notional_value / underlying_value, 2)
+
+        #Overall value represented (value * quantity)
+        return converted_rate * amount
+
     def get(self, request, buyer, product, seller):
         #Get pagination data before the request so that it saves memory and is quicker to query.
         page_number = int(self.request.query_params.get("page_number", 1))
@@ -85,8 +104,28 @@ class RecentTradesByCompanyForProduct(APIView):
             dataFirst = trades.exclude(id__in = erroneous)
             data = dataFirst.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
 
-        s = TradeSerializer(data, many=True)
-        return Response(s.data)
+        trades_s = TradeSerializer(trades, many=True)
+        listed_data = []
+        for trade in trades_s.data:
+            listed_data.append(dict(trade))
+
+        for idx, trade in enumerate(listed_data):
+            #Need to convert all of the strike prices and underlying prices into USD
+            underlying_currency = trade["underlying_currency"]
+            underlying_price = trade["underlying_price"]
+            strike_price = trade["strike_price"]
+            date = trade["date"]
+
+            underlying_value_at_date_in_base = self.convertCurrencyAtDate("USD", underlying_currency, underlying_price, date)
+            strike_value_at_date_in_base = self.convertCurrencyAtDate("USD", underlying_currency, strike_price, date)
+
+            trade["usd_underlying"] = underlying_value_at_date_in_base
+            trade["usd_strike"] = strike_value_at_date_in_base
+            listed_data[idx] = trade
+            # print("UNDERLYING= " + str(underlying_value_at_date_in_base) + "  |  " + "STRIKE= " + str(strike_value_at_date_in_base))
+            # print(trade, end="\n\n")
+
+        return JsonResponse(status=200, data=listed_data, safe=False)
 
 #Converts a currency from one type, into another at the latest exchange rate
 #All must pass "through" dollars as they all derive a dollar value, where a dollar = 1
@@ -353,6 +392,7 @@ class DeleteCorrection(APIView):
 class CreateCorrection(APIView):
     def post(self, request):
 
+        print(request.data)
         #Get the error referenced in the correction
         error = ErroneousTradeAttribute.objects.filter(id=request.data["errorID"])[0]
         error_s = ErroneousAttributeSerializer(error)
@@ -381,5 +421,14 @@ class CreateCorrection(APIView):
 
         trade.save()
 
-
         return JsonResponse(status=200, data={"success": "Correction has been applied."})
+
+
+class ErrorIgnore(APIView):
+    def post(self, request):
+        error_id = request.data["errorID"]
+
+        found_error = ErroneousTradeAttribute.objects.filter(id=request.data["errorID"])[0]
+        found_error.delete()
+
+        return JsonResponse(status=200, data={"success": "Ignored the error"})
