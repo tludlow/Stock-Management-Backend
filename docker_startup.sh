@@ -3,6 +3,8 @@ while !/dev/tcp/db/3306
 do
     sleep 1
 done
+pip install requests
+pip install numpy
 python manage.py makemigrations
 python manage.py migrate
 root="$(python manage.py shell -c """from django.contrib.auth.models import User; print(User.objects.filter(username='root').exists())""")"
