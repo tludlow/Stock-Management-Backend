@@ -53,6 +53,7 @@ urlpatterns = [
     path('report/available/year=<int:year>/', views.AvailableReportsMonthList.as_view()),
     path('report/actions/today/', views.TotalActionsOnDay.as_view()),
     path('errorsandcorrections/', views.ErrorsAndCorrections.as_view()),
+    path('errorsandcorrections/trade=<str:trade>/', views.TradeErrorAndCorrections.as_view()),
     path('correction/delete/', views.DeleteCorrection.as_view()),
     path('correction/apply', views.CreateCorrection.as_view()),
     path('error/ignore', views.ErrorIgnore.as_view()),

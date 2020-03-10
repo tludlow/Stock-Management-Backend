@@ -28,8 +28,9 @@ class TradeRecentList(APIView):
         deleted = DeletedTrade.objects.all().values('trade_id')
         data = trades.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
         trade_data = data.values()
-        
+
         for idx, trade in enumerate(trade_data):
+            tid = trade.get("id")
             buying_party_id = trade.get("buying_party_id")
             selling_party_id = trade.get("selling_party_id")
 
@@ -49,6 +50,16 @@ class TradeRecentList(APIView):
             product_id = trade.get("product_id")
             product_data = Product.objects.get(id=product_id)
             product_s = ProductSerializer(product_data)
+
+            #Get information about any errors related to this trade
+            errors = ErroneousTradeAttribute.objects.filter(trade_id=tid)
+            errors_s = ErroneousAttributeSerializer(errors, many=True)
+
+            formatted_errors = []
+            for error in errors_s.data:
+                formatted_errors.append(dict(error))
+
+            trade_data[idx]["errors"] = formatted_errors
 
             trade_data[idx]["product"] = product_s.data.get("name")
 
@@ -397,6 +408,9 @@ class CreateCorrection(APIView):
         error = ErroneousTradeAttribute.objects.filter(id=request.data["errorID"])[0]
         error_s = ErroneousAttributeSerializer(error)
 
+        if request.data["new_value"] == "":
+            return JsonResponse(status=200, data={"success": "Your correction did not have a value."})
+
         #Create new correction
         new_correction = FieldCorrection(
             error = error,
@@ -431,3 +445,68 @@ class ErrorIgnore(APIView):
         found_error.delete()
 
         return JsonResponse(status=200, data={"success": "Ignored the error"})
+
+class TradeErrorAndCorrections(APIView):
+    def getErrorsForTrade(self, tradeID, errors):
+        returnList = []
+        for error in errors:
+            if error["trade_id"] == tradeID:
+                returnList.append(error)
+        return returnList
+
+    def getCorrectionsForError(self, tradeID, errors, corrections):
+        returnList = []
+        for error in errors:
+            if error["trade_id"] == tradeID:
+                for correction in corrections:
+                    if correction["error"] == error["id"]:
+                        returnList.append(correction)
+        return returnList
+
+    def get(self, request, trade):
+        #Get all errors ordered by date
+        errors = ErroneousTradeAttribute.objects.filter(trade_id=trade).order_by("-date")
+        corrections = FieldCorrection.objects.all()
+
+        errors_s = ErroneousAttributeSerializer(errors, many=True)
+        corrections_s = CorrectionSerializer(corrections, many=True)
+
+        trades = []
+        formatted_errors = []
+        formatted_corrections = []
+
+        for error in errors_s.data:
+            formatted_errors.append(dict(error))
+
+        for correction in corrections_s.data:
+            formatted_corrections.append(dict(correction))
+
+        for error in formatted_errors:
+            if error["trade_id"] not in trades:
+                trades.append(error["trade_id"])
+    
+        #Convert to nested trades with errors and corrections included
+        finalList = []
+        for trade in trades:
+            errors = self.getErrorsForTrade(trade, formatted_errors)
+            corrections = self.getCorrectionsForError(trade, formatted_errors, formatted_corrections)
+
+            correction_count = 0
+
+            for error in errors:
+                foundCorrection = False
+                if foundCorrection == True:
+                    continue
+
+                for correction in corrections:
+                    if correction["error"] == error["id"]:
+                        error["correction"] = correction
+                        correction_count += 1
+                        foundCorrection = True
+                if foundCorrection == False:
+                    error["correction"] = "null"
+
+
+            finalList.append({"id": trade, "correction_count": correction_count, "errors": errors})
+            
+        return JsonResponse(status=200, data={"errors_and_corrections": finalList}, safe=False)
