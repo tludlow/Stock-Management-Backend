@@ -100,10 +100,7 @@ class CreateDerivativeTrade(APIView):
         notional_instance = Currency.objects.filter(currency=trade_data["notional_currency"])[0]
         underlying_instance = Currency.objects.filter(currency=trade_data["underlying_currency"])[0]
 
-        if trade_data.get('demo', None) != None:
-            date_of_trade = trade_data['date']
-        else:
-            date_of_trade = datetime.now()
+        date_of_trade = datetime.now()
 
         #Create the trade
         new_trade = Trade(
