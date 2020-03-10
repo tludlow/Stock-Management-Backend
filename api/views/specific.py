@@ -91,15 +91,12 @@ class FilterTradeList(APIView):
                 'maturity_date__range' : (maturity_lower, maturity_upper)}
         filters = {}
         for key, i in args.items():
-            print(f"Key={key}, Value={i}")
             if not (i[0] == empty and i[1] == empty) and (i[0] == empty or i[1] == empty):
                 return JsonResponse(status=400, data={"error": "Both the upper and the lower attribute must be specified."})
             elif i[0] == empty and i[1] == empty:
                 pass
             else:
                 filters[key] = i
-            print(f"Filters={filters}")
-        print(filters)
         trades = Trade.objects.filter(**filters).order_by('-date')
         deleted = DeletedTrade.objects.all().values('trade_id')
         data = trades.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
