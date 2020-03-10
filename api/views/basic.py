@@ -538,3 +538,4 @@ class TradeBuyerSellerList(APIView):
             data = raw_dictfetchall(cursor)
         s = JoinedTradeSerializer(data, many=True)
         return Response(s.data)
+

@@ -66,6 +66,82 @@ class TradeRecentList(APIView):
         #Modified the structure of a trade, will need to use a custom serializer.
         return Response(trade_data)
 
+class FilterTradeList(APIView):
+    def get(self, request, date_lower,date_upper,quantity_lower,quantity_upper,
+        underlying_lower,underlying_upper, strike_lower, strike_upper,
+        maturity_lower, maturity_upper):
+        #Get pagination data before the request so that it saves memory and is quicker to query.
+        page_number = int(self.request.query_params.get("page_number", 1))
+        page_size = int(self.request.query_params.get("page_size", 12))
+        empty = 'None'
+
+        if date_lower != empty:
+            date_lower = datetime.strptime(date_lower, '%Y-%m-%d').date()
+        if date_upper != empty:
+            date_upper = datetime.strptime(date_upper, '%Y-%m-%d').date()
+        if maturity_lower != empty:
+            maturity_lower = datetime.strptime(maturity_lower, '%Y-%m-%d').date()
+        if maturity_upper != empty:
+            maturity_upper = datetime.strptime(maturity_upper, '%Y-%m-%d').date()
+
+        args = {'date__range' : (date_lower, date_upper),
+                'quantity__range' : (quantity_lower, quantity_upper),
+                'underlying_price__range' : (underlying_lower, underlying_upper), 
+                'strike_price__range' : (strike_lower, strike_upper),
+                'maturity_date__range' : (maturity_lower, maturity_upper)}
+        filters = {}
+        for key, i in args.items():
+            print(f"Key={key}, Value={i}")
+            if not (i[0] == empty and i[1] == empty) and (i[0] == empty or i[1] == empty):
+                return JsonResponse(status=400, data={"error": "Both the upper and the lower attribute must be specified."})
+            elif i[0] == empty and i[1] == empty:
+                pass
+            else:
+                filters[key] = i
+            print(f"Filters={filters}")
+        print(filters)
+        trades = Trade.objects.filter(**filters).order_by('-date')
+        deleted = DeletedTrade.objects.all().values('trade_id')
+        data = trades.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
+        trade_data = data.values()
+
+        for idx, trade in enumerate(trade_data):
+            tid = trade.get("id")
+            buying_party_id = trade.get("buying_party_id")
+            selling_party_id = trade.get("selling_party_id")
+
+            #Get the data for the buying and selling party
+            #Needs to be done here, cannot be done in the original call recursively because its too slow.
+            buying_party_company_data = Company.objects.get(id=buying_party_id)
+            buying_company = CompanySerializer(buying_party_company_data)
+
+            selling_party_company_data = Company.objects.get(id=selling_party_id)
+            selling_company = CompanySerializer(selling_party_company_data)
+
+            #Add the companies data to the trade
+            trade_data[idx]["buying_company"] = buying_company.data.get("name")
+            trade_data[idx]["selling_company"] = selling_company.data.get("name")
+
+            #Take the product_id and append meaningful data about this product to the trade
+            product_id = trade.get("product_id")
+            product_data = Product.objects.get(id=product_id)
+            product_s = ProductSerializer(product_data)
+
+            #Get information about any errors related to this trade
+            errors = ErroneousTradeAttribute.objects.filter(trade_id=tid)
+            errors_s = ErroneousAttributeSerializer(errors, many=True)
+
+            formatted_errors = []
+            for error in errors_s.data:
+                formatted_errors.append(dict(error))
+
+            trade_data[idx]["errors"] = formatted_errors
+
+            trade_data[idx]["product"] = product_s.data.get("name")
+
+        #Modified the structure of a trade, will need to use a custom serializer.
+        return Response(trade_data)
+
 
 class TotalTrades(APIView):
     def get(self, request):

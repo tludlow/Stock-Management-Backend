@@ -46,6 +46,9 @@ urlpatterns = [
     path('trade/create/', views.CreateDerivativeTrade.as_view(), name="create_trade"),
     path('trade/delete/', views.DeleteDerivativeTrade.as_view(), name="delete_trade"),
     path('trade/edit/', views.EditDerivativeTrade.as_view(), name="edit_trade"),
+    path('trade/filter/date_lower=<str:date_lower>&date_upper=<str:date_upper>&quantity_lower=<str:quantity_lower>&quantity_upper=<str:quantity_upper>&underlying_lower=<str:underlying_lower>&underlying_upper=<str:underlying_upper>&strike_lower=<str:strike_lower>&strike_upper=<str:strike_upper>&maturity_lower=<str:maturity_lower>&maturity_upper=<str:maturity_upper>/',views.FilterTradeList.as_view(), name="filter_trade"),
+    #&&>&/', 
+    
     path('report/year=<int:year>&month=<int:month>&day=<int:day>/', views.Report.as_view()),
     path('report/year=<int:year>&month=<int:month>&day=<int:day>&query=<str:search_term>/', views.SearchReport.as_view()),
     path('report/available/', views.AvailableReportsYearList.as_view()),
