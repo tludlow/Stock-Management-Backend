@@ -84,19 +84,21 @@ class FilterTradeList(APIView):
         if maturity_upper != empty:
             maturity_upper = datetime.strptime(maturity_upper, '%Y-%m-%d').date()
 
-        args = {'date__range' : (date_lower, date_upper),
-                'quantity__range' : (quantity_lower, quantity_upper),
-                'underlying_price__range' : (underlying_lower, underlying_upper), 
-                'strike_price__range' : (strike_lower, strike_upper),
-                'maturity_date__range' : (maturity_lower, maturity_upper)}
+        args = {'date' : (date_lower, date_upper),
+                'quantity' : (quantity_lower, quantity_upper),
+                'underlying_price' : (underlying_lower, underlying_upper), 
+                'strike_price' : (strike_lower, strike_upper),
+                'maturity_date_' : (maturity_lower, maturity_upper),
+                'date' : (date_lower, date_upper)}
         filters = {}
         for key, i in args.items():
-            if not (i[0] == empty and i[1] == empty) and (i[0] == empty or i[1] == empty):
-                return JsonResponse(status=400, data={"error": "Both the upper and the lower attribute must be specified."})
-            elif i[0] == empty and i[1] == empty:
-                pass
-            else:
-                filters[key] = i
+            if not(i[0] == empty or i[1] == empty):
+                filters[key+'__range'] = i
+            elif not(i[0] == empty):
+                filters[key+'__gt'] = i[0]
+            elif not(i[1] == empty):
+                filters[key+'__lt'] = i[1]
+
         trades = Trade.objects.filter(**filters).order_by('-date')
         deleted = DeletedTrade.objects.all().values('trade_id')
         data = trades.exclude(id__in = deleted)[(page_number-1)*page_size : page_number*page_size]
