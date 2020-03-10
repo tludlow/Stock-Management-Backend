@@ -169,7 +169,6 @@ def scanTradeForErrors(trade, tid):
         new_error_field.save()
 
     
-    
 class RecommendedRange(APIView):
     def get(self, request, currency, product, buyer, seller):
 
@@ -250,5 +249,13 @@ class RecommendedRange(APIView):
             "min_strike": min_strike_revert,
             "max_strikes": max_strike_revert
         })
+
+class CheckForErrors(APIView):
+    def get(self, request, id):
+        errors = ErroneousTradeAttribute.objects.filter(trade_id=id)
+        errors_s = ErroneousAttributeSerializer(errors, many=True)
+
+        return Response(errors_s.data)
+
 
         
