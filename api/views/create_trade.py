@@ -17,13 +17,6 @@ from random import randint
 from .learning import *
 from django.db import connection
 
-def raw_dictfetchall(cursor):
-    "Return all rows from a cursor as a dict"
-    columns = [col[0] for col in cursor.description]
-    return [
-        dict(zip(columns, row))
-        for row in cursor.fetchall()
-    ]
 
 class CreateDerivativeTrade(APIView):
     def getCompany(self, cid):
@@ -107,20 +100,10 @@ class CreateDerivativeTrade(APIView):
         notional_instance = Currency.objects.filter(currency=trade_data["notional_currency"])[0]
         underlying_instance = Currency.objects.filter(currency=trade_data["underlying_currency"])[0]
 
-        if trade_data.get('demo', None) != None:
-            date_of_trade = trade_data['date']
-        else:
-            date_of_trade = datetime.now()
-
-        #Get the id of the last created trade
-        foundID = Trade.objects.all().order_by("-date")[0]
-        found_s = TradeSerializer(foundID)
-        print("FOUND")
-        print(found_s.data)
+        date_of_trade = datetime.now()
 
         #Create the trade
         new_trade = Trade(
-            id=found_s.data["id"]+1,
             date=date_of_trade,
             product=product_instance,
             buying_party=buying_instance,
@@ -142,7 +125,7 @@ class CreateDerivativeTrade(APIView):
         trade_id = new_trade.id
 
         #Scan the trade for errors
-        scanTradeForErrors(new_trade_dict, trade_id)
+        # scanTradeForErrors(new_trade_dict, trade_id)
 
 
         #We need to add the usd underlying and strike as values to the trade
@@ -180,9 +163,10 @@ class CreateDerivativeTrade(APIView):
                 T.id=%s AND DT.trade_id_id IS NULL
             ORDER BY T.date DESC
             """, [trade_id])
+            
+            
             data = raw_dictfetchall(cursor)
+        
         s = JoinedTradeSerializer(data, many=True)
-
-        #product = 168, buyer=8 and seller=56
 
         return JsonResponse(status=200, data={"trade_id": new_trade.id, "data": s.data, "notional_amount": notional_amount})

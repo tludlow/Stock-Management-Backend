@@ -17,6 +17,7 @@ import dateutil.parser
 import datetime
 from datetime import datetime, timedelta, timezone, date
 from django.db import connection
+from .learning import *
 
 def raw_dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
@@ -102,6 +103,9 @@ class EditDerivativeTrade(APIView):
         trade_obj = trades[0]
         trade_obj_s = TradeSerializer(trade_obj, many=False)
 
+        #Remove the errors on this trade  if they exist
+        errors = ErroneousTradeAttribute.objects.filter(trade_id=trade_data["trade_id"]).delete()
+
         # Ensure that the trade has not already been deleted
         deleted_already = DeletedTrade.objects.filter(trade_id=trade_data["trade_id"])
         if len(deleted_already) > 0:
@@ -119,8 +123,8 @@ class EditDerivativeTrade(APIView):
         trade_created_at = dateutil.parser.isoparse(trade_obj_s.data["date"])
         date_delta = now - datetime(trade_created_at.year, trade_created_at.month, trade_created_at.day)
 
-        if date_delta.days > 3:
-            return JsonResponse(status=400, data={"error": "Trades can only be edited within 3 days of creation"})
+        # if date_delta.days > 3:
+        #     return JsonResponse(status=400, data={"error": "Trades can only be edited within 3 days of creation"})
 
         #Compare the provided trade details with those known in the database to see if they have been edited
         updated = trade_obj_s.data
@@ -132,6 +136,15 @@ class EditDerivativeTrade(APIView):
             return JsonResponse(status=400, data={"error": "Maturity date can't be set to the past"})
 
         return_info = self.update(updated, trade_obj_s.data, trade_obj)
+
+        #Serialize the new trade:
+        gotten_trade = Trade.objects.filter(id=trade_data["trade_id"])[0]
+        edited_trade = TradeSerializer(gotten_trade)
+        new_trade_dict = edited_trade.data
+
+
+        #Scan the trade for errors
+        scanTradeForErrors(new_trade_dict, new_trade_dict["id"])
 
         if len(return_info) < 2:
             return JsonResponse(status=200, data={"message": "No need to edit, all fields the same"})

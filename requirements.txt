@@ -13,3 +13,5 @@ mysqlclient
 django-cors-headers
 python-dotenv
 numpy==1.18.1
+requests
+numpy
