@@ -254,9 +254,31 @@ class RecommendedRange(APIView):
 class CheckForErrors(APIView):
     def get(self, request, id):
         errors = ErroneousTradeAttribute.objects.filter(trade_id=id)
-        errors_s = ErroneousAttributeSerializer(errors, many=True)
+        errors = errors.values()
 
-        return Response(errors_s.data)
+        #get the corrections
+        corrections = FieldCorrection.objects.all()
+        corrections = corrections.values()
+
+        formatted_corrections = []
+        formatted_errors = []
+
+        for error in errors:
+            formatted_errors.append(dict(error))
+
+        for correct in corrections:
+            formatted_corrections.append(dict(correct))
+
+        for error in formatted_errors:
+            for correct in formatted_corrections:
+                if correct["error_id"] == error["id"]:
+                    error["correction_applied"] = correct
+                
+
+
+        return JsonResponse(status=200, data={
+            "errors": formatted_errors
+        })
 
 class SuggestCorrectionsForTrade(APIView):
     def get(self, request, trade):
@@ -399,6 +421,15 @@ class SystemCorrection(APIView):
             )
 
         new_correction.save()
+
+        if fieldtype == "QT":
+            tradefound.quantity = correction_value
+        if fieldtype == "SP":
+            tradefound.strike_price = correction_value
+        if fieldtype == "UP":
+            tradefound.underlying_price = correction_value
+
+        tradefound.save()
 
         return JsonResponse(status=200, data={
            "working": "wow"

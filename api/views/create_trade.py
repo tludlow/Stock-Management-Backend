@@ -125,7 +125,7 @@ class CreateDerivativeTrade(APIView):
         trade_id = new_trade.id
 
         #Scan the trade for errors
-        # scanTradeForErrors(new_trade_dict, trade_id)
+        scanTradeForErrors(new_trade_dict, trade_id)
 
 
         #We need to add the usd underlying and strike as values to the trade
