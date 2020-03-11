@@ -88,7 +88,7 @@ class FilterTradeList(APIView):
                 'quantity' : (quantity_lower, quantity_upper),
                 'underlying_price' : (underlying_lower, underlying_upper), 
                 'strike_price' : (strike_lower, strike_upper),
-                'maturity_date_' : (maturity_lower, maturity_upper),
+                'maturity_date' : (maturity_lower, maturity_upper),
                 'date' : (date_lower, date_upper)}
         filters = {}
         for key, i in args.items():
