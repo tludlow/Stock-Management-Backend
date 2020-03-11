@@ -14,6 +14,7 @@ from io import StringIO
 import os
 from django.db import connection
 import numpy as np
+from statistics import mean 
 
 # +- value we allow for it to be considered correct
 percentage = 20
@@ -256,6 +257,152 @@ class CheckForErrors(APIView):
         errors_s = ErroneousAttributeSerializer(errors, many=True)
 
         return Response(errors_s.data)
+
+class SuggestCorrectionsForTrade(APIView):
+    def get(self, request, trade):
+        #Does this trade even have any errors?
+        errors = ErroneousTradeAttribute.objects.filter(trade_id=trade)
+        errors = errors.values()
+
+        formatted_errors = []
+        for error in errors:
+            formatted_errors.append(dict(error))
+
+        #print(formatted_errors)
+        
+        #No errors for this trade, not point suggesting
+        if len(formatted_errors) == 0:
+            return JsonResponse(status=200, data={
+                "suggestion": [],
+                "message": "No errors to suggest corrections for"
+            })
+
+        #Get the actual trade info
+        trade = Trade.objects.filter(id=trade)[0]
+        trade = TradeSerializer(trade).data
+
+        #print(trade)
+
+        #Get the similar trades
+        erroneous = DeletedTrade.objects.all().values('trade_id')
+        deleted = ErroneousTradeAttribute.objects.all().values('trade_id')
+
+        data = None
+        if trade["product"] == 1:
+            trades = Trade.objects.filter(buying_party=trade["buying_party"], selling_party=trade["selling_party"], product_id=trade["product"]).order_by('-date')
+            dataFirst = trades.exclude(id__in = erroneous)
+            data = dataFirst.exclude(id__in = deleted)[0:150]
+        else:
+            trades = Trade.objects.filter(buying_party=trade["buying_party"], product_id=trade["product"]).order_by('-date')
+            dataFirst = trades.exclude(id__in = erroneous)
+            data = dataFirst.exclude(id__in = deleted)[0 : 150]
+
+        
+        trades_s = TradeSerializer(data, many=True)
+        listed_data = []
+        for trade in trades_s.data:
+            listed_data.append(dict(trade))
+
+        if len(listed_data) < 6:
+            return JsonResponse(status=200, data={
+                "suggestion": [],
+                "message": "Not enough information to base predictions one"
+            })
+
+        for idx, trade in enumerate(listed_data):
+            #print(trade, end="\n\n")
+            #Need to convert all of the strike prices and underlying prices into USD
+            underlying_currency = trade["underlying_currency"]
+            underlying_price = trade["underlying_price"]
+            strike_price = trade["strike_price"]
+            
+            current_value_of_underlying = convertCurrencyAtDate("USD", underlying_currency, underlying_price, datetime.today().strftime('%Y-%m-%d'))
+            current_value_of_strike = convertCurrencyAtDate("USD", underlying_currency, strike_price, datetime.today().strftime('%Y-%m-%d'))
+
+            trade["underlying_current_usd"] = current_value_of_underlying
+            trade["strike_current_usd"] = current_value_of_strike
+            listed_data[idx] = trade
+
+        
+        #Log all similar quantities
+        quantities = []
+        underlyings = []
+        strikes = []
+
+        for trade in listed_data:
+            quantities.append(trade["quantity"])
+            underlyings.append(trade["underlying_current_usd"])
+            strikes.append(trade["strike_current_usd"])
+
+
+        mean_quantity = round(mean(quantities), 0)
+        mean_underlying = round(mean(underlyings), 2)
+        mean_strikes = round(mean(strikes), 2)
+
+        print("Mean quantity: " + str(mean_quantity))
+        print("Mean underlying: " + str(mean_underlying))
+        print("Mean strikes: " + str(mean_strikes))
+
+
+        return JsonResponse(status=200, data={
+            "suggestion": "Yes",
+            "message": "Here are the suggested values",
+            "quantity": mean_quantity,
+            "underlying": mean_underlying,
+            "strike": mean_strikes
+        }, safe=False)
+
+class SystemCorrection(APIView):
+    def post(self, request):
+        errorid = request.data["errorID"]
+        tradeid = request.data["tradeID"]
+        fieldtype = request.data["field_type"]
+        correction_value = request.data["value"]
+
+        #Get the error being referenced
+        errorfound = ErroneousTradeAttribute.objects.filter(id=errorid)[0]
+
+        #Get the trade
+        tradefound = Trade.objects.filter(id=tradeid)[0]
+        trade_s = TradeSerializer(tradefound, many=False)
+        trade_data = trade_s.data
+
+        #Check if any corrections are already applied, remove these
+        removedcorrections = FieldCorrection.objects.filter(error_id=errorid).delete()
+
+        #Apply the new correction
+        new_correction = None
+        if fieldtype == "QT":
+            new_correction = FieldCorrection(
+                error = errorfound,
+                date=datetime.now(),
+                old_value = trade_data["quantity"],
+                new_value = correction_value,
+                change_type = "SYTM"
+            )
+        if fieldtype == "UP":
+            new_correction = FieldCorrection(
+                error = errorfound,
+                date=datetime.now(),
+                old_value = trade_data["underlying_price"],
+                new_value = correction_value,
+                change_type = "SYTM"
+            )
+
+        if fieldtype == "SP":
+            new_correction = FieldCorrection(
+                error = errorfound,
+                date=datetime.now(),
+                old_value = trade_data["strike_price"],
+                new_value = correction_value,
+                change_type = "SYTM"
+            )
+
+        new_correction.save()
+
+        return JsonResponse(status=200, data={
+           "working": "wow"
+        }, safe=False)
 
 
         
