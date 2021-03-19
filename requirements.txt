@@ -2,7 +2,7 @@ bson==0.5.8
 dataclasses==0.6
 Django==2.2.9
 django-adaptors==0.2.5
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 djangotoolbox==1.8.0
 dnspython==1.16.0
 python-dateutil==2.8.1
